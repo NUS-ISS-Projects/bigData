@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-producers
+  namespace: economic-observatory
+  labels:
+    app: data-producers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-producers
+  template:
+    metadata:
+      labels:
+        app: data-producers
+    spec:
+      containers:
+      - name: data-producers
+        image: economic-observatory/data-producers:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "125m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        volumeMounts:
+        - name: logs-volume
+          mountPath: /app/logs
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import kafka; print('OK')"
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import kafka; print('OK')"
+          initialDelaySeconds: 10
+          periodSeconds: 30
+      volumes:
+      - name: logs-volume
+        emptyDir: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: producers-config
+  namespace: economic-observatory
+data:
+  .env: |
+    KAFKA_BOOTSTRAP_SERVERS=kafka-service:9092
+    LOG_LEVEL=INFO
+    EXTRACTION_BATCH_SIZE=1000
+    API_TIMEOUT=30
+    RETRY_ATTEMPTS=3

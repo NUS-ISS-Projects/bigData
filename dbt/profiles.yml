@@ -1,0 +1,57 @@
+economic_intelligence:
+  target: dev
+  outputs:
+    dev:
+      type: spark
+      method: session
+      schema: default
+      host: localhost
+      port: 10000
+      user: dbt_user
+      connect_retries: 5
+      connect_timeout: 60
+      retry_all: true
+      
+      # Spark configurations for Delta Lake
+      spark_config:
+        spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+        spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
+        spark.serializer: org.apache.spark.serializer.KryoSerializer
+        spark.sql.adaptive.enabled: true
+        spark.sql.adaptive.coalescePartitions.enabled: true
+        
+        # MinIO/S3 configurations
+        fs.s3a.endpoint: http://localhost:9000
+        fs.s3a.access.key: minioadmin
+        fs.s3a.secret.key: minioadmin
+        fs.s3a.path.style.access: true
+        fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
+        fs.s3a.connection.ssl.enabled: false
+    
+    prod:
+      type: spark
+      method: session
+      schema: default
+      host: spark-master
+      port: 7077
+      user: dbt_prod
+      connect_retries: 5
+      connect_timeout: 60
+      retry_all: true
+      
+      # Production Spark configurations
+      spark_config:
+        spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+        spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
+        spark.serializer: org.apache.spark.serializer.KryoSerializer
+        spark.sql.adaptive.enabled: true
+        spark.sql.adaptive.coalescePartitions.enabled: true
+        spark.sql.adaptive.skewJoin.enabled: true
+        
+        # Production MinIO/S3 configurations
+        fs.s3a.endpoint: http://minio-service:9000
+        fs.s3a.access.key: "{{ env_var('MINIO_ACCESS_KEY') }}"
+        fs.s3a.secret.key: "{{ env_var('MINIO_SECRET_KEY') }}"
+        fs.s3a.path.style.access: true
+        fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
+        fs.s3a.connection.ssl.enabled: false

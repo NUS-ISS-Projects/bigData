@@ -1,0 +1,106 @@
+name: 'economic_intelligence'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'economic_intelligence'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+models:
+  economic_intelligence:
+    # Config indicated by + and applies to all files under models/staging/
+    staging:
+      +materialized: view
+      +schema: staging
+    
+    # Config for intermediate models
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    
+    # Config for marts (Gold layer)
+    marts:
+      +materialized: table
+      +schema: marts
+      
+      # Business intelligence models
+      business_intelligence:
+        +materialized: table
+        +schema: bi
+      
+      # Economic analysis models
+      economic_analysis:
+        +materialized: table
+        +schema: economics
+      
+      # Geospatial analysis models
+      geospatial:
+        +materialized: table
+        +schema: geo
+
+# Snapshot configurations
+snapshots:
+  economic_intelligence:
+    +target_schema: snapshots
+    +strategy: timestamp
+    +updated_at: silver_processed_timestamp
+
+# Test configurations
+tests:
+  +store_failures: true
+  +schema: test_failures
+
+# Documentation
+docs:
+  +node_color: "#1f8b4c"
+
+# Variables for the project
+vars:
+  # Data source configurations
+  bronze_schema: 'bronze'
+  silver_schema: 'silver'
+  gold_schema: 'gold'
+  
+  # Date configurations
+  start_date: '2020-01-01'
+  end_date: '2024-12-31'
+  
+  # Quality thresholds
+  min_quality_score: 0.7
+  
+  # Economic indicators
+  key_economic_indicators:
+    - 'GDP'
+    - 'CPI'
+    - 'UNEMPLOYMENT_RATE'
+    - 'INTEREST_RATE'
+  
+  # Property types for analysis
+  property_types:
+    - 'HDB'
+    - 'CONDOMINIUM'
+    - 'LANDED'
+    - 'EXECUTIVE_CONDOMINIUM'
+
+# Seeds configuration
+seeds:
+  economic_intelligence:
+    +schema: reference_data
+    +quote_columns: false

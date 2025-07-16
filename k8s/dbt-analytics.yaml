@@ -1,0 +1,340 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-profiles
+  namespace: economic-observatory
+data:
+  profiles.yml: |
+    economic_intelligence:
+      target: prod
+      outputs:
+        prod:
+          type: spark
+          method: session
+          schema: default
+          host: spark-master
+          port: 7077
+          user: dbt_prod
+          connect_retries: 5
+          connect_timeout: 60
+          retry_all: true
+          
+          spark_config:
+            spark.sql.extensions: io.delta.sql.DeltaSparkSessionExtension
+            spark.sql.catalog.spark_catalog: org.apache.spark.sql.delta.catalog.DeltaCatalog
+            spark.serializer: org.apache.spark.serializer.KryoSerializer
+            spark.sql.adaptive.enabled: true
+            spark.sql.adaptive.coalescePartitions.enabled: true
+            spark.sql.adaptive.skewJoin.enabled: true
+            
+            fs.s3a.endpoint: http://minio-service:9000
+            fs.s3a.access.key: "{{ env_var('MINIO_ACCESS_KEY') }}"
+            fs.s3a.secret.key: "{{ env_var('MINIO_SECRET_KEY') }}"
+            fs.s3a.path.style.access: true
+            fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
+            fs.s3a.connection.ssl.enabled: false
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-project
+  namespace: economic-observatory
+data:
+  dbt_project.yml: |
+    name: 'economic_intelligence'
+    version: '1.0.0'
+    config-version: 2
+    profile: 'economic_intelligence'
+    
+    model-paths: ["models"]
+    analysis-paths: ["analyses"]
+    test-paths: ["tests"]
+    seed-paths: ["seeds"]
+    macro-paths: ["macros"]
+    snapshot-paths: ["snapshots"]
+    
+    target-path: "target"
+    clean-targets:
+      - "target"
+      - "dbt_packages"
+    
+    models:
+      economic_intelligence:
+        staging:
+          +materialized: view
+          +schema: staging
+        intermediate:
+          +materialized: view
+          +schema: intermediate
+        marts:
+          +materialized: table
+          +schema: marts
+          business_intelligence:
+            +materialized: table
+            +schema: bi
+          economic_analysis:
+            +materialized: table
+            +schema: economics
+          geospatial:
+            +materialized: table
+            +schema: geo
+    
+    vars:
+      bronze_schema: 'bronze'
+      silver_schema: 'silver'
+      gold_schema: 'gold'
+      start_date: '2020-01-01'
+      end_date: '2024-12-31'
+      min_quality_score: 0.7
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dbt-staging-models
+  namespace: economic-observatory
+spec:
+  schedule: "30 */6 * * *"  # Run 30 minutes after ETL job
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dbt-staging
+            image: ghcr.io/dbt-labs/dbt-spark:1.7.1
+            command: ["/bin/bash"]
+            args:
+            - -c
+            - |
+              cd /dbt
+              pip install -r requirements.txt
+              dbt deps
+              dbt run --select models/staging
+              dbt test --select models/staging
+            env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: spark-secrets
+                  key: minio-access-key
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: spark-secrets
+                  key: minio-secret-key
+            - name: DBT_PROFILES_DIR
+              value: "/dbt"
+            volumeMounts:
+            - name: dbt-project
+              mountPath: /dbt
+            - name: dbt-profiles
+              mountPath: /dbt/profiles.yml
+              subPath: profiles.yml
+            resources:
+              requests:
+                memory: "2Gi"
+                cpu: "1000m"
+              limits:
+                memory: "4Gi"
+                cpu: "2000m"
+          volumes:
+          - name: dbt-project
+            configMap:
+              name: dbt-project-files
+          - name: dbt-profiles
+            configMap:
+              name: dbt-profiles
+          restartPolicy: OnFailure
+      backoffLimit: 3
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dbt-marts-models
+  namespace: economic-observatory
+spec:
+  schedule: "0 */12 * * *"  # Run twice daily
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dbt-marts
+            image: ghcr.io/dbt-labs/dbt-spark:1.7.1
+            command: ["/bin/bash"]
+            args:
+            - -c
+            - |
+              cd /dbt
+              pip install -r requirements.txt
+              dbt deps
+              dbt run --select models/marts
+              dbt test --select models/marts
+              dbt docs generate
+            env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: spark-secrets
+                  key: minio-access-key
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: spark-secrets
+                  key: minio-secret-key
+            - name: DBT_PROFILES_DIR
+              value: "/dbt"
+            volumeMounts:
+            - name: dbt-project
+              mountPath: /dbt
+            - name: dbt-profiles
+              mountPath: /dbt/profiles.yml
+              subPath: profiles.yml
+            - name: dbt-docs
+              mountPath: /dbt/target
+            resources:
+              requests:
+                memory: "4Gi"
+                cpu: "2000m"
+              limits:
+                memory: "8Gi"
+                cpu: "4000m"
+          volumes:
+          - name: dbt-project
+            configMap:
+              name: dbt-project-files
+          - name: dbt-profiles
+            configMap:
+              name: dbt-profiles
+          - name: dbt-docs
+            persistentVolumeClaim:
+              claimName: dbt-docs-pvc
+          restartPolicy: OnFailure
+      backoffLimit: 3
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dbt-docs-pvc
+  namespace: economic-observatory
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-project-files
+  namespace: economic-observatory
+data:
+  requirements.txt: |
+    dbt-core==1.7.4
+    dbt-spark[PyHive]==1.7.1
+    dbt-utils==1.1.1
+    dbt-expectations==0.10.1
+    PyHive[hive]==0.7.0
+    thrift==0.16.0
+    thrift-sasl==0.4.3
+    sasl==0.3.1
+    great-expectations==0.18.8
+    pandas==2.1.4
+    sqlfluff==2.3.5
+    pyyaml==6.0.1
+    jinja2==3.1.2
+    click==8.1.7
+    coloredlogs==15.0.1
+  packages.yml: |
+    packages:
+      - package: dbt-labs/dbt_utils
+        version: 1.1.1
+      - package: calogica/dbt_expectations
+        version: 0.10.1
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbt-docs-server
+  namespace: economic-observatory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dbt-docs
+  template:
+    metadata:
+      labels:
+        app: dbt-docs
+    spec:
+      containers:
+      - name: docs-server
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: dbt-docs
+          mountPath: /usr/share/nginx/html
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: dbt-docs
+        persistentVolumeClaim:
+          claimName: dbt-docs-pvc
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: economic-observatory
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+        
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+            try_files $uri $uri/ /index.html;
+        }
+        
+        location /health {
+            access_log off;
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+    }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dbt-docs-service
+  namespace: economic-observatory
+spec:
+  selector:
+    app: dbt-docs
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  type: ClusterIP

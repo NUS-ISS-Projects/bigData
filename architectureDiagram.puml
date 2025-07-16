@@ -1,0 +1,107 @@
+@startuml
+
+skinparam componentStyle uml2
+skinparam rectangle<<K8s>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #3367d6
+  BorderColor #3367d6
+}
+skinparam node<<Streaming>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #000000
+  BorderColor #000000
+}
+skinparam component<<ELT>> {
+  StereotypeFontColor #000000
+  BackgroundColor #CFE2F3
+  BorderColor #6098D1
+}
+skinparam component<<Engine>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #E67E22
+  BorderColor #E67E22
+}
+skinparam component<<AnalyticsEng>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #16928D
+  BorderColor #16928D
+}
+skinparam node<<Lakehouse>> {
+  StereotypeFontColor #000000
+  BackgroundColor #FCE5CD
+  BorderColor #E67E22
+}
+skinparam actor {
+  BackgroundColor #EAD1DC
+  BorderColor #8E44AD
+}
+
+actor "Analyst / Policymaker" as user
+
+package "External Data Sources" {
+  cloud "data.gov.sg API" as source_biz
+  cloud "SingStat API" as source_econ
+  cloud "URA API" as source_prop
+}
+
+node "Kubernetes Cluster (Podman Desktop)" <<K8s>> {
+  package "A. Ingestion" {
+    component "Python Producers\n(K8s CronJobs)" as producers <<ELT>>
+    node "Streaming Platform\n(Apache Kafka)" as kafka <<Streaming>>
+  }
+
+  package "B. Storage (Data Lakehouse)" {
+    node "MinIO (S3 Object Store)" as minio {
+      folder "Bronze (Raw)" as bronze
+      folder "Silver (Cleansed)" as silver
+      folder "Gold (Aggregated)" as gold
+    }
+    note right of minio
+      Data is stored in
+      **Delta Lake** format
+    end note
+  }
+
+  package "C. Processing & Transformation" {
+    component "Apache Spark\n(ETL & Streaming)" as spark <<Engine>>
+    component "dbt (Data Build Tool)\n(Analytics Engineering)" as dbt <<AnalyticsEng>>
+  }
+
+  package "D. Analytics" {
+    component "Spark MLlib & NLP\n(Model Training)" as ml_train
+    component "MLflow\n(Experiment Tracking)" as mlflow
+    component "Prediction API\n(Flask/FastAPI)" as ml_api
+  }
+
+  package "E. Visualization & Serving" {
+    component "Streamlit Dashboard" as dashboard
+  }
+}
+
+' --- Data Flows ---
+source_biz --> producers
+source_econ --> producers
+source_prop --> producers
+
+producers --> kafka : "topic: entity_events"
+
+kafka --> spark : Reads stream
+
+spark --> bronze : Writes Raw Data
+spark -> silver : Reads Bronze, Writes Cleansed
+
+dbt -> gold : Reads Silver, Writes Aggregated Models
+
+ml_train -> silver : Reads features
+ml_train --> mlflow : Logs experiments/models
+mlflow --> ml_api : Serves model
+
+gold --> dashboard : Serves analytics data
+ml_api --> dashboard : Serves predictions
+
+user --> dashboard
+@enduml
