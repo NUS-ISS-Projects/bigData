@@ -64,10 +64,19 @@ if ! command_exists python3; then
     exit 1
 fi
 
-# Check if Minikube is running
+# Check if Minikube is running and start if necessary
+print_status "Checking Minikube status..."
 if ! minikube status >/dev/null 2>&1; then
-    print_error "Minikube is not running. Please start Minikube first with 'minikube start'."
-    exit 1
+    print_warning "Minikube is not running. Starting Minikube..."
+    minikube start
+    if [ $? -eq 0 ]; then
+        print_success "Minikube started successfully"
+    else
+        print_error "Failed to start Minikube. Please check your system configuration."
+        exit 1
+    fi
+else
+    print_success "Minikube is already running"
 fi
 
 print_success "Prerequisites check completed"

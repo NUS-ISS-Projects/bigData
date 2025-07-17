@@ -4,7 +4,8 @@ from typing import Dict, Any, List
 
 from loguru import logger
 
-from base_producer import BaseProducer, DataRecord
+from base_producer import BaseProducer
+from models.data_record import DataRecord
 
 
 class URAProducer(BaseProducer):
@@ -235,31 +236,35 @@ class URAProducer(BaseProducer):
                     'car_park_basement': raw_data.get('carParkBasement', '')
                 })
             
-            # Add all original fields for completeness
-            geospatial_data['raw_data'] = raw_data
+            # Generate record ID
+            record_id = f"{service_name}_{raw_data.get('postalCode', raw_data.get('carParkNo', 'unknown'))}"
             
-            # Add metadata
-            metadata = {
-                'extraction_timestamp': datetime.now().isoformat(),
-                'api_endpoint': self.data_url,
-                'service_name': service_name,
-                'access_key': self.access_key[:8] + '...',  # Partial key for security
-                'coordinates': {
-                    'lat': raw_data.get('y', raw_data.get('latitude', '')),
-                    'lng': raw_data.get('x', raw_data.get('longitude', ''))
-                } if raw_data.get('y') or raw_data.get('latitude') else None
-            }
-            
-            return DataRecord(
+            data_record = DataRecord(
                 source=self.source_name,
                 timestamp=datetime.now(),
-                data=geospatial_data,
-                metadata=metadata
+                data_type="geospatial",
+                raw_data=raw_data,
+                processed_data=geospatial_data,
+                record_id=record_id,
+                processing_notes=f'Extracted from URA {service_name} service'
             )
+            
+            # Calculate quality score
+            data_record.validate_quality()
+            
+            return data_record
             
         except Exception as e:
             logger.error(f"Error transforming URA data: {e}")
-            raise
+            return DataRecord(
+                source=self.source_name,
+                timestamp=datetime.now(),
+                data_type="geospatial",
+                raw_data=raw_data,
+                processed_data={},
+                record_id=f"{service_name}_error",
+                validation_errors=[str(e)]
+            )
 
 
 if __name__ == "__main__":

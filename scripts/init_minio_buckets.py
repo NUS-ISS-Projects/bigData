@@ -7,10 +7,10 @@ Creates required buckets for the Economic Intelligence Platform using MinIO API
 import os
 import sys
 import time
+import json
 import logging
 from minio import Minio
 from minio.error import S3Error
-from urllib3.exceptions import MaxRetryError
 import requests
 from requests.exceptions import ConnectionError
 
@@ -165,7 +165,6 @@ class MinIOBucketInitializer:
         }
         
         try:
-            import json
             self.client.set_bucket_policy(bucket_name, json.dumps(policy))
             logger.info(f"Set public read policy for bucket '{bucket_name}'")
         except Exception as e:

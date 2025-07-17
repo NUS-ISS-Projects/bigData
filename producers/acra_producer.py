@@ -1,11 +1,18 @@
 import os
+import json
+import time
 import csv
+import argparse
 from datetime import datetime, timedelta
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
+import requests
+import pandas as pd
 from loguru import logger
+from dotenv import load_dotenv
 
-from base_producer import BaseProducer, DataRecord
+from base_producer import BaseProducer
+from models.data_record import DataRecord
 
 
 class ACRAProducer(BaseProducer):
@@ -165,67 +172,49 @@ class ACRAProducer(BaseProducer):
         try:
             # Extract key fields based on user's sample data structure
             # Sample: uen,issuance_agency_desc,uen_status_desc,entity_name,entity_type_desc,uen_issue_date,reg_street_name,reg_postal_code
-            company_data = {
+            processed_data = {
+                'company_name': raw_data.get('entity_name', ''),
                 'uen': raw_data.get('uen', ''),
-                'issuance_agency_desc': raw_data.get('issuance_agency_desc', ''),
-                'uen_status_desc': raw_data.get('uen_status_desc', ''),
-                'entity_name': raw_data.get('entity_name', ''),
-                'entity_type_desc': raw_data.get('entity_type_desc', ''),
-                'uen_issue_date': raw_data.get('uen_issue_date', ''),
-                'reg_street_name': raw_data.get('reg_street_name', ''),
-                'reg_postal_code': raw_data.get('reg_postal_code', ''),
-                
-                # Additional fields that might be available
-                'entity_type': raw_data.get('entity_type', ''),
-                'registration_incorporation_date': raw_data.get('registration_incorporation_date', ''),
-                'entity_status': raw_data.get('entity_status', ''),
-                'uen_status': raw_data.get('uen_status', ''),
-                'primary_ssic_code': raw_data.get('primary_ssic_code', ''),
-                'primary_ssic_description': raw_data.get('primary_ssic_description', ''),
-                'secondary_ssic_code': raw_data.get('secondary_ssic_code', ''),
-                'secondary_ssic_description': raw_data.get('secondary_ssic_description', ''),
-                'primary_user_described_activity': raw_data.get('primary_user_described_activity', ''),
-                'secondary_user_described_activity': raw_data.get('secondary_user_described_activity', ''),
-                'paid_up_capital1_ordinary': raw_data.get('paid_up_capital1_ordinary', ''),
-                'paid_up_capital2_preference': raw_data.get('paid_up_capital2_preference', ''),
-                'paid_up_capital3_others': raw_data.get('paid_up_capital3_others', ''),
-                'paid_up_capital_currency': raw_data.get('paid_up_capital_currency', ''),
-                'no_of_charges': raw_data.get('no_of_charges', ''),
-                'street_name': raw_data.get('street_name', ''),
-                'postal_code': raw_data.get('postal_code', ''),
-                'building_project_name': raw_data.get('building_project_name', ''),
-                'unit_no': raw_data.get('unit_no', ''),
-                'level_no': raw_data.get('level_no', ''),
-                'block_house_no': raw_data.get('block_house_no', '')
+                'entity_type': raw_data.get('entity_type_desc', ''),
+                'registration_date': raw_data.get('uen_issue_date', ''),
+                'status': raw_data.get('uen_status_desc', ''),
+                'primary_activity': raw_data.get('primary_ssic_description', ''),
+                'secondary_activities': raw_data.get('secondary_ssic_description', ''),
+                'address': {
+                    'street': raw_data.get('reg_street_name', ''),
+                    'postal_code': raw_data.get('reg_postal_code', ''),
+                    'unit': raw_data.get('unit_no', '')
+                },
+                'capital': raw_data.get('paid_up_capital1_ordinary', 0),
+                'incorporation_date': raw_data.get('registration_incorporation_date', ''),
+                'last_updated': datetime.now().isoformat()
             }
             
-            # Add metadata
-            metadata = {
-                'extraction_timestamp': datetime.now().isoformat(),
-                'source_type': source_type,
-                'record_id': raw_data.get('_id', '')
-            }
-            
-            if source_type == 'api':
-                metadata.update({
-                    'api_endpoint': self.base_url,
-                    'resource_id': self.resource_id
-                })
-            elif source_type == 'csv':
-                metadata.update({
-                    'csv_file_path': self.csv_file_path
-                })
-            
-            return DataRecord(
+            record = DataRecord(
                 source=self.source_name,
                 timestamp=datetime.now(),
-                data=company_data,
-                metadata=metadata
+                data_type="company",
+                raw_data=raw_data,
+                processed_data=processed_data,
+                record_id=raw_data.get('uen'),
+                processing_notes=f'Extracted via {source_type}'
             )
+            
+            # Calculate quality score
+            record.validate_quality()
+            
+            return record
             
         except Exception as e:
             logger.error(f"Error transforming ACRA data: {e}")
-            raise
+            return DataRecord(
+                source=self.source_name,
+                timestamp=datetime.now(),
+                data_type="company",
+                raw_data=raw_data,
+                processed_data={},
+                validation_errors=[str(e)]
+            )
 
 
     def run_hybrid_extraction(self, csv_batch_size: int = 10000, csv_max_records: int = None):
