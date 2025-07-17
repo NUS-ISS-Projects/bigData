@@ -4,28 +4,42 @@ requests==2.31.0
 pydantic==2.5.0
 retrying==1.3.4
 python-dotenv==1.0.0
+schedule==1.2.0
+aiohttp==3.8.5
+aiofiles==23.2.1
 
-# Enhanced monitoring and performance
-psutil==5.9.6
-
-# Testing and development
-pytest==7.4.3
-pytest-cov==4.1.0
-pytest-mock==3.12.0
-
-# Data processing and validation
-jsonschema==4.20.0
+# Data processing
 pandas==2.1.4
-numpy==1.24.4
+numpy==1.24.3
+pyarrow==14.0.1
+
+# Spark and Delta Lake
+pyspark==3.5.0
+delta-spark==3.0.0
+
+# MinIO/S3 compatibility
+boto3==1.34.0
+s3fs==2023.12.2
+minio==7.2.0
+
+# dbt and analytics
+dbt-core==1.7.4
+dbt-spark[PyHive]==1.7.1
+dbt-utils==1.1.1
 
 # Logging and monitoring
+loguru==0.7.0
+structlog==23.2.0
 prometheus-client==0.19.0
+psutil==5.9.6
 
-# Security and configuration
-cryptography==41.0.8
+# Configuration
 pyyaml==6.0.1
+jinja2==3.1.2
+click==8.1.7
 
 # Development tools
-black==23.11.0
+black==23.12.0
 flake8==6.1.0
 mypy==1.7.1
+pytest==7.4.3

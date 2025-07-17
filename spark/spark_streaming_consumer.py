@@ -22,18 +22,20 @@ class SparkStreamingConsumer:
     def __init__(self):
         self.spark = self._create_spark_session()
         self.kafka_bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
-        self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
-        self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'minioadmin')
-        self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
+        self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'minio-service.economic-observatory.svc.cluster.local:9000')
+        self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
+        self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
         self.delta_path = f"s3a://bronze/"
-        
-        # Configure S3/MinIO settings
-        self._configure_s3_settings()
         
         logger.info("Spark Streaming Consumer initialized")
     
     def _create_spark_session(self):
         """Create Spark session with Delta Lake support"""
+        # Get MinIO configuration
+        minio_endpoint = os.getenv('MINIO_ENDPOINT', 'minio-service.economic-observatory.svc.cluster.local:9000')
+        minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
+        minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
+        
         builder = SparkSession.builder \
             .appName("EconomicIntelligence-StreamingConsumer") \
             .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
@@ -41,20 +43,41 @@ class SparkStreamingConsumer:
             .config("spark.sql.streaming.checkpointLocation", "/tmp/spark-checkpoints") \
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
             .config("spark.sql.adaptive.enabled", "true") \
-            .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
+            .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
+            .config("spark.hadoop.fs.s3a.endpoint", f"http://{minio_endpoint}") \
+            .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
+            .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
+            .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+            .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+            .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
+            .config("spark.hadoop.fs.s3a.attempts.maximum", "3") \
+            .config("spark.hadoop.fs.s3a.connection.establish.timeout", "5000") \
+            .config("spark.hadoop.fs.s3a.connection.timeout", "10000")
+
+        spark = configure_spark_with_delta_pip(builder).getOrCreate()
         
-        return configure_spark_with_delta_pip(builder).getOrCreate()
-    
-    def _configure_s3_settings(self):
-        """Configure Spark for S3/MinIO access"""
-        hadoop_conf = self.spark.sparkContext._jsc.hadoopConfiguration()
-        hadoop_conf.set("fs.s3a.endpoint", f"http://{self.minio_endpoint}")
-        hadoop_conf.set("fs.s3a.access.key", self.minio_access_key)
-        hadoop_conf.set("fs.s3a.secret.key", self.minio_secret_key)
-        hadoop_conf.set("fs.s3a.path.style.access", "true")
-        hadoop_conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-        hadoop_conf.set("fs.s3a.connection.ssl.enabled", "false")
-    
+        # Test S3 connectivity
+        logger.info(f"Testing S3 connectivity to {minio_endpoint}...")
+        try:
+            # Try to list the bronze bucket
+            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.endpoint", f"http://{minio_endpoint}")
+            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.access.key", minio_access_key)
+            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.secret.key", minio_secret_key)
+            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.path.style.access", "true")
+            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.connection.ssl.enabled", "false")
+            
+            # Test by creating a simple DataFrame and trying to write to S3
+            test_df = spark.createDataFrame([("test",)], ["value"])
+            test_path = "s3a://bronze/connectivity_test"
+            test_df.write.mode("overwrite").parquet(test_path)
+            logger.info("S3 connectivity test successful!")
+        except Exception as e:
+            logger.error(f"S3 connectivity test failed: {str(e)}")
+            # Continue anyway, let the application handle the error
+
+        return spark
+
     def create_kafka_stream(self, topic: str):
         """Create Kafka streaming DataFrame"""
         return self.spark \

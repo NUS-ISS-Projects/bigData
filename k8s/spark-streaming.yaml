@@ -12,10 +12,6 @@ data:
     spark.sql.adaptive.coalescePartitions.enabled=true
     spark.sql.adaptive.skewJoin.enabled=true
     spark.sql.streaming.checkpointLocation=/tmp/spark-checkpoints
-    spark.hadoop.fs.s3a.endpoint=http://minio-service:9000
-    spark.hadoop.fs.s3a.path.style.access=true
-    spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
-    spark.hadoop.fs.s3a.connection.ssl.enabled=false
 
 ---
 apiVersion: v1
@@ -51,31 +47,38 @@ spec:
     spec:
       containers:
       - name: spark-streaming
-        image: bitnami/spark:3.5.0
-        command: ["/bin/bash"]
+        image: economic-observatory/spark-streaming:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/opt/bitnami/spark/bin/spark-submit"]
         args:
-        - -c
-        - |
-          cp /tmp/spark-config/spark-defaults.conf /opt/bitnami/spark/conf/
-          export SPARK_LOCAL_IP=127.0.0.1
-          export PYSPARK_SUBMIT_ARGS="--master local[1] --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 pyspark-shell"
-          pip install -r /app/requirements.txt
-          /opt/bitnami/spark/bin/spark-submit --master local[1] --conf spark.jars.ivy=/tmp/.ivy --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 /app/spark_streaming_consumer.py
+        - --master
+        - local[1]
+        - --packages
+        - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,io.delta:delta-spark_2.12:3.0.0
+        - --conf
+        - "spark.hadoop.fs.s3a.endpoint=http://minio-service:9000"
+        - --conf
+        - "spark.hadoop.fs.s3a.access.key=$(MINIO_ACCESS_KEY)"
+        - --conf
+        - "spark.hadoop.fs.s3a.secret.key=$(MINIO_SECRET_KEY)"
+        - --conf
+        - "spark.hadoop.fs.s3a.path.style.access=true"
+        - --conf
+        - "spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem"
+        - --conf
+        - "spark.hadoop.fs.s3a.connection.ssl.enabled=false"
+        - --conf
+        - "spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+        - /app/spark_streaming_consumer.py
         env:
         - name: KAFKA_BOOTSTRAP_SERVERS
           value: "kafka-service:9092"
         - name: MINIO_ENDPOINT
           value: "minio-service:9000"
         - name: MINIO_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: spark-secrets
-              key: minio-access-key
+          value: "admin"
         - name: MINIO_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: spark-secrets
-              key: minio-secret-key
+          value: "password123"
         - name: SPARK_CONF_DIR
           value: "/opt/bitnami/spark/conf"
         - name: JAVA_HOME
@@ -86,6 +89,10 @@ spec:
           value: "python3"
         - name: PYSPARK_DRIVER_PYTHON
           value: "python3"
+        - name: HOME
+          value: "/tmp"
+        - name: SPARK_SUBMIT_OPTS
+          value: "-Dspark.jars.ivy=/tmp/.ivy"
         - name: SPARK_LOCAL_IP
           value: "127.0.0.1"
         - name: SPARK_DRIVER_MEMORY
@@ -171,15 +178,13 @@ data:
         """Spark Structured Streaming consumer for Kafka to Delta Lake"""
         
         def __init__(self):
-            self.spark = self._create_spark_session()
             self.kafka_bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
-            self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
-            self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'minioadmin')
-            self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
+            self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'minio-service.economic-observatory.svc.cluster.local:9000')
+            self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
+            self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
             self.delta_path = f"s3a://bronze/"
             
-            # Configure S3/MinIO settings
-            self._configure_s3_settings()
+            self.spark = self._create_spark_session()
             
             logger.info("Spark Streaming Consumer initialized")
         
@@ -192,19 +197,18 @@ data:
                 .config("spark.sql.streaming.checkpointLocation", "/tmp/spark-checkpoints") \
                 .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
                 .config("spark.sql.adaptive.enabled", "true") \
-                .config("spark.sql.adaptive.coalescePartitions.enabled", "true")
+                .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
+                .config("spark.hadoop.fs.s3a.endpoint", f"http://{self.minio_endpoint}") \
+                .config("spark.hadoop.fs.s3a.access.key", self.minio_access_key) \
+                .config("spark.hadoop.fs.s3a.secret.key", self.minio_secret_key) \
+                .config("spark.hadoop.fs.s3a.path.style.access", "true") \
+                .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
+                .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
+                .config("spark.hadoop.fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider")
             
             return configure_spark_with_delta_pip(builder).getOrCreate()
         
-        def _configure_s3_settings(self):
-            """Configure Spark for S3/MinIO access"""
-            hadoop_conf = self.spark.sparkContext._jsc.hadoopConfiguration()
-            hadoop_conf.set("fs.s3a.endpoint", f"http://{self.minio_endpoint}")
-            hadoop_conf.set("fs.s3a.access.key", self.minio_access_key)
-            hadoop_conf.set("fs.s3a.secret.key", self.minio_secret_key)
-            hadoop_conf.set("fs.s3a.path.style.access", "true")
-            hadoop_conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-            hadoop_conf.set("fs.s3a.connection.ssl.enabled", "false")
+
         
         def create_kafka_stream(self, topic: str):
             """Create Kafka streaming DataFrame"""
@@ -347,9 +351,39 @@ data:
             
             return query
         
+        def test_s3_connectivity(self):
+            """Test S3/MinIO connectivity and create directory structure"""
+            try:
+                logger.info("Testing S3/MinIO connectivity...")
+                logger.info(f"MinIO endpoint: {self.minio_endpoint}")
+                logger.info(f"MinIO access key: {self.minio_access_key}")
+                logger.info(f"Delta path: {self.delta_path}")
+                
+                # Test basic connectivity by creating a simple DataFrame and writing to S3
+                test_df = self.spark.createDataFrame([("test", "value")], ["key", "value"])
+                test_path = f"s3a://bronze/test_connectivity"
+                
+                logger.info(f"Writing test data to: {test_path}")
+                test_df.write.mode("overwrite").parquet(test_path)
+                logger.info("S3/MinIO connectivity test successful")
+                
+                # Read back to verify
+                read_df = self.spark.read.parquet(test_path)
+                count = read_df.count()
+                logger.info(f"Successfully read back {count} rows from S3")
+                
+            except Exception as e:
+                logger.error(f"S3/MinIO connectivity test failed: {e}")
+                import traceback
+                logger.error(f"Full traceback: {traceback.format_exc()}")
+                raise
+        
         def start_all_streams(self):
             """Start all streaming queries"""
             logger.info("Starting all Kafka to Delta Lake streams...")
+            
+            # Test S3 connectivity first
+            self.test_s3_connectivity()
             
             queries = [
                 self.process_acra_stream(),
@@ -403,15 +437,9 @@ spec:
             - name: MINIO_ENDPOINT
               value: "minio-service:9000"
             - name: MINIO_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: spark-secrets
-                  key: minio-access-key
+              value: "admin"
             - name: MINIO_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: spark-secrets
-                  key: minio-secret-key
+              value: "password123"
             volumeMounts:
             - name: spark-app
               mountPath: /app
@@ -479,8 +507,8 @@ data:
         def __init__(self):
             self.spark = self._create_spark_session()
             self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
-            self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'minioadmin')
-            self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
+            self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
+            self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
             self.bronze_path = "s3a://bronze/"
             self.silver_path = "s3a://silver/"
             
