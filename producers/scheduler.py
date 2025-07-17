@@ -2,7 +2,6 @@ import os
 import time
 import threading
 from datetime import datetime
-from typing import Dict, Any
 
 import schedule
 from loguru import logger

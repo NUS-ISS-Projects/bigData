@@ -218,9 +218,10 @@ class PerformanceMonitor:
             {'name': 'URA', 'base_response_time': 1200, 'base_success_rate': 0.88}
         ]
         
+        import random
+        
         for source in data_sources:
             # Add some realistic variation
-            import random
             response_time = source['base_response_time'] * (0.8 + 0.4 * random.random())
             success_rate = min(1.0, source['base_success_rate'] + 0.1 * (random.random() - 0.5))
             

@@ -364,11 +364,11 @@ data:
                 test_path = f"s3a://bronze/test_connectivity"
                 
                 logger.info(f"Writing test data to: {test_path}")
-                test_df.write.mode("overwrite").parquet(test_path)
+                test_df.write.format("delta").mode("overwrite").save(test_path)
                 logger.info("S3/MinIO connectivity test successful")
                 
                 # Read back to verify
-                read_df = self.spark.read.parquet(test_path)
+                read_df = self.spark.read.format("delta").load(test_path)
                 count = read_df.count()
                 logger.info(f"Successfully read back {count} rows from S3")
                 
@@ -426,13 +426,29 @@ spec:
         spec:
           containers:
           - name: spark-etl
-            image: bitnami/spark:3.5.0
-            command: ["/bin/bash"]
+            image: economic-observatory/spark-streaming:latest
+            imagePullPolicy: IfNotPresent
+            command: ["/opt/bitnami/spark/bin/spark-submit"]
             args:
-            - -c
-            - |
-              pip install -r /app/requirements.txt
-              python /app/etl_bronze_to_silver.py
+            - --master
+            - local[2]
+            - --packages
+            - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,io.delta:delta-spark_2.12:3.0.0
+            - --conf
+            - "spark.hadoop.fs.s3a.endpoint=http://minio-service:9000"
+            - --conf
+            - "spark.hadoop.fs.s3a.access.key=admin"
+            - --conf
+            - "spark.hadoop.fs.s3a.secret.key=password123"
+            - --conf
+            - "spark.hadoop.fs.s3a.path.style.access=true"
+            - --conf
+            - "spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem"
+            - --conf
+            - "spark.hadoop.fs.s3a.connection.ssl.enabled=false"
+            - --conf
+            - "spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+            - /app/etl_bronze_to_silver.py
             env:
             - name: MINIO_ENDPOINT
               value: "minio-service:9000"
@@ -444,15 +460,14 @@ spec:
             - name: spark-app
               mountPath: /app
             - name: spark-config
-              mountPath: /opt/bitnami/spark/conf/spark-defaults.conf
-              subPath: spark-defaults.conf
+              mountPath: /tmp/spark-config
             resources:
               requests:
-                memory: "4Gi"
-                cpu: "2000m"
+                memory: "2Gi"
+                cpu: "500m"
               limits:
-                memory: "8Gi"
-                cpu: "4000m"
+                memory: "4Gi"
+                cpu: "1000m"
           volumes:
           - name: spark-app
             configMap:
@@ -472,7 +487,7 @@ metadata:
 data:
   requirements.txt: |
     pyspark==3.5.0
-    # delta-spark==3.0.0  # Temporarily disabled
+    delta-spark==3.0.0
     pandas==2.1.4
     numpy==1.24.3
     pyarrow==14.0.1
@@ -494,7 +509,7 @@ data:
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import *
     from pyspark.sql.types import *
-    # from delta import *  # Temporarily disabled
+    from delta import *
     from pyspark.sql.window import Window
     
     # Configure logging
@@ -521,14 +536,14 @@ data:
             """Create Spark session with Delta Lake support"""
             builder = SparkSession.builder \
                 .appName("EconomicIntelligence-BronzeToSilver") \
-                # .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
-                # .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+                .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+                .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
                 .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
                 .config("spark.sql.adaptive.enabled", "true") \
                 .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
                 .config("spark.sql.adaptive.skewJoin.enabled", "true")
             
-            return builder.getOrCreate()
+            return configure_spark_with_delta_pip(builder).getOrCreate()
         
         def _configure_s3_settings(self):
             """Configure Spark for S3/MinIO access"""
@@ -543,7 +558,7 @@ data:
         def read_bronze_table(self, table_name: str):
             """Read data from Bronze layer Delta table"""
             try:
-                return self.spark.read.parquet(f"{self.bronze_path}{table_name}")
+                return self.spark.read.format("delta").load(f"{self.bronze_path}{table_name}")
             except Exception as e:
                 logger.error(f"Error reading bronze table {table_name}: {e}")
                 return None
@@ -552,8 +567,9 @@ data:
             """Write data to Silver layer Delta table"""
             try:
                 df.write \
+                     .format("delta") \
                      .mode(mode) \
-                     .parquet(f"{self.silver_path}{table_name}")
+                     .save(f"{self.silver_path}{table_name}")
                 
                 logger.info(f"Successfully wrote {df.count()} records to silver.{table_name}")
             except Exception as e:

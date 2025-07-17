@@ -4,7 +4,8 @@ from typing import Dict, Any, List
 
 from loguru import logger
 
-from base_producer import BaseProducer, DataRecord
+from base_producer import BaseProducer
+from models.data_record import DataRecord
 
 
 class SingStatProducer(BaseProducer):
@@ -136,40 +137,42 @@ class SingStatProducer(BaseProducer):
                     year_data[key] = value
             
             # Common fields across datasets
-            economic_data = {
+            processed_data = {
                 'dataset_type': dataset_name,
                 'data_series': data_series,
-                'record_id': raw_data.get('_id', ''),
                 'year_data': year_data,
                 'latest_year': max(year_data.keys()) if year_data else '',
                 'latest_value': year_data.get(max(year_data.keys())) if year_data else '',
-                'total_years': len(year_data)
+                'total_years': len(year_data),
+                'resource_id': raw_data.get('resource_id', '')
             }
             
-            # Add resource ID for reference
-            economic_data['resource_id'] = raw_data.get('resource_id', '')
-            
-            # Add all original fields for completeness
-            economic_data['raw_data'] = raw_data
-            
-            # Add metadata
-            metadata = {
-                'extraction_timestamp': datetime.now().isoformat(),
-                'api_endpoint': self.base_url,
-                'dataset_name': dataset_name,
-                'record_id': raw_data.get('_id', '')
-            }
-            
-            return DataRecord(
+            data_record = DataRecord(
                 source=self.source_name,
                 timestamp=datetime.now(),
-                data=economic_data,
-                metadata=metadata
+                data_type="economic_indicator",
+                raw_data=raw_data,
+                processed_data=processed_data,
+                record_id=raw_data.get('_id', ''),
+                processing_notes=f'Extracted {dataset_name} data with {len(year_data)} years of data'
             )
+            
+            # Calculate quality score
+            data_record.validate_quality()
+            
+            return data_record
             
         except Exception as e:
             logger.error(f"Error transforming SingStat data: {e}")
-            raise
+            return DataRecord(
+                source=self.source_name,
+                timestamp=datetime.now(),
+                data_type="economic_indicator",
+                raw_data=raw_data,
+                processed_data={},
+                record_id=raw_data.get('_id', ''),
+                validation_errors=[str(e)]
+            )
 
 
 if __name__ == "__main__":

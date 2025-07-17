@@ -1,5 +1,4 @@
 import json
-import logging
 import time
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
@@ -9,15 +8,9 @@ import requests
 from kafka import KafkaProducer
 from loguru import logger
 from retrying import retry
-from pydantic import BaseModel
 
-
-class DataRecord(BaseModel):
-    """Base data record model"""
-    source: str
-    timestamp: datetime
-    data: Dict[str, Any]
-    metadata: Optional[Dict[str, Any]] = None
+# Import the standardized DataRecord from models
+from models.data_record import DataRecord
 
 
 class BaseProducer(ABC):

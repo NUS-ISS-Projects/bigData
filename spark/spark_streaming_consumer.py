@@ -56,25 +56,7 @@ class SparkStreamingConsumer:
 
         spark = configure_spark_with_delta_pip(builder).getOrCreate()
         
-        # Test S3 connectivity
-        logger.info(f"Testing S3 connectivity to {minio_endpoint}...")
-        try:
-            # Try to list the bronze bucket
-            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.endpoint", f"http://{minio_endpoint}")
-            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.access.key", minio_access_key)
-            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.secret.key", minio_secret_key)
-            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.path.style.access", "true")
-            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-            spark.sparkContext._jsc.hadoopConfiguration().set("fs.s3a.connection.ssl.enabled", "false")
-            
-            # Test by creating a simple DataFrame and trying to write to S3
-            test_df = spark.createDataFrame([("test",)], ["value"])
-            test_path = "s3a://bronze/connectivity_test"
-            test_df.write.mode("overwrite").parquet(test_path)
-            logger.info("S3 connectivity test successful!")
-        except Exception as e:
-            logger.error(f"S3 connectivity test failed: {str(e)}")
-            # Continue anyway, let the application handle the error
+        logger.info(f"Spark session created with S3 endpoint: {minio_endpoint}")
 
         return spark
 
