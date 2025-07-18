@@ -170,23 +170,22 @@ class ACRAProducer(BaseProducer):
     def transform_data(self, raw_data: Dict[str, Any], source_type: str = 'api') -> DataRecord:
         """Transform ACRA raw data into standardized format"""
         try:
-            # Extract key fields based on user's sample data structure
-            # Sample: uen,issuance_agency_desc,uen_status_desc,entity_name,entity_type_desc,uen_issue_date,reg_street_name,reg_postal_code
+            # Extract key fields based on CSV structure
+            # CSV headers: uen,issuance_agency_desc,uen_status_desc,entity_name,entity_type_desc,uen_issue_date,reg_street_name,reg_postal_code
             processed_data = {
-                'company_name': raw_data.get('entity_name', ''),
+                'entity_name': raw_data.get('entity_name', ''),
                 'uen': raw_data.get('uen', ''),
-                'entity_type': raw_data.get('entity_type_desc', ''),
-                'registration_date': raw_data.get('uen_issue_date', ''),
-                'status': raw_data.get('uen_status_desc', ''),
-                'primary_activity': raw_data.get('primary_ssic_description', ''),
-                'secondary_activities': raw_data.get('secondary_ssic_description', ''),
-                'address': {
-                    'street': raw_data.get('reg_street_name', ''),
-                    'postal_code': raw_data.get('reg_postal_code', ''),
-                    'unit': raw_data.get('unit_no', '')
-                },
-                'capital': raw_data.get('paid_up_capital1_ordinary', 0),
-                'incorporation_date': raw_data.get('registration_incorporation_date', ''),
+                'entity_type_desc': raw_data.get('entity_type_desc', ''),
+                'uen_issue_date': raw_data.get('uen_issue_date', ''),
+                'uen_status_desc': raw_data.get('uen_status_desc', ''),
+                'issuance_agency_desc': raw_data.get('issuance_agency_desc', ''),
+                'reg_street_name': raw_data.get('reg_street_name', ''),
+                'reg_postal_code': raw_data.get('reg_postal_code', ''),
+                'unit_no': raw_data.get('unit_no', ''),
+                'primary_ssic_description': raw_data.get('primary_ssic_description', ''),
+                'secondary_ssic_description': raw_data.get('secondary_ssic_description', ''),
+                'paid_up_capital1_ordinary': raw_data.get('paid_up_capital1_ordinary', ''),
+                'registration_incorporation_date': raw_data.get('registration_incorporation_date', ''),
                 'last_updated': datetime.now().isoformat()
             }
             
