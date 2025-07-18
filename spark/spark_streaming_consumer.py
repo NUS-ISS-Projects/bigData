@@ -20,14 +20,15 @@ class SparkStreamingConsumer:
     """Spark Structured Streaming consumer for Kafka to Delta Lake"""
     
     def __init__(self):
-        self.spark = self._create_spark_session()
-        self.kafka_bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
+        self.kafka_bootstrap_servers = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka-service.economic-observatory.svc.cluster.local:9092')
         self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'minio-service.economic-observatory.svc.cluster.local:9000')
         self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
         self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
         self.delta_path = f"s3a://bronze/"
         
-        logger.info("Spark Streaming Consumer initialized")
+        self.spark = self._create_spark_session()
+        
+        logger.info(f"Spark Streaming Consumer initialized with Kafka: {self.kafka_bootstrap_servers}")
     
     def _create_spark_session(self):
         """Create Spark session with Delta Lake support"""
@@ -38,67 +39,87 @@ class SparkStreamingConsumer:
         
         builder = SparkSession.builder \
             .appName("EconomicIntelligence-StreamingConsumer") \
+            .config("spark.jars.packages", "io.delta:delta-spark_2.12:3.0.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262") \
             .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
             .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
             .config("spark.sql.streaming.checkpointLocation", "/tmp/spark-checkpoints") \
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
             .config("spark.sql.adaptive.enabled", "true") \
             .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
-            .config("spark.hadoop.fs.s3a.endpoint", f"http://{minio_endpoint}") \
-            .config("spark.hadoop.fs.s3a.access.key", minio_access_key) \
-            .config("spark.hadoop.fs.s3a.secret.key", minio_secret_key) \
+            .config("spark.hadoop.fs.s3a.endpoint", f"http://{self.minio_endpoint}") \
+            .config("spark.hadoop.fs.s3a.access.key", self.minio_access_key) \
+            .config("spark.hadoop.fs.s3a.secret.key", self.minio_secret_key) \
             .config("spark.hadoop.fs.s3a.path.style.access", "true") \
             .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
             .config("spark.hadoop.fs.s3a.connection.ssl.enabled", "false") \
+            .config("spark.hadoop.fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider") \
             .config("spark.hadoop.fs.s3a.attempts.maximum", "3") \
             .config("spark.hadoop.fs.s3a.connection.establish.timeout", "5000") \
             .config("spark.hadoop.fs.s3a.connection.timeout", "10000")
 
         spark = configure_spark_with_delta_pip(builder).getOrCreate()
         
-        logger.info(f"Spark session created with S3 endpoint: {minio_endpoint}")
+        logger.info(f"Spark session created with S3 endpoint: {self.minio_endpoint}")
 
         return spark
 
     def create_kafka_stream(self, topic: str):
-        """Create Kafka streaming DataFrame"""
+        """Create Kafka streaming DataFrame with enhanced error handling"""
+        logger.info(f"Creating Kafka stream for topic: {topic} with servers: {self.kafka_bootstrap_servers}")
+        
         return self.spark \
             .readStream \
             .format("kafka") \
             .option("kafka.bootstrap.servers", self.kafka_bootstrap_servers) \
             .option("subscribe", topic) \
-            .option("startingOffsets", "latest") \
+            .option("startingOffsets", "earliest") \
             .option("failOnDataLoss", "false") \
+            .option("kafka.consumer.timeout.ms", "10000") \
+            .option("kafka.request.timeout.ms", "30000") \
+            .option("kafka.session.timeout.ms", "30000") \
             .load()
     
     def process_acra_stream(self):
         """Process ACRA companies data stream"""
         logger.info("Starting ACRA stream processing...")
         
-        # Define schema for ACRA data
+        # Use flexible MapType for processed_data to handle varying field sets
+        processed_data_schema = MapType(StringType(), StringType(), True)
+        
+        # Define schema for the complete DataRecord
         acra_schema = StructType([
-            StructField("uen", StringType(), True),
-            StructField("reg_street_name", StringType(), True),
-            StructField("entity_name", StringType(), True),
-            StructField("entity_type", StringType(), True),
-            StructField("entity_status", StringType(), True),
-            StructField("uen_issue_date", StringType(), True),
-            StructField("reg_postal_code", StringType(), True),
             StructField("source", StringType(), True),
-            StructField("ingestion_timestamp", StringType(), True)
+            StructField("timestamp", StringType(), True),
+            StructField("data_type", StringType(), True),
+            StructField("raw_data", MapType(StringType(), StringType()), True),
+            StructField("processed_data", processed_data_schema, True),
+            StructField("record_id", StringType(), True),
+            StructField("quality_score", DoubleType(), True),
+            StructField("validation_errors", ArrayType(StringType()), True),
+            StructField("processing_notes", StringType(), True)
         ])
         
         # Create stream
         kafka_stream = self.create_kafka_stream("acra-companies")
         
-        # Parse JSON and add metadata
+        # Parse JSON and flatten the processed_data
         parsed_stream = kafka_stream.select(
-            from_json(col("value").cast("string"), acra_schema).alias("data"),
+            from_json(col("value").cast("string"), acra_schema).alias("record"),
             col("timestamp").alias("kafka_timestamp"),
             col("partition"),
             col("offset")
         ).select(
-            col("data.*"),
+            # Extract fields from processed_data using map access - flexible for varying fields
+            col("record.processed_data")["entity_name"].alias("entity_name"),
+            col("record.processed_data")["uen"].alias("uen"),
+            col("record.processed_data")["entity_type_desc"].alias("entity_type"),
+            col("record.processed_data")["uen_issue_date"].alias("uen_issue_date"),
+            col("record.processed_data")["uen_status_desc"].alias("entity_status"),
+            col("record.processed_data")["reg_street_name"].alias("reg_street_name"),
+            col("record.processed_data")["reg_postal_code"].alias("reg_postal_code"),
+            # Metadata fields
+            col("record.source").alias("source"),
+            col("record.timestamp").alias("ingestion_timestamp"),
             col("kafka_timestamp"),
             col("partition"),
             col("offset"),
@@ -201,9 +222,52 @@ class SparkStreamingConsumer:
         
         return query
     
+    def test_kafka_connectivity(self):
+        """Test Kafka connectivity before starting streams"""
+        try:
+            logger.info(f"Testing Kafka connectivity to: {self.kafka_bootstrap_servers}")
+            
+            # Create a simple test stream to verify Kafka connectivity
+            test_stream = self.spark \
+                .readStream \
+                .format("kafka") \
+                .option("kafka.bootstrap.servers", self.kafka_bootstrap_servers) \
+                .option("subscribe", "acra-companies") \
+                .option("startingOffsets", "latest") \
+                .option("failOnDataLoss", "false") \
+                .load()
+            
+            # Start a test query that will fail quickly if Kafka is not accessible
+            test_query = test_stream.writeStream \
+                .outputMode("append") \
+                .format("console") \
+                .option("numRows", 1) \
+                .option("truncate", "false") \
+                .trigger(processingTime="5 seconds") \
+                .start()
+            
+            # Wait briefly to see if connection works
+            import time
+            time.sleep(10)
+            test_query.stop()
+            
+            logger.info("✅ Kafka connectivity test successful")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Kafka connectivity test failed: {e}")
+            import traceback
+            logger.error(f"Full traceback: {traceback.format_exc()}")
+            return False
+    
     def start_all_streams(self):
-        """Start all streaming queries"""
+        """Start all streaming queries with connectivity testing"""
         logger.info("Starting all Kafka to Delta Lake streams...")
+        
+        # Test Kafka connectivity first
+        if not self.test_kafka_connectivity():
+            logger.error("Kafka connectivity test failed. Aborting stream startup.")
+            return
         
         queries = [
             self.process_acra_stream(),
@@ -219,6 +283,12 @@ class SparkStreamingConsumer:
                 query.awaitTermination()
         except KeyboardInterrupt:
             logger.info("Stopping all streams...")
+            for query in queries:
+                query.stop()
+        except Exception as e:
+            logger.error(f"Stream execution error: {e}")
+            import traceback
+            logger.error(f"Full traceback: {traceback.format_exc()}")
             for query in queries:
                 query.stop()
         
