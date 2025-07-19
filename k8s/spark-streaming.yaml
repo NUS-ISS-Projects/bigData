@@ -96,9 +96,9 @@ spec:
         - name: SPARK_LOCAL_IP
           value: "127.0.0.1"
         - name: SPARK_DRIVER_MEMORY
-          value: "2g"
+          value: "1g"
         - name: SPARK_EXECUTOR_MEMORY
-          value: "2g"
+          value: "1g"
         - name: SPARK_DRIVER_OPTS
           value: "-Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8"
         volumeMounts:
@@ -121,10 +121,10 @@ spec:
             - /bin/bash
             - -c
             - "ps aux | grep spark_streaming_consumer.py | grep -v grep"
-          initialDelaySeconds: 600
-          periodSeconds: 30
+          initialDelaySeconds: 120
+          periodSeconds: 60
           timeoutSeconds: 10
-          failureThreshold: 3
+          failureThreshold: 5
       volumes:
       - name: spark-app
         configMap:

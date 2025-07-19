@@ -19,6 +19,7 @@ spec:
       - name: data-producers
         image: economic-observatory/data-producers:latest
         imagePullPolicy: IfNotPresent
+        command: ["python", "scheduler.py", "--mode", "development"]
         env:
         - name: KAFKA_BOOTSTRAP_SERVERS
           value: "kafka-service:9092"
@@ -39,17 +40,21 @@ spec:
             command:
             - python
             - -c
-            - "import kafka; print('OK')"
-          initialDelaySeconds: 30
-          periodSeconds: 60
+            - "print('OK')"
+          initialDelaySeconds: 60
+          periodSeconds: 120
+          timeoutSeconds: 5
+          failureThreshold: 3
         readinessProbe:
           exec:
             command:
             - python
             - -c
-            - "import kafka; print('OK')"
-          initialDelaySeconds: 10
-          periodSeconds: 30
+            - "print('OK')"
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 5
+          failureThreshold: 3
       volumes:
       - name: logs-volume
         emptyDir: {}

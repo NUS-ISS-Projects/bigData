@@ -60,55 +60,162 @@ class DataIngestionScheduler:
             logger.error(f"Error in scheduled URA extraction: {e}")
     
     def run_all_extractions(self):
-        """Run all data extractions sequentially"""
+        """Run all data extractions in parallel"""
         try:
-            logger.info("Starting full data extraction cycle")
+            logger.info("Starting full data extraction cycle (parallel execution)")
             
-            # Run extractions in sequence to avoid overwhelming APIs
-            self.run_acra_extraction()
-            time.sleep(60)  # 1 minute delay between extractions
+            # Create threads for parallel execution
+            threads = []
             
-            self.run_singstat_extraction()
-            time.sleep(60)
+            # ACRA thread
+            acra_thread = threading.Thread(target=self.run_acra_extraction, name="ACRA-Thread")
+            threads.append(acra_thread)
             
-            self.run_ura_extraction()
+            # SingStat thread
+            singstat_thread = threading.Thread(target=self.run_singstat_extraction, name="SingStat-Thread")
+            threads.append(singstat_thread)
             
-            logger.info("Completed full data extraction cycle")
+            # URA thread
+            ura_thread = threading.Thread(target=self.run_ura_extraction, name="URA-Thread")
+            threads.append(ura_thread)
+            
+            # Start all threads
+            for thread in threads:
+                thread.start()
+                logger.info(f"Started {thread.name}")
+            
+            # Wait for all threads to complete with proper parallel monitoring
+            start_time = time.time()
+            max_extraction_time = 3600  # 1 hour timeout
+            
+            while any(thread.is_alive() for thread in threads):
+                time.sleep(30)  # Check every 30 seconds
+                elapsed = time.time() - start_time
+                
+                # Log progress of running threads
+                alive_threads = [t.name for t in threads if t.is_alive()]
+                completed_threads = [t.name for t in threads if not t.is_alive()]
+                
+                if alive_threads:
+                    logger.info(f"Still running: {alive_threads} | Completed: {completed_threads} | Elapsed: {elapsed:.1f}s")
+                
+                # Check for timeout
+                if elapsed > max_extraction_time:
+                    logger.warning(f"Extraction timeout reached ({max_extraction_time}s). Some threads may still be running.")
+                    break
+            
+            # Final status check
+            for thread in threads:
+                if thread.is_alive():
+                    logger.warning(f"Thread {thread.name} is still running after timeout")
+                else:
+                    logger.info(f"Completed {thread.name}")
+            
+            logger.info("Completed full data extraction cycle (all extractions finished)")
         except Exception as e:
             logger.error(f"Error in full extraction cycle: {e}")
     
-    def setup_schedules(self):
+    def setup_schedules(self, production_mode: bool = True):
         """Setup extraction schedules"""
-        # ACRA data - daily at 2 AM (company registrations don't change frequently)
-        schedule.every().day.at("02:00").do(self.run_acra_extraction)
-        
-        # SingStat data - daily at 3 AM (economic indicators updated regularly)
-        schedule.every().day.at("03:00").do(self.run_singstat_extraction)
-        
-        # URA data - daily at 4 AM (property transactions updated regularly)
-        schedule.every().day.at("04:00").do(self.run_ura_extraction)
-        
-        # Full extraction cycle - weekly on Sundays at 1 AM
-        schedule.every().sunday.at("01:00").do(self.run_all_extractions)
-        
-        # For testing - run every 30 minutes (comment out for production)
-        # schedule.every(30).minutes.do(self.run_singstat_extraction)
-        
-        logger.info("Data extraction schedules configured")
+        if production_mode:
+            # Production schedules - proper cron-based timing
+            # ACRA data - daily at 2 AM (company registrations don't change frequently)
+            schedule.every().day.at("02:00").do(self.run_acra_extraction)
+            
+            # SingStat data - daily at 3 AM (economic indicators updated regularly)
+            schedule.every().day.at("03:00").do(self.run_singstat_extraction)
+            
+            # URA data - daily at 4 AM (property transactions updated regularly)
+            schedule.every().day.at("04:00").do(self.run_ura_extraction)
+            
+            # Full extraction cycle - weekly on Sundays at 1 AM
+            schedule.every().sunday.at("01:00").do(self.run_all_extractions)
+            
+            logger.info("Production data extraction schedules configured")
+        else:
+            # Development/testing schedules - more frequent for testing
+            schedule.every(5).minutes.do(self.run_singstat_extraction)
+            schedule.every(5).minutes.do(self.run_acra_extraction)
+            schedule.every(5).minutes.do(self.run_ura_extraction)
+            
+            logger.info("Development data extraction schedules configured")
     
-    def start(self):
+    def run_initial_extraction(self):
+        """Run initial data extraction once on startup (parallel execution)"""
+        try:
+            logger.info("=== INITIAL DATA EXTRACTION ON STARTUP (PARALLEL) ===")
+            logger.info("This will run once to populate the data lake with initial data")
+            
+            # Create threads for parallel execution
+            threads = []
+            
+            # ACRA thread
+            acra_thread = threading.Thread(target=self.run_acra_extraction, name="Initial-ACRA-Thread")
+            threads.append(acra_thread)
+            
+            # SingStat thread
+            singstat_thread = threading.Thread(target=self.run_singstat_extraction, name="Initial-SingStat-Thread")
+            threads.append(singstat_thread)
+            
+            # URA thread
+            ura_thread = threading.Thread(target=self.run_ura_extraction, name="Initial-URA-Thread")
+            threads.append(ura_thread)
+            
+            # Start all threads
+            for thread in threads:
+                thread.start()
+                logger.info(f"Started {thread.name}")
+            
+            # Wait for all threads to complete with proper parallel monitoring
+            start_time = time.time()
+            max_extraction_time = 3600  # 1 hour timeout
+            
+            while any(thread.is_alive() for thread in threads):
+                time.sleep(30)  # Check every 30 seconds
+                elapsed = time.time() - start_time
+                
+                # Log progress of running threads
+                alive_threads = [t.name for t in threads if t.is_alive()]
+                completed_threads = [t.name for t in threads if not t.is_alive()]
+                
+                if alive_threads:
+                    logger.info(f"Still running: {alive_threads} | Completed: {completed_threads} | Elapsed: {elapsed:.1f}s")
+                
+                # Check for timeout
+                if elapsed > max_extraction_time:
+                    logger.warning(f"Extraction timeout reached ({max_extraction_time}s). Some threads may still be running.")
+                    break
+            
+            # Final status check
+            for thread in threads:
+                if thread.is_alive():
+                    logger.warning(f"Thread {thread.name} is still running after timeout")
+                else:
+                    logger.info(f"Completed {thread.name}")
+            
+            logger.info("=== INITIAL DATA EXTRACTION COMPLETED (ALL PARALLEL EXTRACTIONS FINISHED) ===")
+            logger.info("Subsequent extractions will be managed by cron schedules")
+            
+        except Exception as e:
+            logger.error(f"Error in initial extraction: {e}")
+    
+    def start(self, production_mode: bool = True, run_initial: bool = True):
         """Start the scheduler"""
         self.running = True
-        self.setup_schedules()
+        self.setup_schedules(production_mode)
         
-        logger.info("Data ingestion scheduler started")
+        mode_str = "production" if production_mode else "development"
+        logger.info(f"Data ingestion scheduler started in {mode_str} mode")
         logger.info("Scheduled jobs:")
         for job in schedule.jobs:
             logger.info(f"  - {job}")
         
-        # Run initial extraction on startup
-        logger.info("Running initial data extraction...")
-        threading.Thread(target=self.run_all_extractions, daemon=True).start()
+        # Run initial extraction on startup if requested
+        if run_initial:
+            logger.info("Running initial data extraction on startup...")
+            threading.Thread(target=self.run_initial_extraction, daemon=True).start()
+            # Wait a bit for initial extraction to start
+            time.sleep(5)
         
         # Main scheduler loop
         while self.running:
@@ -153,6 +260,16 @@ class DataIngestionScheduler:
 
 def main():
     """Main function"""
+    import argparse
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description='Economic Intelligence Platform - Data Ingestion Service')
+    parser.add_argument('--mode', choices=['production', 'development'], default='production',
+                       help='Run mode: production (cron schedules) or development (frequent testing)')
+    parser.add_argument('--no-initial', action='store_true',
+                       help='Skip initial data extraction on startup')
+    args = parser.parse_args()
+    
     # Configure logging
     logger.add(
         "logs/data_ingestion_{time:YYYY-MM-DD}.log",
@@ -164,13 +281,20 @@ def main():
     # Create logs directory if it doesn't exist
     os.makedirs("logs", exist_ok=True)
     
-    logger.info("Starting Economic Intelligence Platform - Data Ingestion Service")
+    production_mode = args.mode == 'production'
+    run_initial = not args.no_initial
+    
+    logger.info(f"Starting Economic Intelligence Platform - Data Ingestion Service ({args.mode} mode)")
+    if run_initial:
+        logger.info("Initial data extraction will run on startup")
+    else:
+        logger.info("Skipping initial data extraction")
     
     # Initialize and start scheduler
     scheduler = DataIngestionScheduler()
     
     try:
-        scheduler.start()
+        scheduler.start(production_mode=production_mode, run_initial=run_initial)
     except KeyboardInterrupt:
         logger.info("Received interrupt signal")
     finally:
