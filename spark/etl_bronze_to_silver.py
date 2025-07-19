@@ -162,11 +162,11 @@ class BronzeToSilverETL:
         
         # Data quality checks and transformations
         silver_df = bronze_df \
-            .filter(col("table_id").isNotNull()) \
-            .filter(col("series_id").isNotNull()) \
+            .filter(col("table_title").isNotNull()) \
+            .filter(col("series_no").isNotNull()) \
             .filter(col("value").isNotNull()) \
-            .withColumn("table_id_clean", upper(trim(col("table_id")))) \
-            .withColumn("series_id_clean", upper(trim(col("series_id")))) \
+            .withColumn("table_id_clean", upper(trim(col("table_title")))) \
+            .withColumn("series_id_clean", upper(trim(col("series_no")))) \
             .withColumn("data_type_clean", upper(trim(col("data_type")))) \
             .withColumn("period_clean", trim(col("period"))) \
             .withColumn("value_numeric", 
@@ -181,8 +181,8 @@ class BronzeToSilverETL:
                             regexp_extract(col("period_clean"), "Q([1-4])", 1).cast("int")).otherwise(None)) \
             .withColumn("is_valid_numeric", col("value_numeric").isNotNull()) \
             .withColumn("data_quality_score", 
-                       (when(col("table_id").isNotNull(), 1).otherwise(0) +
-                        when(col("series_id").isNotNull(), 1).otherwise(0) +
+                       (when(col("table_title").isNotNull(), 1).otherwise(0) +
+                        when(col("series_no").isNotNull(), 1).otherwise(0) +
                         when(col("value_numeric").isNotNull(), 1).otherwise(0) +
                         when(col("period_year").isNotNull(), 1).otherwise(0)) / 4.0) \
             .withColumn("silver_processed_timestamp", current_timestamp())

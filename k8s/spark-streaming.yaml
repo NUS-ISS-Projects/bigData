@@ -104,8 +104,10 @@ spec:
         volumeMounts:
         - name: spark-app
           mountPath: /app
+        - name: spark-requirements
+          mountPath: /app/requirements
         - name: spark-config
-          mountPath: /tmp/spark-config
+          mountPath: /opt/spark/conf
         - name: checkpoint-storage
           mountPath: /tmp/spark-checkpoints
         resources:
@@ -128,7 +130,10 @@ spec:
       volumes:
       - name: spark-app
         configMap:
-          name: spark-streaming-code
+          name: spark-app-code
+      - name: spark-requirements
+        configMap:
+          name: spark-etl-requirements
       - name: spark-config
         configMap:
           name: spark-config
@@ -152,7 +157,7 @@ metadata:
   name: spark-etl-bronze-to-silver
   namespace: economic-observatory
 spec:
-  schedule: "0 */6 * * *"  # Run every 6 hours
+  schedule: "0 */1 * * *"  # Run every 1 hour
   jobTemplate:
     spec:
       template:
@@ -205,6 +210,9 @@ spec:
           - name: spark-app
             configMap:
               name: spark-etl-code
+          - name: spark-requirements
+            configMap:
+              name: spark-etl-requirements
           - name: spark-config
             configMap:
               name: spark-config
@@ -215,7 +223,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: spark-etl-code
+  name: spark-etl-requirements
   namespace: economic-observatory
 data:
   requirements.txt: |
@@ -229,129 +237,6 @@ data:
     python-dotenv==1.0.0
     pyyaml==6.0.1
     structlog==23.2.0
-  etl_bronze_to_silver.py: |
-    #!/usr/bin/env python3
-    """
-    ETL Job: Bronze to Silver Layer Transformation
-    Cleans, validates, and standardizes data from Bronze to Silver layer
-    """
-    
-    import os
-    import logging
-    from datetime import datetime
-    from pyspark.sql import SparkSession
-    from pyspark.sql.functions import *
-    from pyspark.sql.types import *
-    from delta import *
-    from pyspark.sql.window import Window
-    
-    # Configure logging
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-    
-    class BronzeToSilverETL:
-        """ETL processor for Bronze to Silver layer transformation"""
-        
-        def __init__(self):
-            self.spark = self._create_spark_session()
-            self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
-            self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
-            self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
-            self.bronze_path = "s3a://bronze/"
-            self.silver_path = "s3a://silver/"
-            
-            # Configure S3/MinIO settings
-            self._configure_s3_settings()
-            
-            logger.info("Bronze to Silver ETL initialized")
-        
-        def _create_spark_session(self):
-            """Create Spark session with Delta Lake support"""
-            builder = SparkSession.builder \
-                .appName("EconomicIntelligence-BronzeToSilver") \
-                .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
-                .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
-                .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-                .config("spark.sql.adaptive.enabled", "true") \
-                .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
-                .config("spark.sql.adaptive.skewJoin.enabled", "true")
-            
-            return configure_spark_with_delta_pip(builder).getOrCreate()
-        
-        def _configure_s3_settings(self):
-            """Configure Spark for S3/MinIO access"""
-            hadoop_conf = self.spark.sparkContext._jsc.hadoopConfiguration()
-            hadoop_conf.set("fs.s3a.endpoint", f"http://{self.minio_endpoint}")
-            hadoop_conf.set("fs.s3a.access.key", self.minio_access_key)
-            hadoop_conf.set("fs.s3a.secret.key", self.minio_secret_key)
-            hadoop_conf.set("fs.s3a.path.style.access", "true")
-            hadoop_conf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-            hadoop_conf.set("fs.s3a.connection.ssl.enabled", "false")
-        
-        def read_bronze_table(self, table_name: str):
-            """Read data from Bronze layer Delta table"""
-            try:
-                return self.spark.read.format("delta").load(f"{self.bronze_path}{table_name}")
-            except Exception as e:
-                logger.error(f"Error reading bronze table {table_name}: {e}")
-                return None
-        
-        def write_silver_table(self, df, table_name: str, mode: str = "overwrite"):
-            """Write data to Silver layer Delta table"""
-            try:
-                df.write \
-                     .format("delta") \
-                     .mode(mode) \
-                     .save(f"{self.silver_path}{table_name}")
-                
-                logger.info(f"Successfully wrote {df.count()} records to silver.{table_name}")
-            except Exception as e:
-                logger.error(f"Error writing to silver table {table_name}: {e}")
-                raise
-        
-        def run_etl(self):
-            """Run complete Bronze to Silver ETL process"""
-            logger.info("Starting Bronze to Silver ETL process...")
-            
-            try:
-                # Check if bronze data exists
-                logger.info("Checking for bronze data...")
-                
-                # For now, just create a simple test to verify the ETL can run
-                test_data = self.spark.createDataFrame([
-                    ("test_uen", "Test Company", "LIVE", "2024-01-01"),
-                    ("test_uen2", "Another Company", "ACTIVE", "2024-01-02")
-                ], ["uen", "entity_name", "entity_status", "uen_issue_date"])
-                
-                # Add required columns for silver layer
-                processed_data = test_data \
-                    .withColumn("entity_type", lit("COMPANY")) \
-                    .withColumn("reg_street_name", lit("Test Street")) \
-                    .withColumn("reg_postal_code", lit("123456")) \
-                    .withColumn("source", lit("test")) \
-                    .withColumn("ingestion_timestamp", current_timestamp()) \
-                    .withColumn("bronze_ingestion_timestamp", current_timestamp()) \
-                    .withColumn("silver_processed_timestamp", current_timestamp()) \
-                    .withColumn("is_active", when(col("entity_status").isin("LIVE", "ACTIVE"), True).otherwise(False)) \
-                    .withColumn("data_quality_score", lit(1.0))
-                
-                # Write test data to silver layer
-                self.write_silver_table(processed_data, "test_companies_clean")
-                
-                logger.info("Bronze to Silver ETL completed successfully")
-                
-            except Exception as e:
-                logger.error(f"ETL process failed: {e}")
-                raise
-            finally:
-                self.spark.stop()
-    
-    def main():
-        etl = BronzeToSilverETL()
-        etl.run_etl()
-    
-    if __name__ == "__main__":
-        main()
 
 ---
 apiVersion: v1

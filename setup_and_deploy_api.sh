@@ -139,10 +139,116 @@ wait_for_deployment() {
     
     if [ $? -eq 0 ]; then
         print_success "Deployment $deployment_name is ready"
+        # Additional verification - check if pods are actually running
+        local running_pods=$(kubectl get pods -n $namespace -l app=$deployment_name --field-selector=status.phase=Running --no-headers | wc -l)
+        if [ "$running_pods" -gt 0 ]; then
+            print_success "Deployment $deployment_name has $running_pods running pod(s)"
+        else
+            print_warning "Deployment $deployment_name is available but no running pods found"
+            kubectl get pods -n $namespace -l app=$deployment_name
+        fi
     else
         print_error "Deployment $deployment_name failed to become ready"
+        print_status "Checking deployment status..."
+        kubectl describe deployment/$deployment_name -n $namespace
+        print_status "Checking pod status..."
+        kubectl get pods -n $namespace -l app=$deployment_name
         return 1
     fi
+}
+
+# Function to verify ConfigMap content
+verify_configmap() {
+    local configmap_name=$1
+    local namespace=$2
+    local expected_files=$3
+    
+    print_status "Verifying ConfigMap $configmap_name..."
+    
+    # Check if ConfigMap exists
+    if ! kubectl get configmap $configmap_name -n $namespace >/dev/null 2>&1; then
+        print_error "ConfigMap $configmap_name does not exist"
+        return 1
+    fi
+    
+    # Get raw data for debugging
+    local raw_data=$(kubectl get configmap $configmap_name -n $namespace -o jsonpath='{.data}' 2>/dev/null || echo "")
+    print_status "Raw ConfigMap data: $raw_data"
+    
+    # Check if ConfigMap has data
+    local data_keys=$(echo "$raw_data" | grep -o '"[^"]*":' | sed 's/[":]*//g' | tr '\n' ' ' | xargs)
+    
+    if [ -z "$data_keys" ] || [ "$raw_data" = "{}" ] || [ "$raw_data" = "null" ]; then
+        print_error "ConfigMap $configmap_name is empty or has no data"
+        print_error "Describing ConfigMap for debugging:"
+        kubectl describe configmap $configmap_name -n $namespace
+        return 1
+    fi
+    
+    print_success "ConfigMap $configmap_name contains: $data_keys"
+    
+    # Verify expected files if provided
+    if [ ! -z "$expected_files" ]; then
+        for file in $expected_files; do
+            if echo "$data_keys" | grep -q "$file"; then
+                print_success "✓ Found expected file: $file"
+            else
+                print_error "✗ Missing expected file: $file"
+                print_error "Expected: $expected_files"
+                print_error "Found: $data_keys"
+                return 1
+            fi
+        done
+    fi
+    
+    return 0
+}
+
+# Function to cleanup and retry ConfigMap creation
+retry_configmap_creation() {
+    local configmap_name=$1
+    local namespace=$2
+    local create_command=$3
+    local max_retries=3
+    local retry_count=0
+    
+    while [ $retry_count -lt $max_retries ]; do
+        print_status "Attempt $((retry_count + 1)) to create ConfigMap $configmap_name..."
+        
+        # Delete existing ConfigMap if it exists
+        kubectl delete configmap $configmap_name -n $namespace >/dev/null 2>&1 || true
+        
+        # Wait a moment for deletion to complete
+        sleep 3
+        
+        # Execute the creation command
+        print_status "Executing: $create_command"
+        eval "$create_command"
+        local exit_code=$?
+        
+        if [ $exit_code -eq 0 ]; then
+            print_success "ConfigMap $configmap_name created successfully"
+            # Verify it was actually created with content
+            sleep 2
+            local data_check=$(kubectl get configmap $configmap_name -n $namespace -o jsonpath='{.data}' 2>/dev/null || echo "")
+            if [ -n "$data_check" ] && [ "$data_check" != "{}" ]; then
+                print_success "ConfigMap $configmap_name verified with content"
+                return 0
+            else
+                print_warning "ConfigMap $configmap_name created but appears empty, retrying..."
+            fi
+        else
+            print_warning "Failed to create ConfigMap $configmap_name (attempt $((retry_count + 1)), exit code: $exit_code)"
+        fi
+        
+        retry_count=$((retry_count + 1))
+        if [ $retry_count -lt $max_retries ]; then
+            sleep 5
+        fi
+    done
+    
+    print_error "Failed to create ConfigMap $configmap_name after $max_retries attempts"
+    return 1
 }
 
 # Deploy core infrastructure (Kafka, MinIO)
@@ -217,23 +323,131 @@ print_success "Core infrastructure and data producers deployed successfully"
 # Deploy Spark streaming infrastructure
 print_status "Deploying Spark streaming infrastructure..."
 
-# Create ConfigMap for Spark streaming consumer
-kubectl create configmap spark-streaming-code \
-    --from-file=spark/spark_streaming_consumer.py \
-    --from-file=spark/requirements.txt \
-    -n $NAMESPACE \
-    --dry-run=client -o yaml | kubectl apply -f -
+# Verify Spark files exist before creating ConfigMaps
+print_status "Verifying Spark application files..."
+if [ ! -f "spark/spark_streaming_consumer.py" ]; then
+    print_error "spark/spark_streaming_consumer.py not found!"
+    exit 1
+fi
 
-# Create ConfigMap for ETL job
-kubectl create configmap spark-etl-code \
-    --from-file=spark/etl_bronze_to_silver.py \
-    --from-file=spark/requirements.txt \
-    -n $NAMESPACE \
-    --dry-run=client -o yaml | kubectl apply -f -
+if [ ! -f "spark/etl_bronze_to_silver.py" ]; then
+    print_error "spark/etl_bronze_to_silver.py not found!"
+    exit 1
+fi
+
+if [ ! -f "spark/requirements.txt" ]; then
+    print_error "spark/requirements.txt not found!"
+    exit 1
+fi
+
+print_success "All Spark application files verified"
+
+# Create ConfigMap for Spark streaming consumer with retry logic
+print_status "Creating spark-streaming-code ConfigMap..."
+STREAMING_CMD="kubectl create configmap spark-streaming-code --from-file=spark/spark_streaming_consumer.py --from-file=spark/requirements.txt -n $NAMESPACE"
+if retry_configmap_creation "spark-streaming-code" "$NAMESPACE" "$STREAMING_CMD"; then
+    verify_configmap "spark-streaming-code" "$NAMESPACE" "spark_streaming_consumer.py requirements.txt"
+    if [ $? -ne 0 ]; then
+        print_error "spark-streaming-code ConfigMap verification failed"
+        exit 1
+    fi
+else
+    print_error "Failed to create spark-streaming-code ConfigMap after retries"
+    exit 1
+fi
+
+# Create ConfigMap for Spark app code (streaming consumer deployment) with retry logic
+print_status "Creating spark-app-code ConfigMap..."
+APP_CODE_CMD="kubectl create configmap spark-app-code --from-file=spark_streaming_consumer.py=spark/spark_streaming_consumer.py -n $NAMESPACE"
+if retry_configmap_creation "spark-app-code" "$NAMESPACE" "$APP_CODE_CMD"; then
+    verify_configmap "spark-app-code" "$NAMESPACE" "spark_streaming_consumer.py"
+    if [ $? -ne 0 ]; then
+        print_error "spark-app-code ConfigMap verification failed"
+        exit 1
+    fi
+else
+    print_error "Failed to create spark-app-code ConfigMap after retries"
+    exit 1
+fi
+
+# Create ConfigMap for ETL job with retry logic
+print_status "Creating spark-etl-code ConfigMap..."
+ETL_CODE_CMD="kubectl create configmap spark-etl-code --from-file=etl_bronze_to_silver.py=spark/etl_bronze_to_silver.py --from-file=requirements.txt=spark/requirements.txt -n $NAMESPACE"
+if retry_configmap_creation "spark-etl-code" "$NAMESPACE" "$ETL_CODE_CMD"; then
+    verify_configmap "spark-etl-code" "$NAMESPACE" "etl_bronze_to_silver.py requirements.txt"
+    if [ $? -ne 0 ]; then
+        print_error "spark-etl-code ConfigMap verification failed"
+        exit 1
+    fi
+else
+    print_error "Failed to create spark-etl-code ConfigMap after retries"
+    exit 1
+fi
+
+# Wait a moment for ConfigMaps to be fully propagated
+print_status "Waiting for ConfigMaps to propagate..."
+sleep 5
+
+# Final validation of all ConfigMaps
+print_status "Performing final validation of all ConfigMaps..."
+CONFIGMAPS_TO_VALIDATE=(
+    "spark-streaming-code:spark_streaming_consumer.py requirements.txt"
+    "spark-app-code:spark_streaming_consumer.py"
+    "spark-etl-code:etl_bronze_to_silver.py requirements.txt"
+)
+
+for configmap_info in "${CONFIGMAPS_TO_VALIDATE[@]}"; do
+    IFS=':' read -r configmap_name expected_files <<< "$configmap_info"
+    print_status "Validating $configmap_name..."
+    verify_configmap "$configmap_name" "$NAMESPACE" "$expected_files"
+    if [ $? -ne 0 ]; then
+        print_error "Final validation failed for $configmap_name"
+        print_error "Listing all ConfigMaps for debugging:"
+        kubectl get configmaps -n $NAMESPACE
+        print_error "Describing problematic ConfigMap:"
+        kubectl describe configmap "$configmap_name" -n $NAMESPACE
+        exit 1
+    fi
+done
+print_success "All ConfigMaps validated successfully"
 
 # Deploy Spark streaming jobs
+print_status "Deploying Spark streaming YAML configuration..."
 kubectl apply -f k8s/spark-streaming.yaml
-wait_for_deployment "spark-streaming-consumer" $NAMESPACE
+
+if [ $? -eq 0 ]; then
+    print_success "Spark streaming configuration applied"
+    
+    # Wait for spark-streaming-consumer deployment to be ready
+    print_status "Waiting for spark-streaming-consumer deployment..."
+    wait_for_deployment "spark-streaming-consumer" "$NAMESPACE"
+    
+    # Verify the streaming consumer can find its Python file
+    print_status "Verifying Spark streaming consumer startup..."
+    sleep 10  # Allow time for container to start
+    
+    CONSUMER_POD=$(kubectl get pods -n $NAMESPACE -l app=spark-streaming-consumer --no-headers -o custom-columns=":metadata.name" | head -1)
+    if [ -n "$CONSUMER_POD" ]; then
+        print_status "Checking logs for $CONSUMER_POD..."
+        # Check for the specific error we've been encountering
+        ERROR_CHECK=$(kubectl logs "$CONSUMER_POD" -n $NAMESPACE 2>/dev/null | grep "can't open file '/app/spark_streaming_consumer.py'" || true)
+        if [ -n "$ERROR_CHECK" ]; then
+            print_error "Spark streaming consumer still cannot find Python file!"
+            print_error "Pod logs:"
+            kubectl logs "$CONSUMER_POD" -n $NAMESPACE --tail=20
+            print_error "ConfigMap contents:"
+            kubectl describe configmap spark-app-code -n $NAMESPACE
+            exit 1
+        else
+            print_success "Spark streaming consumer appears to be starting correctly"
+        fi
+    else
+        print_warning "No spark-streaming-consumer pod found yet"
+    fi
+else
+    print_error "Failed to apply Spark streaming configuration"
+    exit 1
+fi
 
 print_success "Spark streaming infrastructure deployed successfully"
 
