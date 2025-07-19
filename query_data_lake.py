@@ -17,7 +17,7 @@ from typing import Optional, List, Dict, Any
 class DeltaLakeQueryTool:
     """Tool for querying Delta Lake data stored in MinIO"""
     
-    def __init__(self, endpoint_url='http://192.168.49.2:30900'):
+    def __init__(self, endpoint_url='http://192.168.49.2:30900', dataset='acra'):
         """Initialize the query tool with MinIO configuration"""
         self.s3_client = boto3.client(
             's3',
@@ -28,7 +28,20 @@ class DeltaLakeQueryTool:
             region_name='us-east-1'
         )
         self.bucket = 'bronze'
-        self.prefix = 'acra_companies/'
+        self.dataset = dataset
+        
+        # Set dataset-specific configuration
+        if dataset == 'acra':
+            self.prefix = 'acra_companies/'
+            self.default_search_column = 'entity_name'
+        elif dataset == 'singstat':
+            self.prefix = 'singstat_economics/'
+            self.default_search_column = 'data_series_title'
+        elif dataset == 'ura':
+            self.prefix = 'ura_geospatial/'
+            self.default_search_column = 'project'
+        else:
+            raise ValueError(f"Unsupported dataset: {dataset}. Use 'acra', 'singstat', or 'ura'")
         
     def load_data(self, max_files: Optional[int] = None) -> pd.DataFrame:
         """Load all Delta Lake data into a pandas DataFrame"""
@@ -76,9 +89,9 @@ class DeltaLakeQueryTool:
             print(f"❌ Error loading data: {e}")
             return pd.DataFrame()
     
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self, max_files: Optional[int] = None) -> Dict[str, Any]:
         """Get a summary of the data"""
-        df = self.load_data(max_files=5)  # Sample for summary
+        df = self.load_data(max_files=max_files)  # Load all data by default
         
         if df.empty:
             return {"error": "No data available"}
@@ -91,12 +104,33 @@ class DeltaLakeQueryTool:
             "sample_data": df.head(3).to_dict('records')
         }
         
-        # Add business insights
-        if 'entity_type' in df.columns:
-            summary['entity_types'] = df['entity_type'].value_counts().head(10).to_dict()
-        
-        if 'reg_postal_code' in df.columns:
-            summary['top_postal_codes'] = df['reg_postal_code'].value_counts().head(10).to_dict()
+        # Add dataset-specific business insights
+        if self.dataset == 'acra':
+            if 'entity_type' in df.columns:
+                summary['entity_types'] = df['entity_type'].value_counts().head(10).to_dict()
+            
+            if 'reg_postal_code' in df.columns:
+                summary['top_postal_codes'] = df['reg_postal_code'].value_counts().head(10).to_dict()
+                
+        elif self.dataset == 'singstat':
+            if 'level_1' in df.columns:
+                summary['top_categories'] = df['level_1'].value_counts().head(10).to_dict()
+            
+            if 'unit' in df.columns:
+                summary['measurement_units'] = df['unit'].value_counts().head(10).to_dict()
+                
+            if 'source' in df.columns:
+                summary['data_sources'] = df['source'].value_counts().head(10).to_dict()
+                
+            if 'period' in df.columns:
+                summary['latest_periods'] = df['period'].value_counts().head(10).to_dict()
+                
+        elif self.dataset == 'ura':
+            if 'type_of_area' in df.columns:
+                summary['area_types'] = df['type_of_area'].value_counts().head(10).to_dict()
+            
+            if 'tenure' in df.columns:
+                summary['tenure_types'] = df['tenure'].value_counts().head(10).to_dict()
         
         if 'bronze_ingestion_timestamp' in df.columns:
             df['bronze_ingestion_timestamp'] = pd.to_datetime(df['bronze_ingestion_timestamp'])
@@ -107,8 +141,11 @@ class DeltaLakeQueryTool:
         
         return summary
     
-    def search_entities(self, search_term: str, column: str = 'entity_name') -> pd.DataFrame:
+    def search_entities(self, search_term: str, column: str = None) -> pd.DataFrame:
         """Search for entities by name or other fields"""
+        if column is None:
+            column = self.default_search_column
+            
         print(f"🔍 Searching for '{search_term}' in {column}...")
         
         df = self.load_data()
@@ -195,14 +232,127 @@ class DeltaLakeQueryTool:
             return None
         
         return query_func(df)
+    
+    def analyze_economic_indicators(self) -> Dict[str, Any]:
+        """Analyze SingStat economic indicators (SingStat dataset only)"""
+        if self.dataset != 'singstat':
+            print("❌ Economic indicators analysis only available for SingStat dataset")
+            return {}
+        
+        df = self.load_data()
+        if df.empty:
+            return {}
+        
+        analysis = {}
+        
+        # Analyze by categories
+        if 'level_1' in df.columns:
+            analysis['categories'] = df['level_1'].value_counts().to_dict()
+        
+        # Analyze data frequency
+        if 'period' in df.columns:
+            # Extract year from period for trend analysis
+            df['year'] = df['period'].astype(str).str[:4]
+            analysis['data_by_year'] = df['year'].value_counts().sort_index().to_dict()
+        
+        # Analyze value ranges
+        if 'value' in df.columns:
+            df['value'] = pd.to_numeric(df['value'], errors='coerce')
+            analysis['value_statistics'] = {
+                'mean': df['value'].mean(),
+                'median': df['value'].median(),
+                'min': df['value'].min(),
+                'max': df['value'].max(),
+                'std': df['value'].std()
+            }
+        
+        return analysis
+    
+    def get_time_series_data(self, series_title: str) -> pd.DataFrame:
+        """Get time series data for a specific indicator (SingStat dataset only)"""
+        if self.dataset != 'singstat':
+            print("❌ Time series analysis only available for SingStat dataset")
+            return pd.DataFrame()
+        
+        df = self.load_data()
+        if df.empty:
+            return df
+        
+        # Filter by series title
+        if 'data_series_title' in df.columns:
+            mask = df['data_series_title'].str.contains(series_title, case=False, na=False)
+            series_data = df[mask].copy()
+            
+            if not series_data.empty and 'period' in series_data.columns and 'value' in series_data.columns:
+                # Sort by period for time series
+                series_data = series_data.sort_values('period')
+                series_data['value'] = pd.to_numeric(series_data['value'], errors='coerce')
+                
+            return series_data
+        
+        return pd.DataFrame()
+
+def demo():
+    """Example usage of the Delta Lake query tool"""
+    print("=== Delta Lake Query Tool Demo ===")
+    
+    # Demo with ACRA dataset
+    print("\n🏢 ACRA Dataset Analysis:")
+    acra_tool = DeltaLakeQueryTool(dataset='acra')
+    
+    acra_summary = acra_tool.get_summary()
+    print(f"Total ACRA records: {acra_summary.get('total_records', 0)}")
+    
+    # Search for companies
+    acra_results = acra_tool.search_entities('PTE LTD')
+    if not acra_results.empty:
+        print(f"Found {len(acra_results)} companies with 'PTE LTD'")
+    
+    # Demo with SingStat dataset
+    print("\n📊 SingStat Dataset Analysis:")
+    singstat_tool = DeltaLakeQueryTool(dataset='singstat')
+    
+    singstat_summary = singstat_tool.get_summary()
+    print(f"Total SingStat records: {singstat_summary.get('total_records', 0)}")
+    
+    # Analyze economic indicators
+    econ_analysis = singstat_tool.analyze_economic_indicators()
+    if econ_analysis:
+        print("Economic indicators analysis:")
+        if 'categories' in econ_analysis:
+            print(f"Top categories: {list(econ_analysis['categories'].keys())[:5]}")
+    
+    # Search for GDP data
+    gdp_data = singstat_tool.search_entities('GDP')
+    if not gdp_data.empty:
+        print(f"Found {len(gdp_data)} GDP-related records")
+    
+    # Get time series for a specific indicator
+    gdp_series = singstat_tool.get_time_series_data('Gross Domestic Product')
+    if not gdp_series.empty:
+        print(f"GDP time series data: {len(gdp_series)} records")
+    
+    # Demo with URA dataset
+    print("\n🏘️ URA Dataset Analysis:")
+    ura_tool = DeltaLakeQueryTool(dataset='ura')
+    
+    ura_summary = ura_tool.get_summary()
+    print(f"Total URA records: {ura_summary.get('total_records', 0)}")
+    
+    # Search for property data
+    ura_results = ura_tool.search_entities('Condo')
+    if not ura_results.empty:
+        print(f"Found {len(ura_results)} condo-related records")
 
 def main():
     """Command-line interface for the query tool"""
     parser = argparse.ArgumentParser(description='Query Delta Lake data')
-    parser.add_argument('action', choices=['summary', 'search', 'recent', 'filter', 'export'],
+    parser.add_argument('action', choices=['summary', 'search', 'recent', 'filter', 'export', 'demo'],
                        help='Action to perform')
+    parser.add_argument('--dataset', choices=['acra', 'singstat', 'ura'], default='acra',
+                       help='Dataset to query')
     parser.add_argument('--search-term', help='Term to search for')
-    parser.add_argument('--search-column', default='entity_name', help='Column to search in')
+    parser.add_argument('--search-column', help='Column to search in')
     parser.add_argument('--hours', type=int, default=24, help='Hours for recent data')
     parser.add_argument('--filter', help='JSON string of filters')
     parser.add_argument('--output', help='Output CSV filename')
@@ -210,8 +360,12 @@ def main():
     
     args = parser.parse_args()
     
+    if args.action == 'demo':
+        demo()
+        return
+    
     # Initialize query tool
-    query_tool = DeltaLakeQueryTool(endpoint_url=args.endpoint)
+    query_tool = DeltaLakeQueryTool(endpoint_url=args.endpoint, dataset=args.dataset)
     
     if args.action == 'summary':
         summary = query_tool.get_summary()

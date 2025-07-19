@@ -8,7 +8,7 @@ import os
 import json
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
-from pyspark.sql.types import *
+import pyspark.sql.types as T
 from delta import *
 import logging
 
@@ -84,19 +84,19 @@ class SparkStreamingConsumer:
         logger.info("Starting ACRA stream processing...")
         
         # Use flexible MapType for processed_data to handle varying field sets
-        processed_data_schema = MapType(StringType(), StringType(), True)
+        processed_data_schema = T.MapType(T.StringType(), T.StringType(), True)
         
         # Define schema for the complete DataRecord
-        acra_schema = StructType([
-            StructField("source", StringType(), True),
-            StructField("timestamp", StringType(), True),
-            StructField("data_type", StringType(), True),
-            StructField("raw_data", MapType(StringType(), StringType()), True),
-            StructField("processed_data", processed_data_schema, True),
-            StructField("record_id", StringType(), True),
-            StructField("quality_score", DoubleType(), True),
-            StructField("validation_errors", ArrayType(StringType()), True),
-            StructField("processing_notes", StringType(), True)
+        acra_schema = T.StructType([
+            T.StructField("source", T.StringType(), True),
+            T.StructField("timestamp", T.StringType(), True),
+            T.StructField("data_type", T.StringType(), True),
+            T.StructField("raw_data", T.MapType(T.StringType(), T.StringType()), True),
+            T.StructField("processed_data", processed_data_schema, True),
+            T.StructField("record_id", T.StringType(), True),
+            T.StructField("quality_score", T.DoubleType(), True),
+            T.StructField("validation_errors", T.ArrayType(T.StringType()), True),
+            T.StructField("processing_notes", T.StringType(), True)
         ])
         
         # Create stream
@@ -138,41 +138,86 @@ class SparkStreamingConsumer:
         return query
     
     def process_singstat_stream(self):
-        """Process SingStat economics data stream"""
+        """Process SingStat economics data stream with full time series data"""
         logger.info("Starting SingStat stream processing...")
         
-        # Define schema for SingStat data
-        singstat_schema = StructType([
-            StructField("table_id", StringType(), True),
-            StructField("series_id", StringType(), True),
-            StructField("data_type", StringType(), True),
-            StructField("period", StringType(), True),
-            StructField("value", StringType(), True),
-            StructField("unit", StringType(), True),
-            StructField("source", StringType(), True),
-            StructField("ingestion_timestamp", StringType(), True)
+        # Define schema for the complete DataRecord structure with proper time_series_data handling
+        singstat_schema = T.StructType([
+            T.StructField("source", T.StringType(), True),
+            T.StructField("timestamp", T.StringType(), True),
+            T.StructField("data_type", T.StringType(), True),
+            T.StructField("raw_data", T.MapType(T.StringType(), T.StringType()), True),
+            T.StructField("processed_data", T.StructType([
+                T.StructField("resource_id", T.StringType(), True),
+                T.StructField("dataset_title", T.StringType(), True),
+                T.StructField("series_no", T.StringType(), True),
+                T.StructField("indicator_name", T.StringType(), True),
+                T.StructField("unit_of_measure", T.StringType(), True),
+                T.StructField("frequency", T.StringType(), True),
+                T.StructField("data_source", T.StringType(), True),
+                T.StructField("time_series_data", T.MapType(T.StringType(), T.StringType()), True),
+                T.StructField("latest_period", T.StringType(), True),
+                T.StructField("latest_value", T.StringType(), True),
+                T.StructField("total_periods", T.StringType(), True),
+                T.StructField("data_last_updated", T.StringType(), True),
+                T.StructField("table_title", T.StringType(), True)
+            ]), True),
+            T.StructField("record_id", T.StringType(), True),
+            T.StructField("quality_score", T.DoubleType(), True),
+            T.StructField("validation_errors", T.ArrayType(T.StringType()), True),
+            T.StructField("processing_notes", T.StringType(), True)
         ])
         
         kafka_stream = self.create_kafka_stream("singstat-economics")
         
+        # Parse the JSON and extract the time series data
         parsed_stream = kafka_stream.select(
-            from_json(col("value").cast("string"), singstat_schema).alias("data"),
+            from_json(col("value").cast("string"), singstat_schema).alias("record"),
             col("timestamp").alias("kafka_timestamp"),
             col("partition"),
             col("offset")
-        ).select(
-            col("data.*"),
+        )
+        
+        # Extract full time series data by exploding the time_series_data map
+        # This preserves all historical data points for complete analysis
+        exploded_stream = parsed_stream.select(
+            col("record.processed_data.resource_id").alias("resource_id"),
+            col("record.processed_data.dataset_title").alias("dataset_title"),
+            col("record.processed_data.series_no").alias("series_no"),
+            col("record.processed_data.indicator_name").alias("indicator_name"),
+            col("record.processed_data.unit_of_measure").alias("unit"),
+            col("record.processed_data.frequency").alias("frequency"),
+            col("record.processed_data.data_source").alias("data_source"),
+            col("record.processed_data.total_periods").alias("total_periods"),
+            col("record.processed_data.data_last_updated").alias("data_last_updated"),
+            col("record.processed_data.table_title").alias("table_title"),
+            # Explode time_series_data to get all period-value pairs
+            explode(col("record.processed_data.time_series_data")).alias("period", "value"),
+            # Metadata fields
+            col("record.source").alias("source"),
+            col("record.timestamp").alias("ingestion_timestamp"),
+            col("record.data_type").alias("data_type"),
+            col("record.record_id").alias("record_id"),
             col("kafka_timestamp"),
             col("partition"),
             col("offset"),
             current_timestamp().alias("bronze_ingestion_timestamp")
         )
         
-        query = parsed_stream.writeStream \
+        # Filter out null or empty values to ensure data quality
+        flattened_stream = exploded_stream.filter(
+            col("period").isNotNull() & 
+            col("value").isNotNull() & 
+            (col("period") != "") & 
+            (col("value") != "")
+        )
+        
+        query = flattened_stream.writeStream \
             .format("delta") \
             .outputMode("append") \
             .option("checkpointLocation", "/tmp/spark-checkpoints/singstat-bronze") \
             .option("path", f"{self.delta_path}singstat_economics") \
+            .option("mergeSchema", "true") \
             .trigger(processingTime="30 seconds") \
             .start()
         
@@ -183,18 +228,18 @@ class SparkStreamingConsumer:
         logger.info("Starting URA stream processing...")
         
         # Define schema for URA data
-        ura_schema = StructType([
-            StructField("project", StringType(), True),
-            StructField("street", StringType(), True),
-            StructField("x", StringType(), True),
-            StructField("y", StringType(), True),
-            StructField("lease_commence_date", StringType(), True),
-            StructField("property_type", StringType(), True),
-            StructField("district", StringType(), True),
-            StructField("tenure", StringType(), True),
-            StructField("built_year", StringType(), True),
-            StructField("source", StringType(), True),
-            StructField("ingestion_timestamp", StringType(), True)
+        ura_schema = T.StructType([
+            T.StructField("project", T.StringType(), True),
+            T.StructField("street", T.StringType(), True),
+            T.StructField("x", T.StringType(), True),
+            T.StructField("y", T.StringType(), True),
+            T.StructField("lease_commence_date", T.StringType(), True),
+            T.StructField("property_type", T.StringType(), True),
+            T.StructField("district", T.StringType(), True),
+            T.StructField("tenure", T.StringType(), True),
+            T.StructField("built_year", T.StringType(), True),
+            T.StructField("source", T.StringType(), True),
+            T.StructField("ingestion_timestamp", T.StringType(), True)
         ])
         
         kafka_stream = self.create_kafka_stream("ura-geospatial")
@@ -261,13 +306,8 @@ class SparkStreamingConsumer:
             return False
     
     def start_all_streams(self):
-        """Start all streaming queries with connectivity testing"""
+        """Start all streaming queries"""
         logger.info("Starting all Kafka to Delta Lake streams...")
-        
-        # Test Kafka connectivity first
-        if not self.test_kafka_connectivity():
-            logger.error("Kafka connectivity test failed. Aborting stream startup.")
-            return
         
         queries = [
             self.process_acra_stream(),
@@ -292,7 +332,6 @@ class SparkStreamingConsumer:
             for query in queries:
                 query.stop()
         
-        self.spark.stop()
         logger.info("All streams stopped")
 
 def main():
