@@ -40,8 +40,11 @@ class DeltaLakeQueryTool:
         elif dataset == 'ura':
             self.prefix = 'ura_geospatial/'
             self.default_search_column = 'project'
+        elif dataset == 'commercial_rental':
+            self.prefix = 'commercial_rental_index/'
+            self.default_search_column = 'property_type'
         else:
-            raise ValueError(f"Unsupported dataset: {dataset}. Use 'acra', 'singstat', or 'ura'")
+            raise ValueError(f"Unsupported dataset: {dataset}. Use 'acra', 'singstat', 'ura', or 'commercial_rental'")
         
     def load_data(self, max_files: Optional[int] = None) -> pd.DataFrame:
         """Load all Delta Lake data into a pandas DataFrame"""
@@ -131,6 +134,21 @@ class DeltaLakeQueryTool:
             
             if 'tenure' in df.columns:
                 summary['tenure_types'] = df['tenure'].value_counts().head(10).to_dict()
+                
+        elif self.dataset == 'commercial_rental':
+            if 'property_type' in df.columns:
+                summary['property_types'] = df['property_type'].value_counts().to_dict()
+            
+            if 'quarter' in df.columns:
+                summary['quarters'] = df['quarter'].value_counts().head(10).to_dict()
+                
+            if 'rental_index' in df.columns:
+                df['rental_index'] = pd.to_numeric(df['rental_index'], errors='coerce')
+                summary['rental_index_stats'] = {
+                    'mean': df['rental_index'].mean(),
+                    'min': df['rental_index'].min(),
+                    'max': df['rental_index'].max()
+                }
         
         if 'bronze_ingestion_timestamp' in df.columns:
             df['bronze_ingestion_timestamp'] = pd.to_datetime(df['bronze_ingestion_timestamp'])
@@ -268,6 +286,48 @@ class DeltaLakeQueryTool:
         
         return analysis
     
+    def analyze_commercial_rental_trends(self) -> Dict[str, Any]:
+        """Analyze commercial rental index trends (Commercial Rental dataset only)"""
+        if self.dataset != 'commercial_rental':
+            print("❌ Commercial rental analysis only available for Commercial Rental dataset")
+            return {}
+        
+        df = self.load_data()
+        if df.empty:
+            return {}
+        
+        analysis = {}
+        
+        # Analyze by property type
+        if 'property_type' in df.columns:
+            analysis['property_types'] = df['property_type'].value_counts().to_dict()
+        
+        # Analyze by quarters
+        if 'quarter' in df.columns:
+            analysis['quarters'] = df['quarter'].value_counts().sort_index().to_dict()
+        
+        # Analyze rental index statistics
+        if 'rental_index' in df.columns:
+            df['rental_index'] = pd.to_numeric(df['rental_index'], errors='coerce')
+            analysis['rental_index_statistics'] = {
+                'mean': df['rental_index'].mean(),
+                'median': df['rental_index'].median(),
+                'min': df['rental_index'].min(),
+                'max': df['rental_index'].max(),
+                'std': df['rental_index'].std()
+            }
+            
+            # Analyze by property type
+            if 'property_type' in df.columns:
+                analysis['rental_index_by_property_type'] = df.groupby('property_type')['rental_index'].agg({
+                    'mean': 'mean',
+                    'min': 'min',
+                    'max': 'max',
+                    'latest': 'last'
+                }).to_dict()
+        
+        return analysis
+    
     def get_time_series_data(self, series_title: str) -> pd.DataFrame:
         """Get time series data for a specific indicator (SingStat dataset only)"""
         if self.dataset != 'singstat':
@@ -343,13 +403,40 @@ def demo():
     ura_results = ura_tool.search_entities('Condo')
     if not ura_results.empty:
         print(f"Found {len(ura_results)} condo-related records")
+    
+    # Demo with Commercial Rental dataset
+    print("\n🏢 Commercial Rental Dataset Analysis:")
+    rental_tool = DeltaLakeQueryTool(dataset='commercial_rental')
+    
+    rental_summary = rental_tool.get_summary()
+    print(f"Total Commercial Rental records: {rental_summary.get('total_records', 0)}")
+    
+    # Analyze commercial rental trends
+    rental_analysis = rental_tool.analyze_commercial_rental_trends()
+    if rental_analysis:
+        print("Commercial rental trends analysis:")
+        if 'property_types' in rental_analysis:
+            print(f"Property types: {list(rental_analysis['property_types'].keys())}")
+        if 'rental_index_statistics' in rental_analysis:
+            stats = rental_analysis['rental_index_statistics']
+            print(f"Rental index range: {stats.get('min', 'N/A')} - {stats.get('max', 'N/A')}")
+    
+    # Search for office rental data
+    office_results = rental_tool.search_entities('office')
+    if not office_results.empty:
+        print(f"Found {len(office_results)} office rental records")
+    
+    # Search for retail rental data
+    retail_results = rental_tool.search_entities('retail')
+    if not retail_results.empty:
+        print(f"Found {len(retail_results)} retail rental records")
 
 def main():
     """Command-line interface for the query tool"""
     parser = argparse.ArgumentParser(description='Query Delta Lake data')
     parser.add_argument('action', choices=['summary', 'search', 'recent', 'filter', 'export', 'demo'],
                        help='Action to perform')
-    parser.add_argument('--dataset', choices=['acra', 'singstat', 'ura'], default='acra',
+    parser.add_argument('--dataset', choices=['acra', 'singstat', 'ura', 'commercial_rental'], default='acra',
                        help='Dataset to query')
     parser.add_argument('--search-term', help='Term to search for')
     parser.add_argument('--search-column', help='Column to search in')

@@ -7,6 +7,7 @@ Cleans, validates, and standardizes data from Bronze to Silver layer
 import os
 import logging
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
@@ -309,15 +310,158 @@ class BronzeToSilverETL:
         
         self.write_silver_table(stats_df, "data_quality_stats", "append")
     
-    def run_etl(self):
-        """Run complete Bronze to Silver ETL process"""
-        logger.info("Starting Bronze to Silver ETL process...")
+    def transform_commercial_rental_index(self):
+        """Transform Commercial Rental Index data from Bronze to Silver"""
+        logger.info("Transforming Commercial Rental Index data...")
+        
+        bronze_df = self.read_bronze_table("commercial_rental_index")
+        if bronze_df is None:
+            logger.warning("No Commercial Rental Index bronze data found")
+            return
+        
+        # Data quality checks and transformations
+        silver_df = bronze_df \
+            .filter(col("quarter").isNotNull()) \
+            .filter(col("property_type").isNotNull()) \
+            .filter(col("rental_index").isNotNull()) \
+            .withColumn("quarter_clean", upper(trim(col("quarter")))) \
+            .withColumn("property_type_clean", upper(trim(col("property_type")))) \
+            .withColumn("rental_index_numeric", 
+                       when(col("rental_index").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("rental_index").cast("double")).otherwise(None)) \
+            .withColumn("base_value_numeric", 
+                       when(col("base_value").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("base_value").cast("double")).otherwise(None)) \
+            .withColumn("base_period_clean", trim(col("base_period"))) \
+            .withColumn("quarter_year", 
+                       when(col("quarter_clean").rlike("^[0-9]{4}-Q[1-4]$"), 
+                            substring(col("quarter_clean"), 1, 4).cast("int")).otherwise(None)) \
+            .withColumn("quarter_number", 
+                       when(col("quarter_clean").rlike("Q[1-4]$"), 
+                            regexp_extract(col("quarter_clean"), "Q([1-4])$", 1).cast("int")).otherwise(None)) \
+            .withColumn("is_valid_rental_index", col("rental_index_numeric").isNotNull()) \
+            .withColumn("rental_index_category", 
+                       when(col("rental_index_numeric") < 100, "Below Base")
+                       .when(col("rental_index_numeric") == 100, "At Base")
+                       .when(col("rental_index_numeric") > 100, "Above Base")
+                       .otherwise("Unknown")) \
+            .withColumn("data_quality_score", 
+                       (when(col("quarter").isNotNull(), 1).otherwise(0) +
+                        when(col("property_type").isNotNull(), 1).otherwise(0) +
+                        when(col("rental_index_numeric").isNotNull(), 1).otherwise(0) +
+                        when(col("quarter_year").isNotNull(), 1).otherwise(0)) / 4.0) \
+            .withColumn("silver_processed_timestamp", current_timestamp())
+        
+        # Remove duplicates based on quarter and property type (keep latest)
+        # Also remove duplicates from multiple source files
+        window_spec = Window.partitionBy("quarter_clean", "property_type_clean") \
+                           .orderBy(desc("bronze_ingestion_timestamp"), desc("silver_processed_timestamp"))
+        silver_df = silver_df \
+            .withColumn("row_number", row_number().over(window_spec)) \
+            .filter(col("row_number") == 1) \
+            .drop("row_number")
+        
+        # Select final columns
+        final_df = silver_df.select(
+            col("record_id"),
+            col("quarter_clean").alias("quarter"),
+            col("quarter_year"),
+            col("quarter_number"),
+            col("property_type_clean").alias("property_type"),
+            col("rental_index").alias("rental_index_original"),
+            col("rental_index_numeric"),
+            col("rental_index_category"),
+            col("is_valid_rental_index"),
+            col("base_period_clean").alias("base_period"),
+            col("base_value").alias("base_value_original"),
+            col("base_value_numeric"),
+            col("data_quality_score"),
+            col("quality_score").alias("bronze_quality_score"),
+            col("source"),
+            col("ingestion_timestamp"),
+            col("bronze_ingestion_timestamp"),
+            col("silver_processed_timestamp")
+        )
+        
+        self.write_silver_table(final_df, "commercial_rental_index_clean")
+        
+        # Create summary statistics
+        stats_df = final_df.agg(
+            count("*").alias("total_records"),
+            countDistinct("quarter").alias("unique_quarters"),
+            countDistinct("property_type").alias("unique_property_types"),
+            sum(when(col("is_valid_rental_index"), 1).otherwise(0)).alias("valid_rental_indices"),
+            avg("data_quality_score").alias("avg_quality_score"),
+            avg("rental_index_numeric").alias("avg_rental_index"),
+            min("quarter_year").alias("earliest_year"),
+            max("quarter_year").alias("latest_year")
+        ).withColumn("table_name", lit("commercial_rental_index_clean")) \
+         .withColumn("processed_timestamp", current_timestamp())
+        
+        self.write_silver_table(stats_df, "data_quality_stats", "append")
+
+    def run_etl_parallel(self):
+        """Run complete Bronze to Silver ETL process with parallel execution"""
+        logger.info("Starting Bronze to Silver ETL process with parallel execution...")
+        
+        # Define transformation tasks
+        transformation_tasks = [
+            ("ACRA Companies", self.transform_acra_companies),
+            ("SingStat Economics", self.transform_singstat_economics),
+            ("URA Geospatial", self.transform_ura_geospatial),
+            ("Commercial Rental Index", self.transform_commercial_rental_index)
+        ]
         
         try:
-            # Transform all data sources
+            # Execute transformations in parallel
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                # Submit all tasks
+                future_to_task = {
+                    executor.submit(task_func): task_name 
+                    for task_name, task_func in transformation_tasks
+                }
+                
+                # Process completed tasks
+                completed_tasks = []
+                failed_tasks = []
+                
+                for future in as_completed(future_to_task):
+                    task_name = future_to_task[future]
+                    try:
+                        future.result()  # This will raise an exception if the task failed
+                        completed_tasks.append(task_name)
+                        logger.info(f"✓ {task_name} transformation completed successfully")
+                    except Exception as e:
+                        failed_tasks.append((task_name, str(e)))
+                        logger.error(f"✗ {task_name} transformation failed: {e}")
+                
+                # Report results
+                logger.info(f"ETL Summary: {len(completed_tasks)} successful, {len(failed_tasks)} failed")
+                
+                if failed_tasks:
+                    logger.error("Failed transformations:")
+                    for task_name, error in failed_tasks:
+                        logger.error(f"  - {task_name}: {error}")
+                    raise Exception(f"ETL process completed with {len(failed_tasks)} failures")
+                
+                logger.info("Bronze to Silver ETL completed successfully with parallel execution")
+                
+        except Exception as e:
+            logger.error(f"ETL process failed: {e}")
+            raise
+        finally:
+            self.spark.stop()
+    
+    def run_etl(self):
+        """Run complete Bronze to Silver ETL process (sequential - for compatibility)"""
+        logger.info("Starting Bronze to Silver ETL process (sequential mode)...")
+        
+        try:
+            # Transform all data sources sequentially
             self.transform_acra_companies()
             self.transform_singstat_economics()
             self.transform_ura_geospatial()
+            self.transform_commercial_rental_index()
             
             logger.info("Bronze to Silver ETL completed successfully")
             
@@ -328,8 +472,18 @@ class BronzeToSilverETL:
             self.spark.stop()
 
 def main():
+    """Main entry point with parallel execution option"""
+    import sys
+    
     etl = BronzeToSilverETL()
-    etl.run_etl()
+    
+    # Check for parallel execution flag
+    if len(sys.argv) > 1 and sys.argv[1] == "--parallel":
+        logger.info("Running ETL in parallel mode")
+        etl.run_etl_parallel()
+    else:
+        logger.info("Running ETL in sequential mode (use --parallel flag for parallel execution)")
+        etl.run_etl()
 
 if __name__ == "__main__":
     main()

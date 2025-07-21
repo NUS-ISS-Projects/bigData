@@ -187,6 +187,7 @@ spec:
             - --conf
             - "spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
             - /app/etl_bronze_to_silver.py
+            - --parallel
             env:
             - name: MINIO_ENDPOINT
               value: "minio-service:9000"

@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from acra_producer import ACRAProducer
 from singstat_producer import SingStatProducer
 from ura_producer import URAProducer
+from commercial_rental_producer import CommercialRentalProducer
 
 # Load environment variables
 load_dotenv()
@@ -27,7 +28,8 @@ class DataIngestionScheduler:
         self.producers = {
             'acra': ACRAProducer(self.kafka_config),
             'singstat': SingStatProducer(self.kafka_config),
-            'ura': URAProducer(self.kafka_config)
+            'ura': URAProducer(self.kafka_config),
+            'commercial_rental': CommercialRentalProducer(self.kafka_config)
         }
         
         self.running = False
@@ -59,6 +61,15 @@ class DataIngestionScheduler:
         except Exception as e:
             logger.error(f"Error in scheduled URA extraction: {e}")
     
+    def run_commercial_rental_extraction(self):
+        """Run Commercial Rental Index data extraction"""
+        try:
+            logger.info("Starting scheduled Commercial Rental Index extraction")
+            self.producers['commercial_rental'].run_extraction()
+            logger.info("Completed scheduled Commercial Rental Index extraction")
+        except Exception as e:
+            logger.error(f"Error in scheduled Commercial Rental Index extraction: {e}")
+    
     def run_all_extractions(self):
         """Run all data extractions in parallel"""
         try:
@@ -78,6 +89,10 @@ class DataIngestionScheduler:
             # URA thread
             ura_thread = threading.Thread(target=self.run_ura_extraction, name="URA-Thread")
             threads.append(ura_thread)
+            
+            # Commercial Rental thread
+            commercial_rental_thread = threading.Thread(target=self.run_commercial_rental_extraction, name="CommercialRental-Thread")
+            threads.append(commercial_rental_thread)
             
             # Start all threads
             for thread in threads:
@@ -128,6 +143,9 @@ class DataIngestionScheduler:
             # URA data - daily at 4 AM (property transactions updated regularly)
             schedule.every().day.at("04:00").do(self.run_ura_extraction)
             
+            # Commercial Rental Index - daily at 5 AM (rental index updated quarterly)
+            schedule.every().day.at("05:00").do(self.run_commercial_rental_extraction)
+            
             # Full extraction cycle - weekly on Sundays at 1 AM
             schedule.every().sunday.at("01:00").do(self.run_all_extractions)
             
@@ -137,6 +155,7 @@ class DataIngestionScheduler:
             schedule.every(5).minutes.do(self.run_singstat_extraction)
             schedule.every(5).minutes.do(self.run_acra_extraction)
             schedule.every(5).minutes.do(self.run_ura_extraction)
+            schedule.every(5).minutes.do(self.run_commercial_rental_extraction)
             
             logger.info("Development data extraction schedules configured")
     
@@ -160,6 +179,10 @@ class DataIngestionScheduler:
             # URA thread
             ura_thread = threading.Thread(target=self.run_ura_extraction, name="Initial-URA-Thread")
             threads.append(ura_thread)
+            
+            # Commercial Rental thread
+            commercial_rental_thread = threading.Thread(target=self.run_commercial_rental_extraction, name="Initial-CommercialRental-Thread")
+            threads.append(commercial_rental_thread)
             
             # Start all threads
             for thread in threads:
