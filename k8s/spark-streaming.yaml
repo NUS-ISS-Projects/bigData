@@ -169,7 +169,7 @@ spec:
             command: ["/opt/bitnami/spark/bin/spark-submit"]
             args:
             - --master
-            - local[2]
+            - local[*]
             - --packages
             - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,io.delta:delta-spark_2.12:3.0.0
             - --conf
@@ -202,11 +202,11 @@ spec:
               mountPath: /tmp/spark-config
             resources:
               requests:
-                memory: "2Gi"
-                cpu: "500m"
-              limits:
-                memory: "4Gi"
+                memory: "3Gi"
                 cpu: "1000m"
+              limits:
+                memory: "6Gi"
+                cpu: "2000m"
           volumes:
           - name: spark-app
             configMap:

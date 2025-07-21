@@ -11,6 +11,7 @@ from acra_producer import ACRAProducer
 from singstat_producer import SingStatProducer
 from ura_producer import URAProducer
 from commercial_rental_producer import CommercialRentalProducer
+from government_expenditure_producer import GovernmentExpenditureProducer
 
 # Load environment variables
 load_dotenv()
@@ -29,7 +30,8 @@ class DataIngestionScheduler:
             'acra': ACRAProducer(self.kafka_config),
             'singstat': SingStatProducer(self.kafka_config),
             'ura': URAProducer(self.kafka_config),
-            'commercial_rental': CommercialRentalProducer(self.kafka_config)
+            'commercial_rental': CommercialRentalProducer(self.kafka_config),
+            'government_expenditure': GovernmentExpenditureProducer(self.kafka_config)
         }
         
         self.running = False
@@ -70,6 +72,15 @@ class DataIngestionScheduler:
         except Exception as e:
             logger.error(f"Error in scheduled Commercial Rental Index extraction: {e}")
     
+    def run_government_expenditure_extraction(self):
+        """Run Government Expenditure data extraction"""
+        try:
+            logger.info("Starting scheduled Government Expenditure extraction")
+            self.producers['government_expenditure'].run_extraction()
+            logger.info("Completed scheduled Government Expenditure extraction")
+        except Exception as e:
+            logger.error(f"Error in scheduled Government Expenditure extraction: {e}")
+    
     def run_all_extractions(self):
         """Run all data extractions in parallel"""
         try:
@@ -93,6 +104,10 @@ class DataIngestionScheduler:
             # Commercial Rental thread
             commercial_rental_thread = threading.Thread(target=self.run_commercial_rental_extraction, name="CommercialRental-Thread")
             threads.append(commercial_rental_thread)
+            
+            # Government Expenditure thread
+            government_expenditure_thread = threading.Thread(target=self.run_government_expenditure_extraction, name="GovernmentExpenditure-Thread")
+            threads.append(government_expenditure_thread)
             
             # Start all threads
             for thread in threads:
@@ -146,6 +161,9 @@ class DataIngestionScheduler:
             # Commercial Rental Index - daily at 5 AM (rental index updated quarterly)
             schedule.every().day.at("05:00").do(self.run_commercial_rental_extraction)
             
+            # Government Expenditure - weekly on Sundays at 6 AM (updated annually)
+            schedule.every().sunday.at("06:00").do(self.run_government_expenditure_extraction)
+            
             # Full extraction cycle - weekly on Sundays at 1 AM
             schedule.every().sunday.at("01:00").do(self.run_all_extractions)
             
@@ -156,6 +174,7 @@ class DataIngestionScheduler:
             schedule.every(5).minutes.do(self.run_acra_extraction)
             schedule.every(5).minutes.do(self.run_ura_extraction)
             schedule.every(5).minutes.do(self.run_commercial_rental_extraction)
+            schedule.every(5).minutes.do(self.run_government_expenditure_extraction)
             
             logger.info("Development data extraction schedules configured")
     
@@ -183,6 +202,10 @@ class DataIngestionScheduler:
             # Commercial Rental thread
             commercial_rental_thread = threading.Thread(target=self.run_commercial_rental_extraction, name="Initial-CommercialRental-Thread")
             threads.append(commercial_rental_thread)
+            
+            # Government Expenditure thread
+            government_expenditure_thread = threading.Thread(target=self.run_government_expenditure_extraction, name="Initial-GovernmentExpenditure-Thread")
+            threads.append(government_expenditure_thread)
             
             # Start all threads
             for thread in threads:

@@ -344,6 +344,98 @@ class SparkStreamingConsumer:
         
         return query
     
+    def process_government_expenditure_stream(self):
+        """Process Government Expenditure data stream"""
+        logger.info("Starting Government Expenditure stream processing...")
+        
+        # Define schema for Government Expenditure data based on the DataRecord structure
+        gov_expenditure_schema = T.StructType([
+            T.StructField("source", T.StringType(), True),
+            T.StructField("timestamp", T.StringType(), True),
+            T.StructField("data_type", T.StringType(), True),
+            T.StructField("raw_data", T.StructType([
+                T.StructField("_id", T.StringType(), True),
+                T.StructField("financial_year", T.StringType(), True),
+                T.StructField("actual_revised_estimated", T.StringType(), True),
+                T.StructField("type", T.StringType(), True),
+                T.StructField("category", T.StringType(), True),
+                T.StructField("class", T.StringType(), True),
+                T.StructField("amount_in_million", T.StringType(), True)
+            ]), True),
+            T.StructField("processed_data", T.StructType([
+                T.StructField("record_id", T.StringType(), True),
+                T.StructField("financial_year", T.IntegerType(), True),
+                T.StructField("status", T.StringType(), True),
+                T.StructField("expenditure_type", T.StringType(), True),
+                T.StructField("category", T.StringType(), True),
+                T.StructField("expenditure_class", T.StringType(), True),
+                T.StructField("amount_million_sgd", T.DoubleType(), True),
+                T.StructField("amount_sgd", T.DoubleType(), True),
+                T.StructField("data_source", T.StringType(), True),
+                T.StructField("extraction_timestamp", T.StringType(), True)
+            ]), True),
+            T.StructField("record_id", T.StringType(), True),
+            T.StructField("quality_score", T.DoubleType(), True),
+            T.StructField("validation_errors", T.ArrayType(T.StringType()), True),
+            T.StructField("processing_notes", T.StringType(), True)
+        ])
+        
+        kafka_stream = self.create_kafka_stream("government-expenditure")
+        
+        # Parse JSON and extract government expenditure data
+        parsed_stream = kafka_stream.select(
+            from_json(col("value").cast("string"), gov_expenditure_schema).alias("record"),
+            col("timestamp").alias("kafka_timestamp"),
+            col("partition"),
+            col("offset")
+        ).select(
+            # Extract fields from processed_data
+            col("record.processed_data.record_id").alias("record_id"),
+            col("record.processed_data.financial_year").alias("financial_year"),
+            col("record.processed_data.status").alias("status"),
+            col("record.processed_data.expenditure_type").alias("expenditure_type"),
+            col("record.processed_data.category").alias("category"),
+            col("record.processed_data.expenditure_class").alias("expenditure_class"),
+            col("record.processed_data.amount_million_sgd").alias("amount_million_sgd"),
+            col("record.processed_data.amount_sgd").alias("amount_sgd"),
+            col("record.processed_data.data_source").alias("data_source"),
+            col("record.processed_data.extraction_timestamp").alias("extraction_timestamp"),
+            # Raw data fields for reference
+            col("record.raw_data._id").alias("original_id"),
+            # Metadata fields
+            col("record.source").alias("source"),
+            col("record.timestamp").alias("ingestion_timestamp"),
+            col("record.data_type").alias("data_type"),
+            col("record.quality_score").alias("quality_score"),
+            col("record.validation_errors").alias("validation_errors"),
+            col("record.processing_notes").alias("processing_notes"),
+            col("kafka_timestamp"),
+            col("partition"),
+            col("offset"),
+            current_timestamp().alias("bronze_ingestion_timestamp")
+        )
+        
+        # Filter out null or empty values to ensure data quality
+        filtered_stream = parsed_stream.filter(
+            col("financial_year").isNotNull() & 
+            col("expenditure_type").isNotNull() & 
+            col("category").isNotNull() &
+            col("amount_million_sgd").isNotNull() &
+            (col("expenditure_type") != "") & 
+            (col("category") != "")
+        )
+        
+        query = filtered_stream.writeStream \
+            .format("delta") \
+            .outputMode("append") \
+            .option("checkpointLocation", "/tmp/spark-checkpoints/government-expenditure-bronze") \
+            .option("path", f"{self.delta_path}government_expenditure") \
+            .option("mergeSchema", "true") \
+            .trigger(processingTime="30 seconds") \
+            .start()
+        
+        return query
+    
     def test_kafka_connectivity(self):
         """Test Kafka connectivity before starting streams"""
         try:
@@ -390,7 +482,8 @@ class SparkStreamingConsumer:
             self.process_acra_stream(),
             self.process_singstat_stream(),
             self.process_commercial_rental_stream(),
-            self.process_ura_stream()
+            self.process_ura_stream(),
+            self.process_government_expenditure_stream()
         ]
         
         logger.info(f"Started {len(queries)} streaming queries")

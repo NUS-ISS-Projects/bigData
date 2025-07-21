@@ -400,6 +400,102 @@ class BronzeToSilverETL:
         
         self.write_silver_table(stats_df, "data_quality_stats", "append")
 
+    def transform_government_expenditure(self):
+        """Transform Government Expenditure data from Bronze to Silver"""
+        logger.info("Transforming Government Expenditure data...")
+        
+        bronze_df = self.read_bronze_table("government_expenditure")
+        if bronze_df is None:
+            logger.warning("No Government Expenditure bronze data found")
+            return
+        
+        # Data quality checks and transformations
+        silver_df = bronze_df \
+            .filter(col("record_id").isNotNull()) \
+            .filter(col("financial_year").isNotNull()) \
+            .filter(col("amount_million_sgd").isNotNull()) \
+            .withColumn("record_id_clean", trim(col("record_id"))) \
+            .withColumn("financial_year_parsed", 
+                       when(col("financial_year").rlike("^[0-9]{4}$"), 
+                            col("financial_year").cast("int")).otherwise(None)) \
+            .withColumn("status_clean", upper(trim(col("status")))) \
+            .withColumn("expenditure_type_clean", upper(trim(col("expenditure_type")))) \
+            .withColumn("category_clean", trim(col("category"))) \
+            .withColumn("expenditure_class_clean", trim(col("expenditure_class"))) \
+            .withColumn("amount_million_numeric", 
+                       when(col("amount_million_sgd").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("amount_million_sgd").cast("double")).otherwise(None)) \
+            .withColumn("amount_sgd_calculated", 
+                       when(col("amount_million_numeric").isNotNull(), 
+                            col("amount_million_numeric") * 1000000).otherwise(None)) \
+            .withColumn("is_valid_amount", col("amount_million_numeric").isNotNull()) \
+            .withColumn("is_positive_amount", col("amount_million_numeric") > 0) \
+            .withColumn("expenditure_category", 
+                       when(col("amount_million_numeric") < 100, "Small")
+                       .when(col("amount_million_numeric") < 1000, "Medium")
+                       .when(col("amount_million_numeric") < 10000, "Large")
+                       .when(col("amount_million_numeric") >= 10000, "Very Large")
+                       .otherwise("Unknown")) \
+            .withColumn("decade", 
+                       when(col("financial_year_parsed").isNotNull(), 
+                            (floor(col("financial_year_parsed") / 10) * 10).cast("int")).otherwise(None)) \
+            .withColumn("data_quality_score", 
+                       (when(col("record_id").isNotNull(), 1).otherwise(0) +
+                        when(col("financial_year_parsed").isNotNull(), 1).otherwise(0) +
+                        when(col("amount_million_numeric").isNotNull(), 1).otherwise(0) +
+                        when(col("status").isNotNull(), 1).otherwise(0) +
+                        when(col("expenditure_type").isNotNull(), 1).otherwise(0)) / 5.0) \
+            .withColumn("silver_processed_timestamp", current_timestamp())
+        
+        # Remove duplicates based on record_id (keep latest)
+        window_spec = Window.partitionBy("record_id_clean") \
+                           .orderBy(desc("bronze_ingestion_timestamp"))
+        silver_df = silver_df \
+            .withColumn("row_number", row_number().over(window_spec)) \
+            .filter(col("row_number") == 1) \
+            .drop("row_number")
+        
+        # Select final columns
+        final_df = silver_df.select(
+            col("record_id_clean").alias("record_id"),
+            col("financial_year_parsed").alias("financial_year"),
+            col("decade"),
+            col("status_clean").alias("status"),
+            col("expenditure_type_clean").alias("expenditure_type"),
+            col("category_clean").alias("category"),
+            col("expenditure_class_clean").alias("expenditure_class"),
+            col("amount_million_sgd").alias("amount_million_original"),
+            col("amount_million_numeric"),
+            col("amount_sgd_calculated"),
+            col("is_valid_amount"),
+            col("is_positive_amount"),
+            col("expenditure_category"),
+            col("data_quality_score"),
+            col("source"),
+            col("ingestion_timestamp"),
+            col("bronze_ingestion_timestamp"),
+            col("silver_processed_timestamp")
+        )
+        
+        self.write_silver_table(final_df, "government_expenditure_clean")
+        
+        # Create summary statistics
+        stats_df = final_df.agg(
+            count("*").alias("total_records"),
+            countDistinct("financial_year").alias("unique_years"),
+            countDistinct("expenditure_type").alias("unique_expenditure_types"),
+            countDistinct("category").alias("unique_categories"),
+            sum(when(col("is_valid_amount"), 1).otherwise(0)).alias("valid_amounts"),
+            sum("amount_million_numeric").alias("total_expenditure_million"),
+            avg("amount_million_numeric").alias("avg_expenditure_million"),
+            avg("data_quality_score").alias("avg_quality_score"),
+            min("financial_year").alias("earliest_year"),
+            max("financial_year").alias("latest_year")
+        ).withColumn("table_name", lit("government_expenditure_clean")) \
+         .withColumn("processed_timestamp", current_timestamp())
+        
+        self.write_silver_table(stats_df, "data_quality_stats", "append")
+
     def run_etl_parallel(self):
         """Run complete Bronze to Silver ETL process with parallel execution"""
         logger.info("Starting Bronze to Silver ETL process with parallel execution...")
@@ -409,12 +505,13 @@ class BronzeToSilverETL:
             ("ACRA Companies", self.transform_acra_companies),
             ("SingStat Economics", self.transform_singstat_economics),
             ("URA Geospatial", self.transform_ura_geospatial),
-            ("Commercial Rental Index", self.transform_commercial_rental_index)
+            ("Commercial Rental Index", self.transform_commercial_rental_index),
+            ("Government Expenditure", self.transform_government_expenditure)
         ]
         
         try:
             # Execute transformations in parallel
-            with ThreadPoolExecutor(max_workers=4) as executor:
+            with ThreadPoolExecutor(max_workers=5) as executor:
                 # Submit all tasks
                 future_to_task = {
                     executor.submit(task_func): task_name 
@@ -462,6 +559,7 @@ class BronzeToSilverETL:
             self.transform_singstat_economics()
             self.transform_ura_geospatial()
             self.transform_commercial_rental_index()
+            self.transform_government_expenditure()
             
             logger.info("Bronze to Silver ETL completed successfully")
             
