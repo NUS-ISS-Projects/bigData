@@ -223,6 +223,83 @@ class SparkStreamingConsumer:
         
         return query
     
+    def process_commercial_rental_stream(self):
+        """Process Commercial Rental Index data stream"""
+        logger.info("Starting Commercial Rental stream processing...")
+        
+        # Define schema for Commercial Rental data based on the Kafka message structure
+        commercial_rental_schema = T.StructType([
+            T.StructField("source", T.StringType(), True),
+            T.StructField("timestamp", T.StringType(), True),
+            T.StructField("data_type", T.StringType(), True),
+            T.StructField("raw_data", T.StructType([
+                T.StructField("_id", T.StringType(), True),
+                T.StructField("quarter", T.StringType(), True),
+                T.StructField("property_type", T.StringType(), True),
+                T.StructField("index", T.StringType(), True)
+            ]), True),
+            T.StructField("processed_data", T.StructType([
+                T.StructField("record_id", T.StringType(), True),
+                T.StructField("quarter", T.StringType(), True),
+                T.StructField("property_type", T.StringType(), True),
+                T.StructField("rental_index", T.StringType(), True),
+                T.StructField("base_period", T.StringType(), True),
+                T.StructField("base_value", T.StringType(), True)
+            ]), True),
+            T.StructField("record_id", T.StringType(), True),
+            T.StructField("quality_score", T.DoubleType(), True),
+            T.StructField("validation_errors", T.ArrayType(T.StringType()), True),
+            T.StructField("processing_notes", T.StringType(), True)
+        ])
+        
+        kafka_stream = self.create_kafka_stream("commercial-rental-index")
+        
+        # Parse JSON and extract commercial rental data
+        parsed_stream = kafka_stream.select(
+            from_json(col("value").cast("string"), commercial_rental_schema).alias("record"),
+            col("timestamp").alias("kafka_timestamp"),
+            col("partition"),
+            col("offset")
+        ).select(
+            # Extract fields from processed_data
+            col("record.processed_data.record_id").alias("record_id"),
+            col("record.processed_data.quarter").alias("quarter"),
+            col("record.processed_data.property_type").alias("property_type"),
+            col("record.processed_data.rental_index").alias("rental_index"),
+            col("record.processed_data.base_period").alias("base_period"),
+            col("record.processed_data.base_value").alias("base_value"),
+            # Metadata fields
+            col("record.source").alias("source"),
+            col("record.timestamp").alias("ingestion_timestamp"),
+            col("record.data_type").alias("data_type"),
+            col("record.quality_score").alias("quality_score"),
+            col("kafka_timestamp"),
+            col("partition"),
+            col("offset"),
+            current_timestamp().alias("bronze_ingestion_timestamp")
+        )
+        
+        # Filter out null or empty values to ensure data quality
+        filtered_stream = parsed_stream.filter(
+            col("quarter").isNotNull() & 
+            col("property_type").isNotNull() & 
+            col("rental_index").isNotNull() &
+            (col("quarter") != "") & 
+            (col("property_type") != "") & 
+            (col("rental_index") != "")
+        )
+        
+        query = filtered_stream.writeStream \
+            .format("delta") \
+            .outputMode("append") \
+            .option("checkpointLocation", "/tmp/spark-checkpoints/commercial-rental-bronze") \
+            .option("path", f"{self.delta_path}commercial_rental_index") \
+            .option("mergeSchema", "true") \
+            .trigger(processingTime="30 seconds") \
+            .start()
+        
+        return query
+    
     def process_ura_stream(self):
         """Process URA geospatial data stream"""
         logger.info("Starting URA stream processing...")
@@ -312,6 +389,7 @@ class SparkStreamingConsumer:
         queries = [
             self.process_acra_stream(),
             self.process_singstat_stream(),
+            self.process_commercial_rental_stream(),
             self.process_ura_stream()
         ]
         
