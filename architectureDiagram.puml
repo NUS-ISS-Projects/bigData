@@ -43,15 +43,23 @@ skinparam actor {
 actor "Analyst / Policymaker" as user
 
 package "External Data Sources" {
-  cloud "data.gov.sg API" as source_biz
-  cloud "SingStat API" as source_econ
-  cloud "URA API" as source_prop
+  cloud "ACRA API\n(Business Registry)" as source_acra
+  cloud "Government Expenditure API\n(data.gov.sg)" as source_gov
+  cloud "SingStat API\n(Economic Indicators)" as source_singstat
+  cloud "URA API\n(Property Market)" as source_ura
+  cloud "Commercial Rental API\n(data.gov.sg)" as source_rental
 }
 
 node "Kubernetes Cluster (Podman Desktop)" <<K8s>> {
   package "A. Ingestion" {
-    component "Python Producers\n(K8s CronJobs)" as producers <<ELT>>
-    node "Streaming Platform\n(Apache Kafka)" as kafka <<Streaming>>
+    component "Multi-Source Producers\n(K8s CronJobs)" as producers <<ELT>>
+    node "Apache Kafka" as kafka <<Streaming>> {
+      queue "acra-companies" as topic_acra
+      queue "government-expenditure" as topic_gov
+      queue "singstat-economics" as topic_singstat
+      queue "ura-property" as topic_ura
+      queue "commercial-rental" as topic_rental
+    }
   }
 
   package "B. Storage (Data Lakehouse)" {
@@ -67,41 +75,75 @@ node "Kubernetes Cluster (Podman Desktop)" <<K8s>> {
   }
 
   package "C. Processing & Transformation" {
-    component "Apache Spark\n(ETL & Streaming)" as spark <<Engine>>
-    component "dbt (Data Build Tool)\n(Analytics Engineering)" as dbt <<AnalyticsEng>>
+    component "Spark Streaming\n(Real-time ETL)" as spark_streaming <<Engine>>
+    component "Spark ETL\n(Bronze to Silver)" as spark_etl <<Engine>>
+    component "dbt Analytics\n(Silver to Gold)" as dbt <<AnalyticsEng>> {
+      component "Staging Models" as dbt_staging
+      component "Marts Models" as dbt_marts
+    }
   }
 
-  package "D. Analytics" {
-    component "Spark MLlib & NLP\n(Model Training)" as ml_train
+  package "D. Analytics & ML" {
+    component "Economic Intelligence\n(Survival Analysis, NLP)" as ml_economic
+    component "Anomaly Detection\n(Real-time Monitoring)" as ml_anomaly
+    component "Forecasting Models\n(Time Series)" as ml_forecast
     component "MLflow\n(Experiment Tracking)" as mlflow
-    component "Prediction API\n(Flask/FastAPI)" as ml_api
+    component "Jupyter Notebooks\n(Research & Development)" as jupyter
   }
 
   package "E. Visualization & Serving" {
-    component "Streamlit Dashboard" as dashboard
+    component "Interactive Dashboards\n(Streamlit)" as dashboard
+    component "REST APIs\n(Data Access)" as rest_api
+    component "dbt Docs\n(Data Catalog)" as dbt_docs
+    component "Real-time Analytics\n(Live Monitoring)" as realtime_viz
   }
 }
 
 ' --- Data Flows ---
-source_biz --> producers
-source_econ --> producers
-source_prop --> producers
+source_acra --> producers : "ACRA Companies"
+source_gov --> producers : "Gov Expenditure"
+source_singstat --> producers : "Economic Data"
+source_ura --> producers : "Property Market"
+source_rental --> producers : "Commercial Rental"
 
-producers --> kafka : "topic: entity_events"
+producers --> topic_acra
+producers --> topic_gov
+producers --> topic_singstat
+producers --> topic_ura
+producers --> topic_rental
 
-kafka --> spark : Reads stream
+topic_acra --> spark_streaming
+topic_gov --> spark_streaming
+topic_singstat --> spark_streaming
+topic_ura --> spark_streaming
+topic_rental --> spark_streaming
 
-spark --> bronze : Writes Raw Data
-spark -> silver : Reads Bronze, Writes Cleansed
+spark_streaming --> bronze : "Real-time Ingestion"
+spark_etl --> silver : "Data Cleansing & Validation"
+bronze --> spark_etl
 
-dbt -> gold : Reads Silver, Writes Aggregated Models
+dbt_staging --> dbt_marts
+silver --> dbt_staging
+dbt_marts --> gold
 
-ml_train -> silver : Reads features
-ml_train --> mlflow : Logs experiments/models
-mlflow --> ml_api : Serves model
+silver --> ml_economic : "Feature Engineering"
+silver --> ml_anomaly : "Real-time Detection"
+silver --> ml_forecast : "Time Series Data"
 
-gold --> dashboard : Serves analytics data
-ml_api --> dashboard : Serves predictions
+ml_economic --> mlflow
+ml_anomaly --> mlflow
+ml_forecast --> mlflow
+
+gold --> dashboard : "Business Intelligence"
+gold --> rest_api : "Data Access"
+gold --> dbt_docs : "Documentation"
+silver --> realtime_viz : "Live Monitoring"
+
+mlflow --> dashboard : "ML Insights"
+jupyter --> mlflow : "Research Models"
 
 user --> dashboard
+user --> rest_api
+user --> dbt_docs
+user --> realtime_viz
 @enduml
