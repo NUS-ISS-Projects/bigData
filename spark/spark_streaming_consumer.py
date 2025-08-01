@@ -304,30 +304,56 @@ class SparkStreamingConsumer:
         """Process URA geospatial data stream"""
         logger.info("Starting URA stream processing...")
         
-        # Define schema for URA data
+        # Define schema for URA DataRecord structure
         ura_schema = T.StructType([
-            T.StructField("project", T.StringType(), True),
-            T.StructField("street", T.StringType(), True),
-            T.StructField("x", T.StringType(), True),
-            T.StructField("y", T.StringType(), True),
-            T.StructField("lease_commence_date", T.StringType(), True),
-            T.StructField("property_type", T.StringType(), True),
-            T.StructField("district", T.StringType(), True),
-            T.StructField("tenure", T.StringType(), True),
-            T.StructField("built_year", T.StringType(), True),
             T.StructField("source", T.StringType(), True),
-            T.StructField("ingestion_timestamp", T.StringType(), True)
+            T.StructField("timestamp", T.StringType(), True),
+            T.StructField("data_type", T.StringType(), True),
+            T.StructField("raw_data", T.MapType(T.StringType(), T.StringType()), True),
+            T.StructField("processed_data", T.StructType([
+                T.StructField("service_type", T.StringType(), True),
+                T.StructField("street_name", T.StringType(), True),
+                T.StructField("project_name", T.StringType(), True),
+                T.StructField("latitude", T.StringType(), True),
+                T.StructField("longitude", T.StringType(), True),
+                T.StructField("district", T.StringType(), True),
+                T.StructField("rental_median", T.StringType(), True),
+                T.StructField("rental_psf25", T.StringType(), True),
+                T.StructField("rental_psf75", T.StringType(), True),
+                T.StructField("ref_period", T.StringType(), True)
+            ]), True),
+            T.StructField("record_id", T.StringType(), True),
+            T.StructField("quality_score", T.DoubleType(), True),
+            T.StructField("validation_errors", T.ArrayType(T.StringType()), True),
+            T.StructField("processing_notes", T.StringType(), True)
         ])
         
         kafka_stream = self.create_kafka_stream("ura-geospatial")
         
+        # Parse JSON and extract URA data from DataRecord structure
         parsed_stream = kafka_stream.select(
-            from_json(col("value").cast("string"), ura_schema).alias("data"),
+            from_json(col("value").cast("string"), ura_schema).alias("record"),
             col("timestamp").alias("kafka_timestamp"),
             col("partition"),
             col("offset")
         ).select(
-            col("data.*"),
+            # Extract fields from processed_data - only fields that exist in PMI_Resi_Rental_Median source
+            col("record.processed_data.service_type").alias("service_type"),
+            col("record.processed_data.street_name").alias("street_name"),
+            col("record.processed_data.project_name").alias("project_name"),
+            col("record.processed_data.latitude").alias("latitude"),
+            col("record.processed_data.longitude").alias("longitude"),
+            col("record.processed_data.district").alias("district"),
+            # Critical rental data fields from rentalMedian array
+            col("record.processed_data.rental_median").alias("rental_median"),
+            col("record.processed_data.rental_psf25").alias("rental_psf25"),
+            col("record.processed_data.rental_psf75").alias("rental_psf75"),
+            col("record.processed_data.ref_period").alias("ref_period"),
+            # Metadata fields
+            col("record.source").alias("source"),
+            col("record.timestamp").alias("timestamp"),
+            col("record.data_type").alias("data_type"),
+            col("record.record_id").alias("record_id"),
             col("kafka_timestamp"),
             col("partition"),
             col("offset"),
@@ -339,6 +365,7 @@ class SparkStreamingConsumer:
             .outputMode("append") \
             .option("checkpointLocation", "/tmp/spark-checkpoints/ura-bronze") \
             .option("path", f"{self.delta_path}ura_geospatial") \
+            .option("mergeSchema", "true") \
             .trigger(processingTime="30 seconds") \
             .start()
         

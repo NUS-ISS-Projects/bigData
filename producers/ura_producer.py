@@ -22,16 +22,10 @@ class URAProducer(BaseProducer):
         self.access_key = os.getenv('URA_ACCESS_KEY', '99e4b0fe-aae4-4605-94b2-d480e69b8c65')  # Default from user example
         self.token = None
         
-        # Available URA services based on API documentation
-        # Prioritizing services most relevant to business analysis
+        # Available URA services based on API testing
+        # Only using PMI_Resi_Rental_Median for consistent data structure
         self.services = [
-            'PMI_Resi_Rental_Median',  # Private residential rental median (proposal requirement)
-            'PMI_Resi_Transaction',    # Private residential transactions
-            'Car_Park_Availability',   # Real-time car park availability (business activity proxy)
-            'Car_Park_Details',        # Car park details and locations
-            'PMI_Resi_Rental',         # Private residential rental
-            'PMI_Resi_Launch_Units',   # Private residential launch units
-            'PMI_Resi_Launch_Projects' # Private residential launch projects
+            'PMI_Resi_Rental_Median',  # Private residential rental median (confirmed working)
         ]
         
     def extract_data(self) -> None:
@@ -165,79 +159,38 @@ class URAProducer(BaseProducer):
             raise
     
     def transform_data(self, raw_data: Dict[str, Any], service_name: str) -> DataRecord:
-        """Transform URA raw data into standardized format"""
+        """Transform URA PMI_Resi_Rental_Median data into standardized format"""
         try:
-            # Common fields across services
+            # PMI_Resi_Rental_Median specific data structure - only fields from original source
             geospatial_data = {
                 'service_type': service_name,
-                'postal_code': raw_data.get('postalCode', raw_data.get('postal_code', '')),
-                'planning_area': raw_data.get('planningArea', raw_data.get('planning_area', '')),
-                'planning_region': raw_data.get('planningRegion', raw_data.get('planning_region', '')),
-                'subzone': raw_data.get('subzone', ''),
-                'street_name': raw_data.get('street', raw_data.get('streetName', raw_data.get('street_name', ''))),
-                'project_name': raw_data.get('project', raw_data.get('projectName', raw_data.get('project_name', ''))),
-                'transaction_date': raw_data.get('contractDate', raw_data.get('transactionDate', raw_data.get('date', ''))),
-                'latitude': raw_data.get('y', raw_data.get('latitude', '')),
-                'longitude': raw_data.get('x', raw_data.get('longitude', ''))
+                'street_name': raw_data.get('street', ''),
+                'project_name': raw_data.get('project', ''),
+                'latitude': raw_data.get('y', ''),
+                'longitude': raw_data.get('x', ''),
+                # Initialize rental fields from rentalMedian array
+                'district': '',
+                'rental_median': '',
+                'rental_psf25': '',
+                'rental_psf75': '',
+                'ref_period': ''
             }
             
-            # Service-specific transformations based on URA API structure
-            if 'Rental' in service_name:
+            # Extract rental median data if available
+            rental_median_data = raw_data.get('rentalMedian', [])
+            if rental_median_data and len(rental_median_data) > 0:
+                # Use the most recent rental data (first item)
+                latest_rental = rental_median_data[0]
                 geospatial_data.update({
-                    'property_type': raw_data.get('propertyType', ''),
-                    'district': raw_data.get('district', ''),
-                    'rental_median': raw_data.get('median', ''),
-                    'rental_max': raw_data.get('max', ''),
-                    'rental_min': raw_data.get('min', ''),
-                    'lease_term': raw_data.get('leaseTerm', ''),
-                    'area_sqm': raw_data.get('areaSqm', ''),
-                    'rental_psm': raw_data.get('rentalPsm', '')
-                })
-            elif 'Transaction' in service_name:
-                geospatial_data.update({
-                    'property_type': raw_data.get('propertyType', ''),
-                    'district': raw_data.get('district', ''),
-                    'type_of_sale': raw_data.get('typeOfSale', ''),
-                    'price': raw_data.get('price', ''),
-                    'area_sqm': raw_data.get('areaSqm', ''),
-                    'unit_price_psm': raw_data.get('unitPrice', ''),
-                    'nett_price': raw_data.get('nettPrice', ''),
-                    'floor_area_sqm': raw_data.get('floorArea', ''),
-                    'type_of_area': raw_data.get('typeOfArea', ''),
-                    'tenure': raw_data.get('tenure', '')
-                })
-            elif 'Launch' in service_name:
-                geospatial_data.update({
-                    'property_type': raw_data.get('propertyType', ''),
-                    'district': raw_data.get('district', ''),
-                    'launch_date': raw_data.get('launchDate', ''),
-                    'units_launched': raw_data.get('unitsLaunched', ''),
-                    'units_sold': raw_data.get('unitsSold', ''),
-                    'median_price': raw_data.get('medianPrice', ''),
-                    'max_price': raw_data.get('maxPrice', ''),
-                    'min_price': raw_data.get('minPrice', '')
-                })
-            elif 'Car_Park' in service_name:
-                geospatial_data.update({
-                    'car_park_no': raw_data.get('carParkNo', raw_data.get('carparkNo', '')),
-                    'area': raw_data.get('area', ''),
-                    'development': raw_data.get('development', ''),
-                    'location': raw_data.get('location', ''),
-                    'available_lots': raw_data.get('availableLots', ''),
-                    'lot_type': raw_data.get('lotType', ''),
-                    'agency': raw_data.get('agency', ''),
-                    'car_park_type': raw_data.get('carParkType', ''),
-                    'type_of_parking_system': raw_data.get('typeOfParkingSystem', ''),
-                    'short_term_parking': raw_data.get('shortTermParking', ''),
-                    'free_parking': raw_data.get('freeParking', ''),
-                    'night_parking': raw_data.get('nightParking', ''),
-                    'car_park_decks': raw_data.get('carParkDecks', ''),
-                    'gantry_height': raw_data.get('gantryHeight', ''),
-                    'car_park_basement': raw_data.get('carParkBasement', '')
+                    'district': latest_rental.get('district', ''),
+                    'rental_median': latest_rental.get('median', ''),
+                    'rental_psf25': latest_rental.get('psf25', ''),
+                    'rental_psf75': latest_rental.get('psf75', ''),
+                    'ref_period': latest_rental.get('refPeriod', '')
                 })
             
-            # Generate record ID
-            record_id = f"{service_name}_{raw_data.get('postalCode', raw_data.get('carParkNo', 'unknown'))}"
+            # Generate record ID using street and project for PMI_Resi_Rental_Median
+            record_id = f"{service_name}_{raw_data.get('street', '')}_{raw_data.get('project', '')}"
             
             data_record = DataRecord(
                 source=self.source_name,
