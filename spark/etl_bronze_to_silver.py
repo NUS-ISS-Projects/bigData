@@ -24,8 +24,8 @@ class BronzeToSilverETL:
     def __init__(self):
         self.spark = self._create_spark_session()
         self.minio_endpoint = os.getenv('MINIO_ENDPOINT', 'localhost:9000')
-        self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'minioadmin')
-        self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'minioadmin')
+        self.minio_access_key = os.getenv('MINIO_ACCESS_KEY', 'admin')
+        self.minio_secret_key = os.getenv('MINIO_SECRET_KEY', 'password123')
         self.bronze_path = "s3a://bronze/"
         self.silver_path = "s3a://silver/"
         
@@ -232,65 +232,77 @@ class BronzeToSilverETL:
         self.write_silver_table(stats_df, "data_quality_stats", "append")
     
     def transform_ura_geospatial(self):
-        """Transform URA geospatial data from Bronze to Silver"""
-        logger.info("Transforming URA geospatial data...")
+        """Transform URA PMI_Resi_Rental_Median data from Bronze to Silver"""
+        logger.info("Transforming URA PMI_Resi_Rental_Median data...")
         
         bronze_df = self.read_bronze_table("ura_geospatial")
         if bronze_df is None:
             logger.warning("No URA bronze data found")
             return
         
-        # Data quality checks and transformations
+        # Data quality checks and transformations for PMI_Resi_Rental_Median structure
         silver_df = bronze_df \
-            .filter(col("project").isNotNull()) \
-            .withColumn("project_clean", trim(col("project"))) \
-            .withColumn("street_clean", trim(col("street"))) \
-            .withColumn("x_coordinate", 
-                       when(col("x").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
-                            col("x").cast("double")).otherwise(None)) \
-            .withColumn("y_coordinate", 
-                       when(col("y").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
-                            col("y").cast("double")).otherwise(None)) \
-            .withColumn("lease_commence_date_parsed", 
-                       to_date(col("lease_commence_date"), "yyyy")) \
-            .withColumn("property_type_clean", upper(trim(col("property_type")))) \
+            .filter(col("service_type").isNotNull()) \
+            .filter(col("project_name").isNotNull()) \
+            .withColumn("service_type_clean", trim(col("service_type"))) \
+            .withColumn("street_name_clean", trim(col("street_name"))) \
+            .withColumn("project_name_clean", trim(col("project_name"))) \
+            .withColumn("latitude_numeric", 
+                       when(col("latitude").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("latitude").cast("double")).otherwise(None)) \
+            .withColumn("longitude_numeric", 
+                       when(col("longitude").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("longitude").cast("double")).otherwise(None)) \
             .withColumn("district_clean", trim(col("district"))) \
-            .withColumn("tenure_clean", upper(trim(col("tenure")))) \
-            .withColumn("built_year_parsed", 
-                       when(col("built_year").rlike("^[0-9]{4}$"), 
-                            col("built_year").cast("int")).otherwise(None)) \
+            .withColumn("rental_median_numeric", 
+                       when(col("rental_median").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("rental_median").cast("double")).otherwise(None)) \
+            .withColumn("rental_psf25_numeric", 
+                       when(col("rental_psf25").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("rental_psf25").cast("double")).otherwise(None)) \
+            .withColumn("rental_psf75_numeric", 
+                       when(col("rental_psf75").rlike("^-?[0-9]+(\\.[0-9]+)?$"), 
+                            col("rental_psf75").cast("double")).otherwise(None)) \
+            .withColumn("ref_period_clean", trim(col("ref_period"))) \
             .withColumn("has_coordinates", 
-                       col("x_coordinate").isNotNull() & col("y_coordinate").isNotNull()) \
+                       col("latitude_numeric").isNotNull() & col("longitude_numeric").isNotNull()) \
+            .withColumn("has_rental_data", 
+                       col("rental_median_numeric").isNotNull()) \
             .withColumn("data_quality_score", 
-                       (when(col("project").isNotNull(), 1).otherwise(0) +
+                       (when(col("service_type").isNotNull(), 1).otherwise(0) +
+                        when(col("project_name").isNotNull(), 1).otherwise(0) +
                         when(col("has_coordinates"), 1).otherwise(0) +
-                        when(col("property_type").isNotNull(), 1).otherwise(0) +
-                        when(col("built_year_parsed").isNotNull(), 1).otherwise(0)) / 4.0) \
+                        when(col("has_rental_data"), 1).otherwise(0) +
+                        when(col("district").isNotNull(), 1).otherwise(0)) / 5.0) \
             .withColumn("silver_processed_timestamp", current_timestamp())
         
-        # Remove duplicates
-        window_spec = Window.partitionBy("project_clean", "street_clean") \
+        # Remove duplicates based on project and street
+        window_spec = Window.partitionBy("project_name_clean", "street_name_clean") \
                            .orderBy(desc("bronze_ingestion_timestamp"))
         silver_df = silver_df \
             .withColumn("row_number", row_number().over(window_spec)) \
             .filter(col("row_number") == 1) \
             .drop("row_number")
         
-        # Select final columns
+        # Select final columns for PMI_Resi_Rental_Median
         final_df = silver_df.select(
-            col("project_clean").alias("project"),
-            col("street_clean").alias("street"),
-            col("x_coordinate"),
-            col("y_coordinate"),
-            col("has_coordinates"),
-            col("lease_commence_date_parsed").alias("lease_commence_date"),
-            col("property_type_clean").alias("property_type"),
+            col("service_type_clean").alias("service_type"),
+            col("street_name_clean").alias("street_name"),
+            col("project_name_clean").alias("project_name"),
+            col("latitude_numeric").alias("latitude"),
+            col("longitude_numeric").alias("longitude"),
             col("district_clean").alias("district"),
-            col("tenure_clean").alias("tenure"),
-            col("built_year_parsed").alias("built_year"),
+            col("rental_median_numeric").alias("rental_median"),
+            col("rental_psf25_numeric").alias("rental_psf25"),
+            col("rental_psf75_numeric").alias("rental_psf75"),
+            col("ref_period_clean").alias("ref_period"),
+            col("has_coordinates"),
+            col("has_rental_data"),
             col("data_quality_score"),
             col("source"),
-            col("ingestion_timestamp"),
+            col("timestamp").alias("ingestion_timestamp"),
+            col("data_type"),
+            col("record_id"),
             col("bronze_ingestion_timestamp"),
             col("silver_processed_timestamp")
         )
@@ -300,11 +312,13 @@ class BronzeToSilverETL:
         # Create summary statistics
         stats_df = final_df.agg(
             count("*").alias("total_records"),
-            countDistinct("project").alias("unique_projects"),
+            countDistinct("project_name").alias("unique_projects"),
             sum(when(col("has_coordinates"), 1).otherwise(0)).alias("records_with_coordinates"),
+            sum(when(col("has_rental_data"), 1).otherwise(0)).alias("records_with_rental_data"),
             avg("data_quality_score").alias("avg_quality_score"),
-            min("built_year").alias("earliest_built_year"),
-            max("built_year").alias("latest_built_year")
+            avg("rental_median").alias("avg_rental_median"),
+            min("ref_period").alias("earliest_ref_period"),
+            max("ref_period").alias("latest_ref_period")
         ).withColumn("table_name", lit("ura_geospatial_clean")) \
          .withColumn("processed_timestamp", current_timestamp())
         
