@@ -454,25 +454,9 @@ print_success "Spark streaming infrastructure deployed successfully"
 # Deploy dbt analytics infrastructure
 print_status "Deploying dbt analytics infrastructure..."
 
-# Create ConfigMaps for dbt project
-print_status "Creating dbt project ConfigMaps..."
-
-# Create dbt models ConfigMap
-kubectl create configmap dbt-models \
-    --from-file=dbt/models/ \
-    -n $NAMESPACE \
-    --dry-run=client -o yaml | kubectl apply -f -
-
-# Create dbt project files ConfigMap
-kubectl create configmap dbt-project-config \
-    --from-file=dbt/dbt_project.yml \
-    --from-file=requirements.txt=dbt/requirements_duckdb.txt \
-    -n $NAMESPACE \
-    --dry-run=client -o yaml | kubectl apply -f -
-
-# Deploy dbt analytics jobs
-kubectl apply -f k8s/dbt-analytics.yaml
-wait_for_deployment "dbt-docs-server" $NAMESPACE
+# Deploy dbt analytics jobs (all configurations are inline in the YAML)
+kubectl apply -f k8s/dbt-analytics-duckdb.yaml
+wait_for_deployment "dbt-docs-server-duckdb" $NAMESPACE
 
 print_success "dbt analytics infrastructure deployed successfully"
 
