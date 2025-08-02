@@ -466,7 +466,7 @@ kubectl create configmap dbt-models \
 # Create dbt project files ConfigMap
 kubectl create configmap dbt-project-config \
     --from-file=dbt/dbt_project.yml \
-    --from-file=dbt/requirements.txt \
+    --from-file=requirements.txt=dbt/requirements_duckdb.txt \
     -n $NAMESPACE \
     --dry-run=client -o yaml | kubectl apply -f -
 

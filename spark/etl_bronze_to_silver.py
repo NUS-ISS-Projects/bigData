@@ -569,11 +569,11 @@ class BronzeToSilverETL:
         
         try:
             # Transform all data sources sequentially
-            self.transform_acra_companies()
             self.transform_singstat_economics()
             self.transform_ura_geospatial()
             self.transform_commercial_rental_index()
             self.transform_government_expenditure()
+            self.transform_acra_companies()
             
             logger.info("Bronze to Silver ETL completed successfully")
             
