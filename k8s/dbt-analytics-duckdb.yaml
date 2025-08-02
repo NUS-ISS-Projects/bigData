@@ -1,0 +1,969 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-profiles-duckdb
+  namespace: economic-observatory
+data:
+  profiles.yml: |
+    economic_intelligence:
+      target: prod
+      outputs:
+        dev:
+          type: duckdb
+          path: '/tmp/economic_intelligence.duckdb'
+          schema: main
+          threads: 4
+          extensions:
+            - httpfs
+          settings:
+            s3_region: 'us-east-1'
+            s3_url_style: 'path'
+            s3_endpoint: 'minio-service.economic-observatory.svc.cluster.local:9000'
+            s3_use_ssl: false
+            s3_access_key_id: 'admin'
+            s3_secret_access_key: 'password123'
+        prod:
+          type: duckdb
+          path: '/data/economic_intelligence_prod.duckdb'
+          schema: main
+          threads: 8
+          extensions:
+            - httpfs
+          settings:
+            s3_region: 'us-east-1'
+            s3_url_style: 'path'
+            s3_endpoint: 'minio-service.economic-observatory.svc.cluster.local:9000'
+            s3_use_ssl: false
+            s3_access_key_id: '{{ env_var("MINIO_ACCESS_KEY") }}'
+            s3_secret_access_key: '{{ env_var("MINIO_SECRET_KEY") }}'
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-project-duckdb
+  namespace: economic-observatory
+data:
+  dbt_project.yml: |
+    name: 'economic_intelligence'
+    version: '1.0.0'
+    config-version: 2
+    profile: 'economic_intelligence'
+    model-paths: ["models"]
+    analysis-paths: ["analyses"]
+    test-paths: ["tests"]
+    seed-paths: ["seeds"]
+    macro-paths: ["macros"]
+    snapshot-paths: ["snapshots"]
+    target-path: "target"
+    clean-targets:
+      - "target"
+      - "dbt_packages"
+    models:
+      economic_intelligence:
+        staging:
+          +materialized: view
+          +schema: staging
+        marts:
+          +materialized: table
+          +schema: marts
+    vars:
+      bronze_schema: 'bronze'
+      silver_schema: 'silver'
+      gold_schema: 'gold'
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: duckdb-data-pvc
+  namespace: economic-observatory
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-project-files-duckdb
+  namespace: economic-observatory
+data:
+  requirements_duckdb.txt: |
+    dbt-core==1.6.14
+    dbt-duckdb==1.6.2
+    duckdb
+    boto3
+    s3fs
+    pyarrow
+    numpy
+  packages.yml: |
+    packages:
+      - package: dbt-labs/dbt_utils
+        version: 1.0.0
+  schema.yml: |
+    version: 2
+    
+    models:
+      - name: stg_acra_companies
+        description: "Staging model for ACRA companies data with data quality enhancements and business categorization"
+        columns:
+          - name: uen
+            description: "Unique Entity Number - primary identifier for Singapore companies"
+            tests:
+              - not_null
+              - unique
+          - name: entity_name
+            description: "Official registered name of the entity"
+            tests:
+              - not_null
+          - name: entity_type
+            description: "Legal structure type of the entity"
+            tests:
+              - not_null
+          - name: entity_category
+            description: "Standardized business entity category"
+            tests:
+              - accepted_values:
+                  values: ['PRIVATE_COMPANY', 'PUBLIC_COMPANY', 'LLP', 'PARTNERSHIP', 'SOLE_PROPRIETORSHIP', 'OTHER']
+          - name: is_active
+            description: "Boolean flag indicating if the entity is currently active"
+            tests:
+              - not_null
+          - name: postal_region
+            description: "Singapore postal region based on postal code"
+            tests:
+              - accepted_values:
+                  values: ['Central', 'North East', 'North West', 'South East', 'South West', 'West', 'Central West', 'Unknown']
+          - name: registration_year
+            description: "Year when the entity was registered"
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1960
+                  max_value: 2024
+          - name: quality_tier
+            description: "Data quality assessment tier"
+            tests:
+              - accepted_values:
+                  values: ['HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
+          - name: business_age_category
+            description: "Business maturity classification based on registration age"
+            tests:
+              - accepted_values:
+                  values: ['NEW_BUSINESS', 'YOUNG_BUSINESS', 'MATURE_BUSINESS', 'ESTABLISHED_BUSINESS']
+          - name: data_quality_score
+            description: "Numerical data quality score (0-1)"
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 0
+                  max_value: 1
+      
+      - name: stg_singstat_economics
+        description: "Staging model for SingStat economic indicators with standardized categorization"
+        columns:
+          - name: table_id
+            description: "SingStat table identifier"
+            tests:
+              - not_null
+          - name: series_id
+            description: "SingStat data series identifier"
+            tests:
+              - not_null
+          - name: indicator_category
+            description: "Economic indicator category classification"
+            tests:
+              - accepted_values:
+                  values: ['GDP', 'INFLATION', 'UNEMPLOYMENT', 'DEMOGRAPHICS', 'TRADE', 'HOUSING', 'MANUFACTURING', 'SERVICES', 'OTHER']
+          - name: period_year
+            description: "Year of the data point"
+            tests:
+              - not_null
+              - dbt_utils.accepted_range:
+                  min_value: 1960
+                  max_value: 2024
+          - name: value_numeric
+            description: "Numerical value of the economic indicator"
+            tests:
+              - not_null
+          - name: frequency
+            description: "Data collection frequency"
+            tests:
+              - accepted_values:
+                  values: ['QUARTERLY', 'ANNUAL', 'MONTHLY', 'OTHER']
+          - name: unit_category
+            description: "Standardized unit category"
+            tests:
+              - accepted_values:
+                  values: ['PERCENTAGE', 'CURRENCY_SGD', 'MILLIONS', 'BILLIONS', 'THOUSANDS', 'INDEX', 'RATE', 'OTHER']
+          - name: data_recency
+            description: "Data recency classification"
+            tests:
+              - accepted_values:
+                  values: ['RECENT', 'CURRENT', 'HISTORICAL', 'ARCHIVED']
+          - name: quality_tier
+            description: "Data quality assessment tier"
+            tests:
+              - accepted_values:
+                  values: ['HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
+      
+      - name: stg_ura_rentals
+        description: "Staging model for URA rental data with geospatial and market categorization"
+        columns:
+          - name: service_type
+            description: "Type of property service (rental/sale)"
+            tests:
+              - not_null
+          - name: street_name
+            description: "Street name of the property"
+            tests:
+              - not_null
+          - name: project_name
+            description: "Name of the property project"
+          - name: latitude
+            description: "Latitude coordinate"
+            tests:
+              - not_null
+          - name: longitude
+            description: "Longitude coordinate"
+            tests:
+              - not_null
+          - name: district
+            description: "Singapore district code"
+            tests:
+              - not_null
+          - name: rental_median
+            description: "Median rental price"
+            tests:
+              - not_null
+          - name: transaction_type
+            description: "Standardized transaction type"
+            tests:
+              - accepted_values:
+                  values: ['RENTAL', 'SALE']
+          - name: region_category
+            description: "Regional categorization based on district"
+            tests:
+              - accepted_values:
+                  values: ['CENTRAL', 'NORTH', 'WEST', 'OTHER']
+          - name: rental_tier
+            description: "Rental price tier classification"
+            tests:
+              - accepted_values:
+                  values: ['HIGH_END', 'MID_RANGE', 'AFFORDABLE', 'BUDGET']
+          - name: ref_year
+            description: "Reference year of the data"
+            tests:
+              - not_null
+          - name: quality_tier
+            description: "Data quality assessment tier"
+            tests:
+              - accepted_values:
+                  values: ['HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
+      
+      - name: stg_government_expenditure
+        description: "Staging model for Singapore government expenditure data with spending categorization"
+        columns:
+          - name: record_id
+            description: "Unique record identifier"
+            tests:
+              - not_null
+              - unique
+          - name: financial_year
+            description: "Financial year of expenditure"
+            tests:
+              - not_null
+          - name: expenditure_type
+            description: "Type of government expenditure"
+            tests:
+              - not_null
+          - name: amount_million_numeric
+            description: "Expenditure amount in millions SGD"
+            tests:
+              - not_null
+          - name: expenditure_category
+            description: "Standardized expenditure category"
+            tests:
+              - accepted_values:
+                  values: ['EDUCATION', 'HEALTHCARE', 'DEFENSE_SECURITY', 'TRANSPORT_INFRASTRUCTURE', 'SOCIAL_WELFARE', 'ECONOMIC_DEVELOPMENT', 'ENVIRONMENT', 'OTHER']
+          - name: spending_tier
+            description: "Spending amount tier classification"
+            tests:
+              - accepted_values:
+                  values: ['VERY_HIGH', 'HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
+          - name: data_recency
+            description: "Data recency classification"
+            tests:
+              - accepted_values:
+                  values: ['CURRENT', 'RECENT', 'HISTORICAL', 'ARCHIVED']
+          - name: quality_tier
+            description: "Data quality assessment tier"
+            tests:
+              - accepted_values:
+                  values: ['HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
+      
+      - name: stg_commercial_rental
+        description: "Staging model for commercial rental index data with market trend analysis"
+        columns:
+          - name: record_id
+            description: "Unique record identifier"
+            tests:
+              - not_null
+              - unique
+          - name: quarter
+            description: "Quarter period of the data"
+            tests:
+              - not_null
+          - name: property_type
+            description: "Type of commercial property"
+            tests:
+              - not_null
+          - name: rental_index_numeric
+            description: "Numerical rental index value"
+            tests:
+              - not_null
+          - name: property_category
+            description: "Standardized property category"
+            tests:
+              - accepted_values:
+                  values: ['OFFICE', 'RETAIL', 'INDUSTRIAL', 'HOSPITALITY', 'OTHER']
+          - name: year
+            description: "Year extracted from quarter"
+            tests:
+              - not_null
+          - name: index_trend
+            description: "Rental index trend classification"
+            tests:
+              - accepted_values:
+                  values: ['HIGH_GROWTH', 'MODERATE_GROWTH', 'STABLE', 'DECLINING', 'SIGNIFICANT_DECLINE']
+          - name: data_recency
+            description: "Data recency classification"
+            tests:
+              - accepted_values:
+                  values: ['CURRENT', 'RECENT', 'HISTORICAL', 'ARCHIVED']
+          - name: quality_tier
+            description: "Data quality assessment tier"
+            tests:
+              - accepted_values:
+                  values: ['HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
+  stg_acra_companies.sql: |
+    {{ config(
+        materialized='view',
+        schema='staging'
+    ) }}
+    
+    with source_data as (
+        select * from read_parquet('s3://silver/acra_companies_clean/*.parquet')
+    ),
+    
+    staging as (
+        select
+            uen,
+            entity_name,
+            entity_type,
+            entity_status,
+            is_active,
+            uen_issue_date,
+            reg_street_name,
+            reg_postal_code,
+            data_quality_score,
+            source,
+            cast(ingestion_timestamp as timestamp) as ingestion_timestamp,
+            
+            case 
+                when upper(entity_type) like '%SOLE PROPRIETORSHIP%' then 'SOLE_PROPRIETORSHIP'
+                when upper(entity_type) like '%COMPANY%' and upper(entity_type) not like '%PUBLIC%' then 'PRIVATE_COMPANY'
+                when upper(entity_type) like '%PUBLIC COMPANY%' then 'PUBLIC_COMPANY'
+                when upper(entity_type) like '%LLP%' then 'LLP'
+                else 'OTHER'
+            end as entity_category,
+            
+            case 
+                when reg_postal_code is not null then 
+                    case 
+                        when reg_postal_code between '010000' and '199999' then 'Central'
+                        when reg_postal_code between '200000' and '299999' then 'North East'
+                        when reg_postal_code between '300000' and '399999' then 'North West'
+                        when reg_postal_code between '400000' and '499999' then 'South East'
+                        when reg_postal_code between '500000' and '599999' then 'South West'
+                        when reg_postal_code between '600000' and '699999' then 'West'
+                        when reg_postal_code between '700000' and '799999' then 'Central West'
+                        else 'Unknown'
+                    end
+                else 'Unknown'
+            end as postal_region,
+            
+            extract(year from uen_issue_date) as registration_year,
+            
+            case 
+                when data_quality_score >= 0.8 then 'HIGH'
+                when data_quality_score >= 0.6 then 'MEDIUM'
+                when data_quality_score >= 0.4 then 'LOW'
+                else 'VERY_LOW'
+            end as quality_tier,
+            
+            case 
+                when (2024 - registration_year) <= 2 then 'NEW_BUSINESS'
+                when (2024 - registration_year) <= 5 then 'YOUNG_BUSINESS'
+                when (2024 - registration_year) <= 15 then 'MATURE_BUSINESS'
+                else 'ESTABLISHED_BUSINESS'
+            end as business_age_category
+            
+        from source_data
+        where uen is not null
+    )
+    
+    select * from staging
+  stg_commercial_rental.sql: |
+    {{ config(
+        materialized='view',
+        schema='staging'
+    ) }}
+    
+    with source_data as (
+        select * from read_parquet('s3://silver/commercial_rental_index_clean/*.parquet')
+    ),
+    
+    staging as (
+        select
+            *,
+            cast(ingestion_timestamp as timestamp) as ingestion_timestamp,
+            
+            -- Add derived columns for tests
+            case 
+                when property_type ilike '%office%' then 'OFFICE'
+                when property_type ilike '%retail%' then 'RETAIL'
+                when property_type ilike '%industrial%' then 'INDUSTRIAL'
+                when property_type ilike '%hotel%' or property_type ilike '%hospitality%' then 'HOSPITALITY'
+                else 'OTHER'
+            end as property_category,
+            
+            cast(substr(quarter, 1, 4) as integer) as year,
+            
+            case 
+                when rental_index_numeric >= 120 then 'HIGH_GROWTH'
+                when rental_index_numeric >= 105 then 'MODERATE_GROWTH'
+                when rental_index_numeric between 95 and 105 then 'STABLE'
+                when rental_index_numeric >= 80 then 'DECLINING'
+                else 'SIGNIFICANT_DECLINE'
+            end as index_trend,
+            
+            case 
+                when cast(substr(quarter, 1, 4) as integer) >= 2023 then 'CURRENT'
+                when cast(substr(quarter, 1, 4) as integer) >= 2020 then 'RECENT'
+                when cast(substr(quarter, 1, 4) as integer) >= 2010 then 'HISTORICAL'
+                else 'ARCHIVED'
+            end as data_recency,
+            
+            case 
+                when data_quality_score >= 0.8 then 'HIGH'
+                when data_quality_score >= 0.6 then 'MEDIUM'
+                when data_quality_score >= 0.4 then 'LOW'
+                else 'VERY_LOW'
+            end as quality_tier,
+            
+            cast(substr(base_period, 1, 4) as integer) as ref_year
+            
+        from source_data
+    )
+    
+    select * from staging
+  stg_government_expenditure.sql: |
+    {{ config(
+        materialized='view',
+        schema='staging'
+    ) }}
+    
+    with source_data as (
+        select * from read_parquet('s3://silver/government_expenditure_clean/*.parquet')
+    ),
+    
+    staging as (
+        select
+            *,
+            cast(ingestion_timestamp as timestamp) as ingestion_timestamp,
+            
+            -- Add derived columns for tests
+            case 
+                when upper(expenditure_type) like '%EDUCATION%' then 'EDUCATION'
+                when upper(expenditure_type) like '%HEALTH%' then 'HEALTHCARE'
+                when upper(expenditure_type) like '%DEFENCE%' or upper(expenditure_type) like '%DEFENSE%' or upper(expenditure_type) like '%SECURITY%' then 'DEFENSE_SECURITY'
+                when upper(expenditure_type) like '%TRANSPORT%' or upper(expenditure_type) like '%INFRASTRUCTURE%' then 'TRANSPORT_INFRASTRUCTURE'
+                when upper(expenditure_type) like '%SOCIAL%' or upper(expenditure_type) like '%WELFARE%' then 'SOCIAL_WELFARE'
+                when upper(expenditure_type) like '%ECONOMIC%' or upper(expenditure_type) like '%DEVELOPMENT%' then 'ECONOMIC_DEVELOPMENT'
+                when upper(expenditure_type) like '%ENVIRONMENT%' then 'ENVIRONMENT'
+                else 'OTHER'
+            end as expenditure_category,
+            
+            case 
+                when amount_million_numeric >= 10000 then 'VERY_HIGH'
+                when amount_million_numeric >= 5000 then 'HIGH'
+                when amount_million_numeric >= 1000 then 'MEDIUM'
+                when amount_million_numeric >= 100 then 'LOW'
+                else 'VERY_LOW'
+            end as spending_tier,
+            
+            case 
+                when financial_year >= 2023 then 'CURRENT'
+                when financial_year >= 2020 then 'RECENT'
+                when financial_year >= 2010 then 'HISTORICAL'
+                else 'ARCHIVED'
+            end as data_recency,
+            
+            case 
+                when data_quality_score >= 0.8 then 'HIGH'
+                when data_quality_score >= 0.6 then 'MEDIUM'
+                when data_quality_score >= 0.4 then 'LOW'
+                else 'VERY_LOW'
+            end as quality_tier,
+            
+            financial_year as ref_year
+            
+        from source_data
+    )
+    
+    select * from staging
+  stg_singstat_economics.sql: |
+    {{ config(
+        materialized='view',
+        schema='staging'
+    ) }}
+    
+    with source_data as (
+        select * from read_parquet('s3://silver/singstat_economics_clean/*.parquet')
+    ),
+    
+    staging as (
+        select
+            *,
+            cast(ingestion_timestamp as timestamp) as ingestion_timestamp,
+            
+            -- Add derived columns for tests
+            case 
+                when upper(series_id) like '%GDP%' then 'GDP'
+                when upper(series_id) like '%CPI%' or upper(series_id) like '%INFLATION%' or upper(series_id) like '%PRICE%' then 'INFLATION'
+                when upper(series_id) like '%UNEMPLOYMENT%' then 'UNEMPLOYMENT'
+                when upper(series_id) like '%POPULATION%' or upper(series_id) like '%DEMOGRAPHIC%' then 'DEMOGRAPHICS'
+                when upper(series_id) like '%TRADE%' or upper(series_id) like '%EXPORT%' or upper(series_id) like '%IMPORT%' then 'TRADE'
+                when upper(series_id) like '%HOUSING%' then 'HOUSING'
+                when upper(series_id) like '%MANUFACTURING%' then 'MANUFACTURING'
+                when upper(series_id) like '%SERVICE%' then 'SERVICES'
+                else 'OTHER'
+            end as indicator_category,
+            
+            case 
+                when upper(unit) like '%QUARTERLY%' then 'QUARTERLY'
+                when upper(unit) like '%ANNUAL%' then 'ANNUAL'
+                when upper(unit) like '%MONTHLY%' then 'MONTHLY'
+                else 'OTHER'
+            end as frequency,
+            
+            case 
+                when upper(unit) like '%PERCENT%' or unit = '%' then 'PERCENTAGE'
+                when upper(unit) like '%DOLLAR%' or upper(unit) like '%SGD%' then 'CURRENCY_SGD'
+                when upper(unit) like '%MILLION%' then 'MILLIONS'
+                when upper(unit) like '%BILLION%' then 'BILLIONS'
+                when upper(unit) like '%THOUSAND%' then 'THOUSANDS'
+                when upper(unit) like '%INDEX%' then 'INDEX'
+                when upper(unit) like '%RATE%' then 'RATE'
+                else 'OTHER'
+            end as unit_category,
+            
+            case 
+                when period_year >= 2023 then 'RECENT'
+                when period_year >= 2020 then 'CURRENT'
+                when period_year >= 2010 then 'HISTORICAL'
+                else 'ARCHIVED'
+            end as data_recency,
+            
+            case 
+                when data_quality_score >= 0.8 then 'HIGH'
+                when data_quality_score >= 0.6 then 'MEDIUM'
+                when data_quality_score >= 0.4 then 'LOW'
+                else 'VERY_LOW'
+            end as quality_tier,
+            
+            cast(substr(period, 1, 4) as integer) as ref_year,
+            cast(substr(period, 6, 2) as integer) as ref_quarter
+            
+        from source_data
+    )
+    
+    select * from staging
+  stg_ura_rentals.sql: |
+    {{ config(
+        materialized='view',
+        schema='staging'
+    ) }}
+    
+    with source_data as (
+        select * from read_parquet('s3://silver/ura_geospatial_clean/*.parquet')
+    ),
+    
+    staging as (
+        select
+            *,
+            cast(ingestion_timestamp as timestamp) as ingestion_timestamp,
+            
+            -- Add derived columns for tests
+            case 
+                when upper(service_type) like '%OFFICE%' then 'OFFICE'
+                when upper(service_type) like '%RETAIL%' or upper(service_type) like '%SHOP%' then 'RETAIL'
+                when upper(service_type) like '%WAREHOUSE%' or upper(service_type) like '%INDUSTRIAL%' then 'INDUSTRIAL'
+                when upper(service_type) like '%HOTEL%' or upper(service_type) like '%HOSPITALITY%' then 'HOSPITALITY'
+                else 'OTHER'
+            end as property_category,
+            
+            case 
+                when upper(district) like '%CENTRAL%' or upper(district) like '%CBD%' or upper(district) like '%ORCHARD%' then 'CENTRAL'
+                when upper(district) like '%NORTH%' then 'NORTH'
+                when upper(district) like '%SOUTH%' then 'SOUTH'
+                when upper(district) like '%EAST%' then 'EAST'
+                when upper(district) like '%WEST%' then 'WEST'
+                else 'OTHER'
+            end as region_category,
+            
+            case 
+                when rental_median >= 10000 then 'HIGH_END'
+                when rental_median >= 5000 then 'MID_RANGE'
+                when rental_median >= 2000 then 'AFFORDABLE'
+                else 'BUDGET'
+            end as rental_tier,
+            
+            case 
+                when data_type like '%RENTAL%' then 'RENTAL'
+                when data_type like '%SALE%' then 'SALE'
+                else 'RENTAL'
+            end as transaction_type,
+            
+            case 
+                when cast(substr(ref_period, 1, 4) as integer) >= 2023 then 'CURRENT'
+                when cast(substr(ref_period, 1, 4) as integer) >= 2020 then 'RECENT'
+                when cast(substr(ref_period, 1, 4) as integer) >= 2010 then 'HISTORICAL'
+                else 'ARCHIVED'
+            end as data_recency,
+            
+            case 
+                when data_quality_score >= 0.8 then 'HIGH'
+                when data_quality_score >= 0.6 then 'MEDIUM'
+                when data_quality_score >= 0.4 then 'LOW'
+                else 'VERY_LOW'
+            end as quality_tier,
+            
+            cast(substr(ref_period, 1, 4) as integer) as ref_year,
+            cast(substr(ref_period, 6, 2) as integer) as ref_quarter
+            
+        from source_data
+    )
+    
+    select * from staging
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dbt-initial-run-duckdb
+  namespace: economic-observatory
+spec:
+  template:
+    spec:
+      containers:
+      - name: dbt-initial-duckdb
+        image: python:3.9-slim
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |
+          apt-get update && apt-get install -y git curl
+          mkdir -p /dbt
+          cd /dbt
+          cp /dbt/project-config/dbt_project.yml /dbt/
+          cp /dbt/files/requirements_duckdb.txt /dbt/
+          cp /dbt/files/packages.yml /dbt/
+          mkdir -p /dbt/models/staging
+          mkdir -p /dbt/models/marts
+          cp /dbt/models-flat/schema.yml /dbt/models/staging/ || echo "Schema file not found"
+          cp /dbt/models-flat/stg_*.sql /dbt/models/staging/ || echo "Staging models not found"
+          cp /dbt/models-flat/mart_*.sql /dbt/models/marts/ || echo "Mart models not found"
+          pip install -r requirements_duckdb.txt
+          dbt deps
+          echo "DuckDB setup completed"
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: "admin"
+        - name: MINIO_SECRET_KEY
+          value: "password123"
+        - name: DBT_PROFILES_DIR
+          value: "/dbt"
+        volumeMounts:
+        - name: dbt-project-config-duckdb
+          mountPath: /dbt/project-config
+        - name: dbt-project-files-duckdb
+          mountPath: /dbt/files
+        - name: dbt-profiles-duckdb
+          mountPath: /dbt/profiles.yml
+          subPath: profiles.yml
+        - name: dbt-project-files-duckdb
+          mountPath: /dbt/models-flat
+        - name: duckdb-data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "500m"
+      volumes:
+      - name: dbt-project-config-duckdb
+        configMap:
+          name: dbt-project-duckdb
+      - name: dbt-project-files-duckdb
+        configMap:
+          name: dbt-project-files-duckdb
+      - name: dbt-profiles-duckdb
+        configMap:
+          name: dbt-profiles-duckdb
+      - name: duckdb-data
+        persistentVolumeClaim:
+          claimName: duckdb-data-pvc
+      restartPolicy: OnFailure
+  backoffLimit: 3
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dbt-staging-models-duckdb
+  namespace: economic-observatory
+spec:
+  schedule: "30 */6 * * *"  # Run 30 minutes after ETL job
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dbt-staging-duckdb
+            image: python:3.9-slim
+            command: ["/bin/bash"]
+            args:
+            - -c
+            - |
+              apt-get update && apt-get install -y git curl
+              mkdir -p /dbt
+              cd /dbt
+              cp /dbt/files/requirements_duckdb.txt .
+              cp /dbt/files/packages.yml .
+              cp /dbt/project-config/dbt_project.yml .
+              mkdir -p /dbt/models/staging
+              mkdir -p /dbt/models/marts
+              cp /dbt/models-flat/schema.yml /dbt/models/staging/ || echo "Schema file not found"
+              cp /dbt/models-flat/stg_*.sql /dbt/models/staging/ || echo "Staging models not found"
+              cp /dbt/models-flat/mart_*.sql /dbt/models/marts/ || echo "Mart models not found"
+              pip install -r requirements_duckdb.txt
+              dbt deps
+              dbt run --select models/staging --profiles-dir /dbt
+              dbt test --select models/staging --profiles-dir /dbt
+            env:
+            - name: MINIO_ACCESS_KEY
+              value: "admin"
+            - name: MINIO_SECRET_KEY
+              value: "password123"
+            - name: DBT_PROFILES_DIR
+              value: "/dbt"
+            volumeMounts:
+            - name: dbt-project-config-duckdb
+              mountPath: /dbt/project-config
+            - name: dbt-project-files-duckdb
+              mountPath: /dbt/files
+            - name: dbt-profiles-duckdb
+              mountPath: /dbt/profiles.yml
+              subPath: profiles.yml
+            - name: dbt-project-files-duckdb
+              mountPath: /dbt/models-flat
+            - name: duckdb-data
+              mountPath: /data
+            resources:
+              requests:
+                memory: "1Gi"
+                cpu: "250m"
+              limits:
+                memory: "2Gi"
+                cpu: "500m"
+          volumes:
+          - name: dbt-project-config-duckdb
+            configMap:
+              name: dbt-project-duckdb
+          - name: dbt-project-files-duckdb
+            configMap:
+              name: dbt-project-files-duckdb
+          - name: dbt-profiles-duckdb
+            configMap:
+              name: dbt-profiles-duckdb
+          - name: duckdb-data
+            persistentVolumeClaim:
+              claimName: duckdb-data-pvc
+          restartPolicy: OnFailure
+      backoffLimit: 3
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbt-docs-server-duckdb
+  namespace: economic-observatory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dbt-docs-server-duckdb
+  template:
+    metadata:
+      labels:
+        app: dbt-docs-server-duckdb
+    spec:
+      containers:
+      - name: dbt-docs
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: dbt-docs
+          mountPath: /usr/share/nginx/html
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "100m"
+      volumes:
+      - name: dbt-docs
+        persistentVolumeClaim:
+          claimName: duckdb-data-pvc
+      - name: nginx-config
+        configMap:
+          name: dbt-docs-nginx-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dbt-docs-service-duckdb
+  namespace: economic-observatory
+spec:
+  selector:
+    app: dbt-docs-server-duckdb
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080
+  type: NodePort
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dbt-docs-nginx-config
+  namespace: economic-observatory
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+        root /usr/share/nginx/html;
+        index index.html;
+        
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+        
+        location /static/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: dbt-marts-models-duckdb
+  namespace: economic-observatory
+spec:
+  schedule: "0 */12 * * *"  # Run twice daily
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: dbt-marts-duckdb
+            image: python:3.9-slim
+            command: ["/bin/bash"]
+            args:
+            - -c
+            - |
+              apt-get update && apt-get install -y git curl
+              mkdir -p /dbt
+              cd /dbt
+              cp /dbt/files/requirements_duckdb.txt .
+              cp /dbt/files/packages.yml .
+              cp /dbt/project-config/dbt_project.yml .
+              mkdir -p /dbt/models/staging
+              mkdir -p /dbt/models/marts
+              cp /dbt/models-flat/schema.yml /dbt/models/staging/ || echo "Schema file not found"
+              cp /dbt/models-flat/stg_*.sql /dbt/models/staging/ || echo "Staging models not found"
+              cp /dbt/models-flat/mart_*.sql /dbt/models/marts/ || echo "Mart models not found"
+              pip install -r requirements_duckdb.txt
+              dbt deps
+              dbt run --select models/marts --profiles-dir /dbt
+              dbt test --select models/marts --profiles-dir /dbt
+              dbt docs generate --profiles-dir /dbt
+            env:
+            - name: MINIO_ACCESS_KEY
+              value: "admin"
+            - name: MINIO_SECRET_KEY
+              value: "password123"
+            - name: DBT_PROFILES_DIR
+              value: "/dbt"
+            volumeMounts:
+            - name: dbt-project-config-duckdb
+              mountPath: /dbt/project-config
+            - name: dbt-project-files-duckdb
+              mountPath: /dbt/files
+            - name: dbt-profiles-duckdb
+              mountPath: /dbt/profiles.yml
+              subPath: profiles.yml
+            - name: dbt-project-files-duckdb
+              mountPath: /dbt/models-flat
+            - name: duckdb-data
+              mountPath: /data
+            resources:
+              requests:
+                memory: "2Gi"
+                cpu: "500m"
+              limits:
+                memory: "4Gi"
+                cpu: "1000m"
+          volumes:
+          - name: dbt-project-config-duckdb
+            configMap:
+              name: dbt-project-duckdb
+          - name: dbt-project-files-duckdb
+            configMap:
+              name: dbt-project-files-duckdb
+          - name: dbt-profiles-duckdb
+            configMap:
+              name: dbt-profiles-duckdb
+          - name: duckdb-data
+            persistentVolumeClaim:
+              claimName: duckdb-data-pvc
+          restartPolicy: OnFailure
+      backoffLimit: 3

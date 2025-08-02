@@ -113,12 +113,23 @@ class BronzeToSilverETL:
                         when(col("reg_postal_code_clean").isNotNull(), 1).otherwise(0)) / 5.0) \
             .withColumn("silver_processed_timestamp", current_timestamp())
         
-        # Remove duplicates based on UEN (keep latest)
-        window_spec = Window.partitionBy("uen_clean").orderBy(desc("bronze_ingestion_timestamp"))
-        silver_df = silver_df \
-            .withColumn("row_number", row_number().over(window_spec)) \
-            .filter(col("row_number") == 1) \
-            .drop("row_number")
+        # Remove duplicates based on UEN (keep latest) - more robust approach
+        # First, add a unique identifier for tie-breaking
+        silver_df = silver_df.withColumn("unique_id", monotonically_increasing_id())
+        
+        # Find the latest record for each UEN
+        latest_records = silver_df.groupBy("uen_clean") \
+            .agg(max("bronze_ingestion_timestamp").alias("max_timestamp"))
+        
+        # Join back to get the full records, handling ties by taking the record with highest unique_id
+        silver_df = silver_df.join(latest_records, "uen_clean") \
+            .filter(col("bronze_ingestion_timestamp") == col("max_timestamp")) \
+            .withColumn("row_rank", row_number().over(
+                Window.partitionBy("uen_clean", "bronze_ingestion_timestamp")
+                .orderBy(desc("unique_id"))
+            )) \
+            .filter(col("row_rank") == 1) \
+            .drop("max_timestamp", "unique_id", "row_rank")
         
         # Select final columns
         final_df = silver_df.select(
