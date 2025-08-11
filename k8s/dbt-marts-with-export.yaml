@@ -1,0 +1,152 @@
+# DEPRECATED: This standalone export job is now integrated into the main dbt-marts-models-duckdb CronJob
+# The automated pipeline in dbt-analytics-duckdb.yaml now includes MinIO export functionality
+# This file is kept for reference but should not be used in production
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dbt-marts-with-minio-export-deprecated
+  namespace: economic-observatory
+spec:
+  template:
+    spec:
+      containers:
+      - name: dbt-marts-export
+        image: python:3.9-slim
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |
+          apt-get update && apt-get install -y git curl
+          mkdir -p /dbt
+          cd /dbt
+          cp /dbt/files/requirements_duckdb.txt .
+          cp /dbt/files/packages.yml .
+          cp /dbt/project-config/dbt_project.yml .
+          mkdir -p /dbt/models/staging
+          mkdir -p /dbt/models/marts
+          cp /dbt/models-flat/schema.yml /dbt/models/staging/ || echo "Schema file not found"
+          cp /dbt/models-flat/stg_*.sql /dbt/models/staging/ || echo "Staging models not found"
+          cp /dbt/models-flat/mart_*.sql /dbt/models/marts/ || echo "Mart models not found"
+          
+          # Install additional dependencies for MinIO export
+          echo "minio" >> requirements_duckdb.txt
+          echo "pandas" >> requirements_duckdb.txt
+          echo "pyarrow" >> requirements_duckdb.txt
+          
+          pip install -r requirements_duckdb.txt
+          dbt deps
+          
+          # Run dbt to create mart models
+          echo "Running dbt mart models..."
+          dbt run --select models/marts --profiles-dir /dbt
+          
+          # Export mart data to MinIO
+          echo "Exporting mart data to MinIO..."
+          python3 -c "
+          import duckdb
+          import pandas as pd
+          from minio import Minio
+          from datetime import datetime
+          import os
+          
+          # Initialize MinIO client
+          client = Minio(
+              'minio-service.economic-observatory.svc.cluster.local:9000',
+              access_key='admin',
+              secret_key='password123',
+              secure=False
+          )
+          
+          # Connect to DuckDB
+          conn = duckdb.connect('/data/economic_intelligence_prod.duckdb')
+          
+          # Get timestamp for file naming
+          timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+          
+          # Export each mart model
+          marts = ['mart_business_intelligence', 'mart_economic_analysis', 'mart_geospatial_analysis']
+          
+          for mart in marts:
+              try:
+                  print(f'Exporting {mart}...')
+                  
+                  # Use schema-qualified table name
+                  full_table_name = f'main_gold.{mart}'
+                  
+                  # Check if table exists
+                  try:
+                      test_query = conn.execute(f'SELECT COUNT(*) FROM {full_table_name}').fetchone()
+                      print(f'Table {full_table_name} exists with {test_query[0]} rows')
+                  except Exception as e:
+                      print(f'Table {full_table_name} not found: {e}')
+                      continue
+                  
+                  # Extract data
+                  df = conn.execute(f'SELECT * FROM {full_table_name}').df()
+                  print(f'Extracted {len(df)} rows from {mart}')
+                  
+                  if len(df) == 0:
+                      print(f'No data in {mart}, skipping export')
+                      continue
+                  
+                  # Save to parquet
+                  parquet_path = f'/tmp/{mart}_{timestamp}.parquet'
+                  df.to_parquet(parquet_path, index=False)
+                  
+                  # Upload to MinIO
+                  mart_short = mart.replace('mart_', '')
+                  object_name = f'{mart_short}/{mart}_{timestamp}.parquet'
+                  client.fput_object('gold', object_name, parquet_path)
+                  print(f'Uploaded {object_name} to MinIO gold bucket')
+                  
+                  # Clean up temp file
+                  os.remove(parquet_path)
+                  
+              except Exception as e:
+                  print(f'Error exporting {mart}: {e}')
+          
+          conn.close()
+          print('Export completed')
+          "
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: "admin"
+        - name: MINIO_SECRET_KEY
+          value: "password123"
+        - name: DBT_PROFILES_DIR
+          value: "/dbt"
+        volumeMounts:
+        - name: dbt-project-config-duckdb
+          mountPath: /dbt/project-config
+        - name: dbt-project-files-duckdb
+          mountPath: /dbt/files
+        - name: dbt-profiles-duckdb
+          mountPath: /dbt/profiles.yml
+          subPath: profiles.yml
+        - name: dbt-project-files-duckdb
+          mountPath: /dbt/models-flat
+        - name: duckdb-data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "1000m"
+      volumes:
+      - name: dbt-project-config-duckdb
+        configMap:
+          name: dbt-project-duckdb
+      - name: dbt-project-files-duckdb
+        configMap:
+          name: dbt-project-files-duckdb
+      - name: dbt-profiles-duckdb
+        configMap:
+          name: dbt-profiles-duckdb
+      - name: duckdb-data
+        persistentVolumeClaim:
+          claimName: duckdb-data-pvc
+      restartPolicy: OnFailure
+  backoffLimit: 3

@@ -73,8 +73,7 @@ The platform implements a modern data lakehouse architecture:
 bigData_project/
 ├── producers/          # Data ingestion services
 ├── spark/             # Spark streaming and ETL
-├── dbt/               # Analytics engineering
-├── k8s/               # Kubernetes manifests
+├── k8s/               # Kubernetes manifests (includes dbt analytics)
 ├── monitoring/        # Health checks
 ├── scripts/           # Utility scripts
 ├── models/            # Data models
