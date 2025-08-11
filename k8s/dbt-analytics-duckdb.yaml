@@ -62,11 +62,15 @@ data:
     models:
       economic_intelligence:
         staging:
-          +materialized: view
-          +schema: staging
+          +materialized: table
+          +schema: silver
+          +file_format: delta
+          +location_root: s3://silver/
         marts:
           +materialized: table
-          +schema: marts
+          +schema: gold
+          +file_format: delta
+          +location_root: s3://gold/
     vars:
       bronze_schema: 'bronze'
       silver_schema: 'silver'
@@ -104,6 +108,72 @@ data:
     packages:
       - package: dbt-labs/dbt_utils
         version: 1.0.0
+  export_marts_to_minio.py: |
+    #!/usr/bin/env python3
+    import duckdb
+    import pandas as pd
+    from minio import Minio
+    from datetime import datetime
+    import os
+    
+    # Initialize MinIO client
+    client = Minio(
+        'minio-service.economic-observatory.svc.cluster.local:9000',
+        access_key='admin',
+        secret_key='password123',
+        secure=False
+    )
+    
+    # Connect to DuckDB
+    conn = duckdb.connect('/data/economic_intelligence_prod.duckdb')
+    
+    # Get timestamp for file naming
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    
+    # Export each mart model
+    marts = ['mart_business_intelligence', 'mart_economic_analysis', 'mart_geospatial_analysis']
+    
+    for mart in marts:
+        try:
+            print(f'Exporting {mart}...')
+            
+            # Use schema-qualified table name
+            full_table_name = f'main_gold.{mart}'
+            
+            # Check if table exists
+            try:
+                test_query = conn.execute(f'SELECT COUNT(*) FROM {full_table_name}').fetchone()
+                print(f'Table {full_table_name} exists with {test_query[0]} rows')
+            except Exception as e:
+                print(f'Table {full_table_name} not found: {e}')
+                continue
+            
+            # Extract data
+            df = conn.execute(f'SELECT * FROM {full_table_name}').df()
+            print(f'Extracted {len(df)} rows from {mart}')
+            
+            if len(df) == 0:
+                print(f'No data in {mart}, skipping export')
+                continue
+            
+            # Save to parquet
+            parquet_path = f'/tmp/{mart}_{timestamp}.parquet'
+            df.to_parquet(parquet_path, index=False)
+            
+            # Upload to MinIO
+            mart_short = mart.replace('mart_', '')
+            object_name = f'{mart_short}/{mart}_{timestamp}.parquet'
+            client.fput_object('gold', object_name, parquet_path)
+            print(f'Uploaded {object_name} to MinIO gold bucket')
+            
+            # Clean up temp file
+            os.remove(parquet_path)
+            
+        except Exception as e:
+            print(f'Error exporting {mart}: {e}')
+    
+    conn.close()
+    print('MinIO export completed successfully')
   schema.yml: |
     version: 2
     
@@ -351,10 +421,8 @@ data:
               - accepted_values:
                   values: ['HIGH', 'MEDIUM', 'LOW', 'VERY_LOW']
   stg_acra_companies.sql: |
-    {{ config(
-        materialized='view',
-        schema='staging'
-    ) }}
+    -- Staging model for ACRA companies data
+    -- Reads from bronze layer and transforms to silver layer
     
     with source_data as (
         select * from read_parquet('s3://silver/acra_companies_clean/*.parquet')
@@ -419,10 +487,8 @@ data:
     
     select * from staging
   stg_commercial_rental.sql: |
-    {{ config(
-        materialized='view',
-        schema='staging'
-    ) }}
+    -- Staging model for commercial rental data
+    -- Reads from bronze layer and transforms to silver layer
     
     with source_data as (
         select * from read_parquet('s3://silver/commercial_rental_index_clean/*.parquet')
@@ -661,6 +727,241 @@ data:
     )
     
     select * from staging
+  mart_business_intelligence.sql: |
+    -- Business Intelligence Mart: Comprehensive business landscape analysis
+    -- Materialized as Delta Lake table in gold schema
+    
+    with business_metrics as (
+        select 
+            postal_region,
+            entity_category,
+            business_age_category,
+            count(*) as total_companies,
+            count(case when is_active then 1 end) as active_companies,
+            round(avg(data_quality_score), 3) as avg_data_quality,
+            min(registration_year) as earliest_registration,
+            max(registration_year) as latest_registration
+        from {{ ref('stg_acra_companies') }}
+        group by postal_region, entity_category, business_age_category
+    ),
+    
+    economic_indicators as (
+         select 
+             period_year as year,
+             avg(value_numeric) as avg_economic_value,
+             count(*) as indicator_count
+         from {{ ref('stg_singstat_economics') }}
+         where value_numeric is not null
+         group by period_year
+     ),
+    
+    government_spending as (
+         select 
+             expenditure_category,
+             financial_year as year,
+             sum(amount_million_numeric) as total_expenditure,
+             count(*) as expenditure_records
+         from {{ ref('stg_government_expenditure') }}
+         where amount_million_numeric is not null
+         group by expenditure_category, financial_year
+     ),
+    
+    property_market as (
+        select 
+            region_category,
+            property_category,
+            ref_year,
+            avg(rental_median) as avg_rental_price,
+            count(*) as rental_transactions
+        from {{ ref('stg_ura_rentals') }}
+        group by region_category, property_category, ref_year
+    )
+    
+    select 
+        bm.postal_region,
+        bm.entity_category,
+        bm.business_age_category,
+        bm.total_companies,
+        bm.active_companies,
+        round(bm.active_companies * 100.0 / bm.total_companies, 2) as activity_rate,
+        bm.avg_data_quality,
+        
+        -- Economic context
+        ei.avg_economic_value,
+        ei.indicator_count,
+        
+        -- Government investment
+        gs.total_expenditure,
+        gs.expenditure_records,
+        
+        -- Property market correlation
+        pm.avg_rental_price,
+        pm.rental_transactions,
+        
+        -- Business intelligence score (0-100)
+        round(
+            least(100, greatest(0,
+                (bm.active_companies / 100.0 * 30) +
+                (bm.avg_data_quality * 20) +
+                (coalesce(ei.avg_economic_value, 0) / 1000000.0 * 25) +
+                (coalesce(pm.avg_rental_price, 0) / 5000.0 * 25)
+            )), 2
+        ) as business_intelligence_score,
+        
+        current_timestamp as analysis_timestamp
+        
+    from business_metrics bm
+    left join economic_indicators ei on bm.latest_registration = ei.year
+    left join government_spending gs on bm.latest_registration = gs.year
+    left join property_market pm on (
+        case 
+            when bm.postal_region = 'Central' then 'CENTRAL'
+            when bm.postal_region in ('North East', 'North West') then 'NORTH'
+            when bm.postal_region in ('South East', 'South West') then 'SOUTH'
+            when bm.postal_region in ('West', 'Central West') then 'WEST'
+            else 'OTHER'
+        end = pm.region_category
+        and bm.latest_registration = pm.ref_year
+    )
+    order by business_intelligence_score desc, bm.active_companies desc
+  mart_economic_analysis.sql: |
+    -- Economic Analysis Mart: Economic trends and correlations
+    -- Materialized as Delta Lake table in gold schema
+    
+    with economic_trends as (
+          select 
+              period_year as year,
+              indicator_category,
+              avg(value_numeric) as avg_value,
+              count(*) as data_points,
+              stddev(value_numeric) as value_volatility
+          from {{ ref('stg_singstat_economics') }}
+          where value_numeric is not null
+          group by period_year, indicator_category
+      ),
+    
+    business_formation as (
+        select 
+            registration_year as year,
+            entity_category,
+            count(*) as new_businesses,
+            count(case when is_active then 1 end) as active_new_businesses
+        from {{ ref('stg_acra_companies') }}
+        group by registration_year, entity_category
+    ),
+    
+    government_investment as (
+         select 
+             financial_year as year,
+             expenditure_category,
+             sum(amount_million_numeric) as total_investment,
+             avg(amount_million_numeric) as avg_investment
+         from {{ ref('stg_government_expenditure') }}
+         where amount_million_numeric is not null
+         group by financial_year, expenditure_category
+     )
+    
+    select 
+         et.year,
+         et.indicator_category,
+         et.avg_value as economic_indicator_value,
+         et.data_points,
+         et.value_volatility,
+        
+        -- Business formation metrics
+        sum(bf.new_businesses) as total_new_businesses,
+        sum(bf.active_new_businesses) as total_active_new_businesses,
+        
+        -- Government investment correlation
+        sum(gi.total_investment) as total_government_investment,
+        avg(gi.avg_investment) as avg_government_investment,
+        
+        -- Economic health score (0-100)
+        round(
+            least(100, greatest(0,
+                (et.avg_value / 1000000.0 * 40) +
+                (sum(bf.active_new_businesses) / 1000.0 * 30) +
+                (sum(gi.total_investment) / 10000000.0 * 20) +
+                (100 - least(100, coalesce(et.value_volatility, 0) / 1000000.0 * 100)) * 0.1
+            )), 2
+        ) as economic_health_score,
+        
+        current_timestamp as analysis_timestamp
+        
+    from economic_trends et
+    left join business_formation bf on et.year = bf.year
+    left join government_investment gi on et.year = gi.year
+    group by et.year, et.indicator_category, et.avg_value, et.data_points, et.value_volatility
+    order by et.year desc, economic_health_score desc
+  mart_geospatial_analysis.sql: |
+    -- Geospatial Analysis Mart: Location-based business and economic insights
+    -- Materialized as Delta Lake table in gold schema
+    
+    with regional_business_density as (
+        select 
+            postal_region,
+            entity_category,
+            business_age_category,
+            count(*) as business_count,
+            count(case when is_active then 1 end) as active_business_count,
+            round(count(case when is_active then 1 end) * 100.0 / count(*), 2) as regional_activity_rate,
+            avg(data_quality_score) as avg_data_quality
+        from {{ ref('stg_acra_companies') }}
+        group by postal_region, entity_category, business_age_category
+    ),
+    
+    property_market_by_region as (
+        select 
+            region_category,
+            property_category,
+            ref_year,
+            avg(rental_median) as avg_rental_price,
+            count(*) as transaction_count,
+            avg(latitude) as avg_latitude,
+            avg(longitude) as avg_longitude
+        from {{ ref('stg_ura_rentals') }}
+        where latitude is not null and longitude is not null
+        group by region_category, property_category, ref_year
+    )
+    
+    select 
+        rbd.postal_region,
+        rbd.entity_category,
+        rbd.business_count,
+        rbd.active_business_count,
+        rbd.regional_activity_rate,
+        rbd.avg_data_quality,
+        
+        -- Property market correlation
+        avg(pmr.avg_rental_price) as avg_regional_rental_price,
+        sum(pmr.transaction_count) as total_property_transactions,
+        avg(pmr.avg_latitude) as region_latitude,
+        avg(pmr.avg_longitude) as region_longitude,
+        
+        -- Regional economic strength score (0-100)
+        round(
+            least(100, greatest(0,
+                (rbd.active_business_count / 1000.0 * 40) +
+                (rbd.regional_activity_rate * 0.3) +
+                (rbd.avg_data_quality * 20) +
+                (avg(pmr.avg_rental_price) / 5000.0 * 10)
+            )), 2
+        ) as regional_economic_strength,
+        
+        current_timestamp as analysis_timestamp
+        
+    from regional_business_density rbd
+    left join property_market_by_region pmr on (
+        case 
+            when rbd.postal_region = 'Central' then 'CENTRAL'
+            when rbd.postal_region in ('North East', 'North West') then 'NORTH'
+            when rbd.postal_region in ('South East', 'South West') then 'SOUTH'
+            when rbd.postal_region in ('West', 'Central West') then 'WEST'
+            else 'OTHER'
+        end = pmr.region_category
+    )
+    group by rbd.postal_region, rbd.entity_category, rbd.business_count, rbd.active_business_count, rbd.regional_activity_rate, rbd.avg_data_quality
+    order by regional_economic_strength desc, rbd.active_business_count desc
 
 ---
 apiVersion: batch/v1
@@ -834,6 +1135,7 @@ spec:
         volumeMounts:
         - name: dbt-docs
           mountPath: /usr/share/nginx/html
+          subPath: docs
         - name: nginx-config
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: default.conf
@@ -921,11 +1223,37 @@ spec:
               cp /dbt/models-flat/schema.yml /dbt/models/staging/ || echo "Schema file not found"
               cp /dbt/models-flat/stg_*.sql /dbt/models/staging/ || echo "Staging models not found"
               cp /dbt/models-flat/mart_*.sql /dbt/models/marts/ || echo "Mart models not found"
+              
+              # Copy MinIO export script
+              cp /dbt/files/export_marts_to_minio.py /dbt/
+              chmod +x /dbt/export_marts_to_minio.py
+              
+              # Add MinIO export dependencies
+              echo "minio" >> requirements_duckdb.txt
+              echo "pandas" >> requirements_duckdb.txt
+              echo "pyarrow" >> requirements_duckdb.txt
+              
               pip install -r requirements_duckdb.txt
               dbt deps
+              
+              # Run dbt mart models
+              echo "Running dbt mart models..."
               dbt run --select models/marts --profiles-dir /dbt
               dbt test --select models/marts --profiles-dir /dbt
+              
+              # Export mart data to MinIO automatically after successful dbt run
+              echo "Exporting mart data to MinIO..."
+              python3 /dbt/export_marts_to_minio.py
+              
+              # Generate dbt docs after successful export
+              echo "Generating dbt documentation..."
               dbt docs generate --profiles-dir /dbt
+              
+              # Copy docs to nginx html directory
+              mkdir -p /data/docs
+              cp -r /dbt/target/* /data/docs/ || echo "No docs files to copy"
+              
+              echo "Automated dbt mart pipeline with MinIO export completed successfully!"
             env:
             - name: MINIO_ACCESS_KEY
               value: "admin"

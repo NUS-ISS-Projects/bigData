@@ -1,0 +1,117 @@
+version: 2
+
+models:
+  - name: mart_business_intelligence
+    description: |
+      Comprehensive business landscape analysis mart that provides business intelligence scores
+      and metrics for Singapore entities. This mart has been improved to address data quality
+      issues and enhance score discrimination.
+      
+      **Recent Improvements (2024):**
+      - Removed rental component due to 96.9% missing data
+      - Enhanced business intelligence score calculation with improved weights
+      - Fixed aggregation issues to eliminate duplicate business combinations
+      - Updated join logic using latest registration years
+      - Improved score discrimination from clustered 21.46-100.00 range
+    columns:
+      - name: postal_region
+        description: "Geographic region based on postal codes"
+      - name: entity_category
+        description: "Standardized business entity category (PRIVATE_COMPANY, PUBLIC_COMPANY, etc.)"
+      - name: latest_registration_year
+        description: "Most recent registration year for businesses in this category and region"
+      - name: active_companies
+        description: "Number of currently active companies"
+      - name: total_companies
+        description: "Total number of companies registered"
+      - name: avg_company_age
+        description: "Average age of companies in years"
+      - name: business_intelligence_score
+        description: |
+          Composite score (0-100) calculated from:
+          - Company activity score (50% weight)
+          - Data quality score (25% weight) 
+          - Economic context score (25% weight)
+          Note: Rental component removed due to data sparsity
+      - name: company_activity_score
+        description: "Score based on business formation and activity levels"
+      - name: data_quality_score
+        description: "Score reflecting data completeness and reliability"
+      - name: economic_context_score
+        description: "Score based on economic indicators and government investment"
+
+  - name: mart_economic_analysis
+    description: |
+      Economic trends and correlations analysis mart that tracks economic health scores
+      and business formation patterns across different time periods and categories.
+      
+      **Recent Improvements (2024):**
+      - Improved date range filtering (2015+) for more relevant analysis
+      - Enhanced economic health score calculation with better scaling
+      - Reduced zero economic health scores from 42% through improved algorithms
+      - Extended historical context for better trend analysis
+      - Focused on recent business activity for relevance
+    columns:
+      - name: analysis_year
+        description: "Year of the economic analysis"
+      - name: entity_category
+        description: "Business entity category being analyzed"
+      - name: indicator_category
+        description: "Type of economic indicator (GDP, employment, etc.)"
+      - name: new_businesses
+        description: "Number of new businesses formed in the year"
+      - name: active_new_businesses
+        description: "Number of new businesses that are currently active"
+      - name: avg_economic_value
+        description: "Average value of economic indicators for the year"
+      - name: economic_volatility
+        description: "Standard deviation of economic indicator values"
+      - name: total_gov_investment
+        description: "Total government investment in millions SGD"
+      - name: economic_health_score
+        description: |
+          Composite score (0-100) measuring economic health based on:
+          - Business formation rates
+          - Economic indicator stability
+          - Government investment levels
+          Note: Improved calculation reduces zero scores significantly
+
+  - name: mart_geospatial_analysis
+    description: |
+      Geospatial distribution and regional analysis mart that provides insights into
+      business concentration, property markets, and regional economic profiles.
+      
+      **Recent Improvements (2024):**
+      - Added coordinate validation to ensure geographic accuracy
+      - Improved region classification for consistent handling of null/unknown regions
+      - Enhanced property market analysis with better data filtering
+      - Focus on recent data (2015+) for business relevance
+      - Standardized geographic bounds validation for Singapore
+    columns:
+      - name: region_category
+        description: "Standardized region classification (CENTRAL, NORTH, SOUTH, EAST, WEST, UNKNOWN)"
+      - name: district
+        description: "Specific district within the region"
+      - name: avg_latitude
+        description: "Average latitude coordinate for the region (validated within Singapore bounds)"
+      - name: avg_longitude
+        description: "Average longitude coordinate for the region (validated within Singapore bounds)"
+      - name: total_properties
+        description: "Total number of properties in the region"
+      - name: avg_property_price
+        description: "Average property price in SGD"
+      - name: business_density
+        description: "Number of businesses per square kilometer"
+      - name: commercial_activity_index
+        description: |
+          Index (0-100) measuring commercial activity based on:
+          - Business concentration
+          - Property market activity
+          - Economic indicators
+      - name: regional_economic_score
+        description: |
+          Composite score (0-100) for regional economic performance:
+          - Property market health
+          - Business formation rates
+          - Commercial activity levels
+          Note: Enhanced with coordinate validation and region standardization

@@ -104,6 +104,8 @@ class BronzeToSilverETL:
             .withColumn("is_active", 
                        when(col("entity_status_clean") == "LIVE", True)
                        .when(col("entity_status_clean") == "ACTIVE", True)
+                       .when(col("entity_status_clean") == "REGISTERED", True)
+                       .when(col("entity_status_clean") == "LIVE COMPANY", True)
                        .otherwise(False)) \
             .withColumn("data_quality_score", 
                        (when(col("uen").isNotNull(), 1).otherwise(0) +
