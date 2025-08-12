@@ -707,21 +707,21 @@ class VisualEconomicAnalyzer:
                         'x': valid_rentals.tolist(),
                         'nbins': 30
                     },
-                    'title': 'Property Rental Price Distribution',
+                    'title': 'Property Rental Price Distribution (SGD per sqft)',
                     'description': 'Distribution of median rental prices across properties'
                 }
             
-            # 2. Property Types Analysis
-            if 'property_type' in prop_data.columns:
-                type_counts = prop_data['property_type'].value_counts()
-                charts['property_types'] = {
+            # 2. Service Type Analysis (replacing property_type)
+            if 'service_type' in prop_data.columns:
+                type_counts = prop_data['service_type'].value_counts()
+                charts['service_types'] = {
                     'type': 'donut',
                     'data': {
                         'labels': type_counts.index.tolist(),
                         'values': type_counts.values.tolist()
                     },
-                    'title': 'Property Types Distribution',
-                    'description': 'Breakdown of properties by type'
+                    'title': 'Property Service Types Distribution',
+                    'description': 'Breakdown of properties by service type'
                 }
             
             # 3. District-wise Analysis
@@ -752,6 +752,165 @@ class VisualEconomicAnalyzer:
                         'title': 'Property Price Range Distribution',
                         'description': 'Properties categorized by rental price ranges'
                     }
+            
+            # 5. Creative Rental Quartiles Visualization - Interactive Sunburst with Animated Transitions
+            if all(col in prop_data.columns for col in ['district', 'rental_median', 'rental_psf25', 'rental_psf75']):
+                valid_rental_data = prop_data[
+                    (prop_data['rental_median'].notna()) & 
+                    (prop_data['rental_psf25'].notna()) & 
+                    (prop_data['rental_psf75'].notna()) &
+                    (prop_data['district'].notna())
+                ].copy()
+                
+                if not valid_rental_data.empty:
+                    # Aggregate by district
+                    district_summary = valid_rental_data.groupby('district').agg({
+                        'rental_median': 'mean',
+                        'rental_psf25': 'mean',
+                        'rental_psf75': 'mean',
+                        'project_name': 'count'
+                    }).reset_index()
+                    
+                    # Create price tiers for creative categorization
+                    district_summary['price_tier'] = pd.cut(
+                        district_summary['rental_median'], 
+                        bins=4, 
+                        labels=['Budget-Friendly', 'Mid-Range', 'Premium', 'Luxury']
+                    )
+                    
+                    # Create rental spread categories
+                    district_summary['rental_spread'] = district_summary['rental_psf75'] - district_summary['rental_psf25']
+                    district_summary['volatility'] = pd.cut(
+                        district_summary['rental_spread'],
+                        bins=3,
+                        labels=['Stable', 'Moderate', 'Variable']
+                    )
+                    
+                    # Prepare hierarchical data for sunburst
+                    sunburst_data = []
+                    colors = []
+                    
+                    # Color schemes for different tiers
+                    tier_colors = {
+                        'Budget-Friendly': '#2E8B57',  # Sea Green
+                        'Mid-Range': '#4682B4',        # Steel Blue  
+                        'Premium': '#DAA520',          # Goldenrod
+                        'Luxury': '#8B0000'            # Dark Red
+                    }
+                    
+                    volatility_colors = {
+                        'Stable': '#90EE90',     # Light Green
+                        'Moderate': '#FFD700',   # Gold
+                        'Variable': '#FF6347'    # Tomato
+                    }
+                    
+                    # Build sunburst hierarchy: Root -> Price Tier -> Volatility -> District
+                    # First pass: collect all districts and calculate parent values
+                    tier_values = {}
+                    volatility_values = {}
+                    
+                    for _, row in district_summary.iterrows():
+                        tier = str(row['price_tier'])
+                        volatility = str(row['volatility'])
+                        district = f"District {row['district']}"
+                        volatility_id = f"{tier}-{volatility}"
+                        
+                        # Accumulate values for parent nodes
+                        if tier not in tier_values:
+                            tier_values[tier] = 0
+                        tier_values[tier] += row['rental_median']
+                        
+                        if volatility_id not in volatility_values:
+                            volatility_values[volatility_id] = 0
+                        volatility_values[volatility_id] += row['rental_median']
+                    
+                    # Second pass: build the hierarchy with proper values
+                    for _, row in district_summary.iterrows():
+                        tier = str(row['price_tier'])
+                        volatility = str(row['volatility'])
+                        district = f"District {row['district']}"
+                        
+                        # Add tier level with aggregated value
+                        if tier not in [item['ids'] for item in sunburst_data]:
+                            sunburst_data.append({
+                                'ids': tier,
+                                'labels': tier,
+                                'parents': '',
+                                'values': tier_values[tier]
+                            })
+                        
+                        # Add volatility level with aggregated value
+                        volatility_id = f"{tier}-{volatility}"
+                        if volatility_id not in [item['ids'] for item in sunburst_data]:
+                            sunburst_data.append({
+                                'ids': volatility_id,
+                                'labels': volatility,
+                                'parents': tier,
+                                'values': volatility_values[volatility_id]
+                            })
+                        
+                        # Add district level
+                        district_id = f"{volatility_id}-{district}"
+                        sunburst_data.append({
+                            'ids': district_id,
+                            'labels': district,
+                            'parents': volatility_id,
+                            'values': row['rental_median'],
+                            'rental_info': {
+                                'median': row['rental_median'],
+                                'q25': row['rental_psf25'],
+                                'q75': row['rental_psf75'],
+                                'count': row['project_name'],
+                                'spread': row['rental_spread']
+                            }
+                        })
+                    
+                    charts['rental_quartiles'] = {
+                        'type': 'creative_sunburst',
+                        'data': {
+                            'sunburst_data': sunburst_data,
+                            'tier_colors': tier_colors,
+                            'volatility_colors': volatility_colors,
+                            'district_summary': district_summary.to_dict('records')
+                        },
+                        'title': '🏠 Singapore Rental Market Galaxy',
+                        'description': 'Interactive exploration of rental quartiles through price tiers and market volatility'
+                    }
+            else:
+                # Fallback to bubble map if sunburst conditions not met
+                if 'district' in prop_data.columns and 'rental_median' in prop_data.columns:
+                    district_data = prop_data.groupby('district').agg({
+                        'rental_median': 'mean',
+                        'lat': 'first',
+                        'lon': 'first'
+                    }).reset_index()
+                    
+                    charts['rental_quartiles'] = {
+                        'title': 'Singapore Rental Price Map by District',
+                        'chart_type': 'bubble_map',
+                        'description': 'Geographic visualization of rental prices across Singapore districts',
+                        'data': {
+                            'lat': district_data['lat'].tolist(),
+                            'lon': district_data['lon'].tolist(),
+                            'districts': district_data['district'].tolist(),
+                            'rental_median': district_data['rental_median'].tolist()
+                        }
+                    }
+            
+            # 6. Time Period Analysis (new chart using ref_period)
+            if 'ref_period' in prop_data.columns and 'rental_median' in prop_data.columns:
+                period_rentals = prop_data.groupby('ref_period')['rental_median'].agg(['mean', 'count']).reset_index()
+                period_rentals = period_rentals.sort_values('ref_period')
+                
+                charts['period_trends'] = {
+                    'type': 'line',
+                    'data': {
+                        'x': period_rentals['ref_period'].tolist(),
+                        'y': period_rentals['mean'].tolist()
+                    },
+                    'title': 'Rental Price Trends Over Time',
+                    'description': 'Average rental prices across different time periods'
+                }
                     
         except Exception as e:
             self.logger.error(f"Error creating property market charts: {e}")

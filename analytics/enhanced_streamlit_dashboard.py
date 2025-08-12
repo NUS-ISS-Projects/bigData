@@ -2599,6 +2599,7 @@ class EnhancedDashboard:
                         )
                     
                     # Apply smoothing if selected
+                    gdp_growth_data = gdp_growth_data.copy()  # Create explicit copy to avoid SettingWithCopyWarning
                     if smoothing_window > 1:
                         gdp_growth_data['gdp_growth_smooth'] = gdp_growth_data['gdp_growth'].rolling(
                             window=smoothing_window, center=True
@@ -2773,10 +2774,34 @@ class EnhancedDashboard:
     
     def render_property_market(self, visual_report: Dict[str, Any]):
         """Render property market analysis"""
-        st.header("🏠 Property Market Intelligence")
+        # Enhanced header with gradient styling
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        ">
+            <h1 style="
+                color: white;
+                text-align: center;
+                margin: 0;
+                font-size: 2.5rem;
+                font-weight: 700;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            ">🏠 Property Market Intelligence</h1>
+            <p style="
+                color: rgba(255,255,255,0.9);
+                text-align: center;
+                margin: 0.5rem 0 0 0;
+                font-size: 1.2rem;
+            ">Comprehensive Analysis of Singapore's Rental Market</p>
+        </div>
+        """, unsafe_allow_html=True)
         
         if 'visualizations' not in visual_report or 'property_market' not in visual_report['visualizations']:
-            st.warning("Property market data not available")
+            st.error("🚫 Property market data not available")
             return
         
         charts = visual_report['visualizations']['property_market']
@@ -2791,51 +2816,324 @@ class EnhancedDashboard:
         # Save JSON
         self._save_page_json("property_market", page_content)
         
-        col1, col2 = st.columns(2)
+        # Section 1: Market Overview
+        st.markdown("""
+        <div style="
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        ">
+            <h3 style="color: white; margin: 0; text-align: center;">📊 Market Distribution Overview</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        col1, col2 = st.columns(2, gap="large")
         
         with col1:
-            # Rental Distribution
+            # Enhanced Rental Distribution
             if 'rental_distribution' in charts:
                 chart_data = charts['rental_distribution']
                 fig = px.histogram(
                     x=chart_data['data']['x'],
                     nbins=chart_data['data']['nbins'],
-                    title=chart_data['title']
+                    title=chart_data['title'],
+                    labels={'x': 'Rental Price (SGD per sqft)', 'y': 'Number of Properties'},
+                    color_discrete_sequence=['#667eea']
                 )
+                fig.update_layout(
+                    height=450,
+                    title_font_size=16,
+                    title_font_color='#2c3e50',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family="Arial, sans-serif", size=12),
+                    margin=dict(t=60, b=40, l=40, r=40)
+                )
+                fig.update_traces(marker_line_width=1, marker_line_color="white")
                 st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            # Property Types
-            if 'property_types' in charts:
-                chart_data = charts['property_types']
+            # Enhanced Service Types
+            if 'service_types' in charts:
+                chart_data = charts['service_types']
                 fig = px.pie(
                     values=chart_data['data']['values'],
                     names=chart_data['data']['labels'],
                     title=chart_data['title'],
-                    hole=0.4
+                    hole=0.5,
+                    color_discrete_sequence=['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57']
+                )
+                fig.update_layout(
+                    height=450,
+                    title_font_size=16,
+                    title_font_color='#2c3e50',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family="Arial, sans-serif", size=12),
+                    margin=dict(t=60, b=40, l=40, r=40)
+                )
+                fig.update_traces(textposition='inside', textinfo='percent+label')
+                st.plotly_chart(fig, use_container_width=True)
+        
+        # Section 2: Geographic & Price Analysis
+        st.markdown("""
+        <div style="
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        ">
+            <h3 style="color: white; margin: 0; text-align: center;">🗺️ Geographic & Price Analysis</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        col3, col4 = st.columns(2, gap="large")
+        
+        with col3:
+            # Enhanced District Analysis
+            if 'district_rentals' in charts:
+                chart_data = charts['district_rentals']
+                fig = px.bar(
+                    x=chart_data['data']['x'],
+                    y=chart_data['data']['y'],
+                    title=chart_data['title'],
+                    labels={'x': 'District', 'y': 'Average Rental (SGD per sqft)'},
+                    color=chart_data['data']['y'],
+                    color_continuous_scale='Viridis'
+                )
+                fig.update_layout(
+                    xaxis_tickangle=-45,
+                    height=450,
+                    title_font_size=16,
+                    title_font_color='#2c3e50',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family="Arial, sans-serif", size=12),
+                    margin=dict(t=60, b=80, l=40, r=40)
+                )
+                fig.update_traces(marker_line_width=1, marker_line_color="white")
+                st.plotly_chart(fig, use_container_width=True)
+        
+        with col4:
+            # Enhanced Price Ranges
+            if 'price_ranges' in charts:
+                chart_data = charts['price_ranges']
+                fig = px.bar(
+                    x=chart_data['data']['x'],
+                    y=chart_data['data']['y'],
+                    title=chart_data['title'],
+                    labels={'x': 'Price Range', 'y': 'Number of Properties'},
+                    color=chart_data['data']['y'],
+                    color_continuous_scale='Plasma'
+                )
+                fig.update_layout(
+                    height=450,
+                    title_font_size=16,
+                    title_font_color='#2c3e50',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family="Arial, sans-serif", size=12),
+                    margin=dict(t=60, b=40, l=40, r=40)
+                )
+                fig.update_traces(marker_line_width=1, marker_line_color="white")
+                st.plotly_chart(fig, use_container_width=True)
+        
+        # Section 3: Advanced Analytics
+        st.markdown("""
+        <div style="
+            background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        ">
+            <h3 style="color: white; margin: 0; text-align: center;">📈 Advanced Market Analytics</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        col5, col6 = st.columns(2, gap="large")
+        
+        with col5:
+            # Creative Rental Market Galaxy - Interactive Sunburst
+            if 'rental_quartiles' in charts:
+                chart_data = charts['rental_quartiles']
+                
+                # Check if it's the new creative sunburst type
+                if chart_data.get('type') == 'creative_sunburst':
+                    # Extract sunburst data
+                    sunburst_data = chart_data['data']['sunburst_data']
+                    tier_colors = chart_data['data']['tier_colors']
+                    volatility_colors = chart_data['data']['volatility_colors']
+                    
+                    # Prepare data for Plotly sunburst
+                    ids = [item['ids'] for item in sunburst_data]
+                    labels = [item['labels'] for item in sunburst_data]
+                    parents = [item['parents'] for item in sunburst_data]
+                    values = [item.get('values', 1) for item in sunburst_data]
+                    
+                    # Create custom hover text
+                    hover_text = []
+                    for item in sunburst_data:
+                        if 'rental_info' in item:
+                            info = item['rental_info']
+                            hover_text.append(
+                                f"{item['labels']}<br>" +
+                                f"💰 Median: ${info['median']:.2f}/sqft<br>" +
+                                f"📊 Range: ${info['q25']:.2f} - ${info['q75']:.2f}<br>" +
+                                f"🏢 Properties: {info['count']}<br>" +
+                                f"📈 Spread: ${info['spread']:.2f}"
+                            )
+                        else:
+                            hover_text.append(f"{item['labels']}<br>Click to explore!")
+                    
+                    # Create dynamic color mapping
+                    colors = []
+                    for item in sunburst_data:
+                        if item['parents'] == '':  # Root level (price tiers)
+                            colors.append(tier_colors.get(item['labels'], '#cccccc'))
+                        elif '-' in item['ids'] and item['ids'].count('-') == 1:  # Volatility level
+                            volatility_name = item['labels']
+                            colors.append(volatility_colors.get(volatility_name, '#cccccc'))
+                        else:  # District level
+                            # Use gradient based on rental value
+                            if 'rental_info' in item:
+                                rental_val = item['rental_info']['median']
+                                # Create gradient from blue to red based on rental price
+                                if rental_val < 4:
+                                    colors.append('#4CAF50')  # Green for low
+                                elif rental_val < 6:
+                                    colors.append('#FF9800')  # Orange for medium
+                                else:
+                                    colors.append('#F44336')  # Red for high
+                            else:
+                                colors.append('#9E9E9E')  # Gray default
+                    
+                    # Create the sunburst chart
+                    fig = go.Figure(go.Sunburst(
+                        ids=ids,
+                        labels=labels,
+                        parents=parents,
+                        values=values,
+                        branchvalues="total",
+                        hovertemplate='%{customdata}<extra></extra>',
+                        customdata=hover_text,
+                        marker=dict(
+                            colors=colors,
+                            line=dict(color="#FFFFFF", width=2)
+                        ),
+                        maxdepth=3,
+                        insidetextorientation='radial'
+                    ))
+                    
+                    fig.update_layout(
+                        title={
+                            'text': chart_data['title'],
+                            'x': 0.5,
+                            'xanchor': 'center',
+                            'font': {'size': 18, 'color': '#2c3e50'}
+                        },
+                        height=500,
+                        font=dict(family="Arial, sans-serif", size=11),
+                        margin=dict(t=80, b=40, l=40, r=40),
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        plot_bgcolor='rgba(0,0,0,0)'
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+                    # Add interactive legend/guide
+                    st.markdown("""
+                    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                padding: 15px; border-radius: 10px; margin-top: 10px;'>
+                        <h4 style='color: white; margin: 0 0 10px 0;'>🌟 How to Navigate the Rental Galaxy</h4>
+                        <div style='color: white; font-size: 14px;'>
+                            <p style='margin: 5px 0;'>🎯 <strong>Inner Ring:</strong> Price Tiers (Budget-Friendly → Luxury)</p>
+                            <p style='margin: 5px 0;'>🌊 <strong>Middle Ring:</strong> Market Volatility (Stable → Variable)</p>
+                            <p style='margin: 5px 0;'>🏘️ <strong>Outer Ring:</strong> Individual Districts</p>
+                            <p style='margin: 5px 0;'>💡 <strong>Tip:</strong> Click any segment to zoom in and explore!</p>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                elif chart_data.get('type') == 'bubble_map':
+                    # Legacy bubble map support (if needed)
+                    st.info("🔄 Bubble map has been upgraded to the new Rental Galaxy! Refresh to see the latest visualization.")
+                    
+                else:
+                    # Fallback to original box plot if data format is old
+                    fig = go.Figure()
+                    colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff']
+                    
+                    for i, district in enumerate(chart_data['data']['districts']):
+                        fig.add_trace(go.Box(
+                            q1=[chart_data['data']['q25'][i]],
+                            median=[chart_data['data']['median'][i]],
+                            q3=[chart_data['data']['q75'][i]],
+                            name=f"District {district}",
+                            boxpoints=False,
+                            marker_color=colors[i % len(colors)],
+                            line=dict(width=2)
+                        ))
+                    
+                    fig.update_layout(
+                        title=chart_data['title'],
+                        yaxis_title="Rental Price (SGD per sqft)",
+                        height=450,
+                        title_font_size=16,
+                        title_font_color='#2c3e50',
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        font=dict(family="Arial, sans-serif", size=12),
+                        margin=dict(t=60, b=40, l=40, r=40),
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+        
+        with col6:
+            # Enhanced Period Trends
+            if 'period_trends' in charts:
+                chart_data = charts['period_trends']
+                fig = px.line(
+                    x=chart_data['data']['x'],
+                    y=chart_data['data']['y'],
+                    title=chart_data['title'],
+                    labels={'x': 'Time Period', 'y': 'Average Rental (SGD per sqft)'},
+                    line_shape='spline'
+                )
+                fig.update_traces(
+                    mode='lines+markers',
+                    line=dict(color='#667eea', width=4),
+                    marker=dict(size=8, color='#764ba2', line=dict(width=2, color='white'))
+                )
+                fig.update_layout(
+                    height=450,
+                    title_font_size=16,
+                    title_font_color='#2c3e50',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family="Arial, sans-serif", size=12),
+                    margin=dict(t=60, b=40, l=40, r=40),
+                    xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)'),
+                    yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)')
                 )
                 st.plotly_chart(fig, use_container_width=True)
         
-        # District Analysis
-        if 'district_rentals' in charts:
-            chart_data = charts['district_rentals']
-            fig = px.bar(
-                x=chart_data['data']['x'],
-                y=chart_data['data']['y'],
-                title=chart_data['title']
-            )
-            fig.update_layout(xaxis_tickangle=-45)
-            st.plotly_chart(fig, use_container_width=True)
-        
-        # Price Ranges
-        if 'price_ranges' in charts:
-            chart_data = charts['price_ranges']
-            fig = px.bar(
-                x=chart_data['data']['x'],
-                y=chart_data['data']['y'],
-                title=chart_data['title']
-            )
-            st.plotly_chart(fig, use_container_width=True)
+        # Add summary metrics at the bottom
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: center;
+        ">
+            <h4 style="color: white; margin: 0 0 0.5rem 0;">💡 Market Insights</h4>
+            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 1.1rem;">
+                Comprehensive analysis of Singapore's property rental market across districts and time periods
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
     
     def render_cross_sector_analysis(self, visual_report: Dict[str, Any]):
         """Render cross-sector correlation analysis"""
