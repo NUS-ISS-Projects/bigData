@@ -583,8 +583,7 @@ def main():
             active_companies = len(data['acra'][data['acra']['entity_status'] == 'Live']) if not data['acra'].empty and 'entity_status' in data['acra'].columns else companies_count
             st.metric(
                 "Total Companies", 
-                f"{companies_count:,}",
-                delta=f"{active_companies:,} Active" if active_companies != companies_count else None
+                f"{companies_count:,}"
             )
         
         with col2:
@@ -592,8 +591,7 @@ def main():
             latest_period = data['economic']['data_series_id'].nunique() if not data['economic'].empty and 'data_series_id' in data['economic'].columns else 0
             st.metric(
                 "Economic Indicators", 
-                indicators_count,
-                delta=f"{latest_period:,} Data Series"
+                indicators_count
             )
         
         with col3:
@@ -601,8 +599,7 @@ def main():
             avg_spending = gov_spending / len(data['government']) if not data['government'].empty else 0
             st.metric(
                 "Gov Spending (M SGD)", 
-                f"{gov_spending:.1f}",
-                delta=f"Avg: ${avg_spending:.1f}M per category"
+                f"{gov_spending:.1f}"
             )
         
         with col4:
@@ -610,8 +607,7 @@ def main():
             unique_projects = data['property']['project'].nunique() if not data['property'].empty and 'project' in data['property'].columns else 0
             st.metric(
                 "Property Records", 
-                f"{property_records:,}",
-                delta=f"{unique_projects} Unique Projects" if unique_projects > 0 else None
+                f"{property_records:,}"
             )
         
         # Enhanced insights with data quality indicators
@@ -1204,24 +1200,21 @@ def main():
         with col1:
             st.metric(
                 "Database Connection", 
-                "✅ Connected" if db_status else "❌ Disconnected",
-                delta="Healthy" if db_status else "Check Configuration"
+                "✅ Connected" if db_status else "❌ Disconnected"
             )
         
         with col2:
             llm_status = enable_llm and api_key
             st.metric(
                 "LLM Integration", 
-                "✅ Enabled" if llm_status else "❌ Disabled",
-                delta="Enhanced Analysis" if llm_status else "Basic Analysis Only"
+                "✅ Enabled" if llm_status else "❌ Disabled"
             )
         
         with col3:
             data_status = data is not None and any(not df.empty for df in data.values())
             st.metric(
                 "Data Availability", 
-                "✅ Available" if data_status else "❌ Unavailable",
-                delta="Ready for Analysis" if data_status else "Check Data Sources"
+                "✅ Available" if data_status else "❌ Unavailable"
             )
         
         # Data Source Details

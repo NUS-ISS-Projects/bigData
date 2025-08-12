@@ -39,7 +39,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for enhanced styling with dynamic backgrounds
+# Custom CSS for enhanced styling with Property Market theme
 st.markdown("""
 <style>
     /* Dynamic animated background */
@@ -77,16 +77,16 @@ st.markdown("""
         50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(102, 126, 234, 0.3); }
     }
     
-    /* Floating particles - Apple minimalist style */
+    /* Floating particles - Property Market theme */
     .particle {
         position: absolute;
-        width: 3px;
-        height: 3px;
-        background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+        width: 4px;
+        height: 4px;
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.4) 50%, transparent 70%);
         border-radius: 50%;
         pointer-events: none;
         animation: particleFloat 8s ease-in-out infinite;
-        opacity: 0.6;
+        opacity: 0.8;
     }
     
     .particle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
@@ -96,45 +96,46 @@ st.markdown("""
     .particle:nth-child(5) { top: 40%; left: 90%; animation-delay: 4s; }
     .particle:nth-child(6) { top: 70%; left: 5%; animation-delay: 5s; }
     
-    /* Enhanced sidebar styling - Apple Black Theme */
+    /* Enhanced sidebar styling - Property Market Theme */
     .stSidebar {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+        background: linear-gradient(180deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
         backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .stSidebar .stSelectbox > div > div {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 10px;
         color: white;
     }
     
     .stSidebar .stButton > button {
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(40, 40, 40, 0.8) 100%);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
         color: white;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 15px;
         padding: 0.5rem 1rem;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
     
     .stSidebar .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
-        background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(60, 60, 60, 0.9) 100%);
-        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+        border-color: rgba(255, 255, 255, 0.3);
     }
     
-    /* Enhanced tabs styling - Apple Black Theme */
+    /* Enhanced tabs styling - Property Market Theme */
     .stTabs [data-baseweb="tab-list"] {
-        background: rgba(0, 0, 0, 0.6);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.6) 100%);
         backdrop-filter: blur(20px);
         border-radius: 15px;
         padding: 0.5rem;
         margin-bottom: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
     }
     
     .stTabs [data-baseweb="tab"] {
@@ -146,7 +147,7 @@ st.markdown("""
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
         color: white !important;
         box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -157,14 +158,14 @@ st.markdown("""
         transform: translateY(-1px);
     }
     
-    /* Apple-inspired black theme */
+    /* Property Market inspired theme */
     .main .block-container {
         padding-top: 1rem;
         padding-bottom: 0rem;
         padding-left: 1rem;
         padding-right: 1rem;
         max-width: none;
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #000000 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #764ba2 75%, #667eea 100%);
         background-size: 400% 400%;
         animation: gradientShift 20s ease infinite;
         min-height: 100vh;
@@ -178,7 +179,7 @@ st.markdown("""
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(102, 126, 234, 0.1);
         z-index: -1;
     }
     
@@ -189,7 +190,7 @@ st.markdown("""
     .stApp {
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #000000 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #000000 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #764ba2 75%, #667eea 100%);
         background-size: 400% 400%;
         animation: gradientShift 20s ease infinite;
     }
@@ -201,15 +202,15 @@ st.markdown("""
         text-align: center;
         margin-bottom: 1rem;
         padding: 2rem;
-        background: rgba(0, 0, 0, 0.6);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         animation: float 3s ease-in-out infinite;
         position: relative;
         overflow: hidden;
-        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+        text-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
         letter-spacing: -0.5px;
     }
     
@@ -220,17 +221,17 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         animation: shimmer 3s infinite;
     }
     
     .metric-card {
-        background: rgba(0, 0, 0, 0.7);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         margin: 0.5rem 0;
         transition: all 0.3s ease;
         position: relative;
@@ -241,9 +242,9 @@ st.markdown("""
     
     .metric-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.8);
-        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        border-color: rgba(255, 255, 255, 0.3);
     }
     
     .metric-card::before {
@@ -253,20 +254,20 @@ st.markdown("""
         left: 0;
         right: 0;
         height: 2px;
-        background: linear-gradient(90deg, #ffffff, #cccccc, #ffffff);
+        background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
         background-size: 200% 200%;
         animation: gradientShift 4s ease infinite;
-        opacity: 0.3;
+        opacity: 0.6;
     }
     
     .insight-card {
-        background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -277,6 +278,7 @@ st.markdown("""
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
+        text-shadow: 0 1px 3px rgba(102, 126, 234, 0.5);
     }
     
     .insight-card ul {
@@ -291,13 +293,13 @@ st.markdown("""
     }
     
     .warning-card {
-        background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(255, 193, 7, 0.6) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
-        border: 1px solid rgba(255, 193, 7, 0.3);
+        border: 1px solid rgba(255, 193, 7, 0.4);
         margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(255, 193, 7, 0.1);
+        box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -322,13 +324,13 @@ st.markdown("""
     }
     
     .success-card {
-        background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(40, 167, 69, 0.6) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
-        border: 1px solid rgba(40, 167, 69, 0.3);
+        border: 1px solid rgba(40, 167, 69, 0.4);
         margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(40, 167, 69, 0.1);
+        box-shadow: 0 8px 32px rgba(40, 167, 69, 0.2);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -339,6 +341,7 @@ st.markdown("""
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
+        text-shadow: 0 1px 3px rgba(102, 126, 234, 0.5);
     }
     
     .success-card ul {
@@ -353,13 +356,13 @@ st.markdown("""
     }
     
     .chart-container {
-        background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 25px;
-        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
         margin: 0.5rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -368,9 +371,9 @@ st.markdown("""
     
     .chart-container:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.9);
-        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+        border-color: rgba(255, 255, 255, 0.3);
     }
     
     .chart-container::before {
@@ -380,20 +383,20 @@ st.markdown("""
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, #ffffff, #888888, #ffffff);
+        background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
         background-size: 300% 300%;
         animation: gradientShift 5s ease infinite;
-        opacity: 0.4;
+        opacity: 0.6;
     }
     
     .stMetric {
-        background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
         backdrop-filter: blur(20px);
         color: white;
         padding: 1.5rem;
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
         margin: 0.5rem 0;
         transition: all 0.3s ease;
         position: relative;
@@ -402,9 +405,9 @@ st.markdown("""
     
     .stMetric:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.9);
-        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+        border-color: rgba(255, 255, 255, 0.3);
     }
     
     .stMetric > div {
@@ -450,12 +453,12 @@ st.markdown("""
     }
     
     .stDataFrame {
-        background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
         backdrop-filter: blur(20px);
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     /* Enhanced plotly chart styling */
@@ -471,20 +474,43 @@ st.markdown("""
         box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
     }
     
-    /* Business Formation Overview Metrics Styling - Apple Black Theme */
-    .business-metrics .stMetric {
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.9) 100%);
+    /* Business Formation Overview Metrics Styling - Property Market Theme */
+    .business-metrics .stMetric,
+    [data-testid="metric-container"],
+    .stApp [data-testid="metric-container"],
+    div[data-testid="metric-container"] {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%) !important;
         backdrop-filter: blur(20px);
-        color: white;
-        padding: 2rem;
-        border-radius: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-        margin: 0.8rem 0;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        color: white !important;
+        padding: 2rem !important;
+        border-radius: 25px !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
+        margin: 0.8rem 0 !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         position: relative;
         overflow: hidden;
         animation: float 6s ease-in-out infinite;
+    }
+    
+    /* Additional targeting for all metric containers */
+    .stApp div[data-testid="metric-container"] {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%) !important;
+        color: white !important;
+        border-radius: 25px !important;
+        padding: 2rem !important;
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    /* Target metric containers in tabs */
+    .stTabs [data-testid="metric-container"] {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%) !important;
+        color: white !important;
+        border-radius: 25px !important;
+        padding: 2rem !important;
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
     
     .business-metrics .stMetric::before {
@@ -498,11 +524,14 @@ st.markdown("""
         animation: shimmer 4s infinite;
     }
     
-    .business-metrics .stMetric:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 16px 48px rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
-        background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
+    .business-metrics .stMetric:hover,
+    [data-testid="metric-container"]:hover,
+    .stApp [data-testid="metric-container"]:hover,
+    div[data-testid="metric-container"]:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.4) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%) !important;
     }
     
     .business-metrics .stMetric [data-testid="metric-container"] {
@@ -511,25 +540,31 @@ st.markdown("""
         padding: 0;
     }
     
-    .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-value"] {
+    .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-value"],
+    [data-testid="metric-container"] [data-testid="metric-value"],
+    div[data-testid="metric-container"] [data-testid="metric-value"] {
         color: #ffffff !important;
-        font-size: 2.2rem;
-        font-weight: 800;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        font-size: 2.2rem !important;
+        font-weight: 800 !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
     }
     
-    .business-metrics .stMetric [data-testid="metric-container"] label {
+    .business-metrics .stMetric [data-testid="metric-container"] label,
+    [data-testid="metric-container"] label,
+    div[data-testid="metric-container"] label {
         color: #dbeafe !important;
-        font-weight: 700;
-        font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
     }
     
-    .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-delta"] {
+    .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-delta"],
+    [data-testid="metric-container"] [data-testid="metric-delta"],
+    div[data-testid="metric-container"] [data-testid="metric-delta"] {
         color: #60a5fa !important;
-        font-weight: 600;
-        font-size: 1.1rem;
+        font-weight: 600 !important;
+        font-size: 1.1rem !important;
     }
     
     /* Enhanced regenerate button styling */
@@ -559,15 +594,15 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4) !important;
     }
 
-    /* AI-themed styling for insights */
+    /* Property Market themed styling for insights */
     .ai-insight-card {
-        background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 50%, rgba(15, 52, 96, 0.95) 100%);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(102, 126, 234, 0.95) 100%);
         backdrop-filter: blur(20px);
         color: #ffffff;
         padding: 2rem;
         border-radius: 20px;
-        border: 2px solid rgba(74, 144, 226, 0.6);
-        box-shadow: 0 8px 32px rgba(74, 144, 226, 0.4);
+        border: 2px solid rgba(102, 126, 234, 0.6);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
         margin: 1rem 0;
         position: relative;
         overflow: hidden;
@@ -577,8 +612,8 @@ st.markdown("""
     
     .ai-insight-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 16px 48px rgba(74, 144, 226, 0.6);
-        border-color: rgba(74, 144, 226, 0.9);
+        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.6);
+        border-color: rgba(102, 126, 234, 0.9);
     }
     
     .ai-insight-card::before {
@@ -588,7 +623,7 @@ st.markdown("""
         right: 0;
         width: 150px;
         height: 150px;
-        background: radial-gradient(circle, rgba(74, 144, 226, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(50px, -50px);
         animation: pulse 4s ease-in-out infinite;
@@ -601,20 +636,20 @@ st.markdown("""
         left: 0;
         width: 100px;
         height: 100px;
-        background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(-30px, 30px);
         animation: pulse 3s ease-in-out infinite reverse;
     }
     
     .ai-recommendation-card {
-        background: linear-gradient(135deg, rgba(45, 27, 105, 0.95) 0%, rgba(17, 153, 142, 0.95) 50%, rgba(56, 239, 125, 0.95) 100%);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(102, 126, 234, 0.95) 100%);
         backdrop-filter: blur(20px);
         color: #ffffff;
         padding: 2rem;
         border-radius: 20px;
-        border: 2px solid rgba(56, 239, 125, 0.6);
-        box-shadow: 0 8px 32px rgba(56, 239, 125, 0.4);
+        border: 2px solid rgba(102, 126, 234, 0.6);
+        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
         margin: 1rem 0;
         position: relative;
         overflow: hidden;
@@ -624,8 +659,8 @@ st.markdown("""
     
     .ai-recommendation-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 16px 48px rgba(56, 239, 125, 0.6);
-        border-color: rgba(56, 239, 125, 0.9);
+        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.6);
+        border-color: rgba(102, 126, 234, 0.9);
     }
     
     .ai-recommendation-card::before {
@@ -635,7 +670,7 @@ st.markdown("""
         left: 0;
         width: 120px;
         height: 120px;
-        background: radial-gradient(circle, rgba(56, 239, 125, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(-40px, -40px);
         animation: pulse 5s ease-in-out infinite;
@@ -648,7 +683,7 @@ st.markdown("""
         right: 0;
         width: 90px;
         height: 90px;
-        background: radial-gradient(circle, rgba(17, 153, 142, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(118, 75, 162, 0.3) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(30px, 30px);
         animation: pulse 4s ease-in-out infinite reverse;
@@ -1428,13 +1463,13 @@ class EnhancedDashboard:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("Data Sources", "4", "Active")
+            st.metric("Data Sources", "4")
         with col2:
-            st.metric("Last Updated", datetime.now().strftime("%H:%M"), "Real-time")
+            st.metric("Last Updated", datetime.now().strftime("%H:%M"))
         with col3:
-            st.metric("Report Status", "Enhanced", "Visual Intelligence")
+            st.metric("Report Status", "Enhanced")
         with col4:
-            st.metric("Dashboard Version", "2.0", "Advanced Analytics")
+            st.metric("Dashboard Version", "2.0")
     
     def render_executive_summary(self, data: Dict[str, pd.DataFrame], visual_report: Dict[str, Any]):
         """Render executive summary with key metrics"""
@@ -1473,8 +1508,8 @@ class EnhancedDashboard:
                 # Determine status and color
                 if score >= 75:
                     status = "Excellent"
-                    color = "#00ff88"
-                    bg_color = "rgba(0, 255, 136, 0.1)"
+                    color = "#4a90e2"  # Blue theme color to fit with background
+                    bg_color = "rgba(74, 144, 226, 0.1)"
                 elif score >= 50:
                     status = "Good"
                     color = "#4a90e2"
@@ -1531,10 +1566,10 @@ class EnhancedDashboard:
                                 </div>
                             </div>
                             <div>
-                                <div style="font-size: 24px; font-weight: bold; color: {color}; margin-bottom: 8px;">
+                                <div style="font-size: 24px; font-weight: bold; color: white; margin-bottom: 8px;">
                                     Data Quality: {status}
                                 </div>
-                                <div style="font-size: 14px; color: #888; line-height: 1.4;">
+                                <div style="font-size: 14px; color: #ccc; line-height: 1.4;">
                                     Real-time system health monitoring
                                 </div>
                             </div>
@@ -1601,28 +1636,24 @@ class EnhancedDashboard:
             with col1:
                 st.metric(
                     "Total Companies", 
-                    f"{metrics_data['total_companies']:,}",
-                    delta="🏢 Active Registry"
+                    f"{metrics_data['total_companies']:,}"
                 )
             with col2:
                 st.metric(
                     "Unique Entities", 
-                    f"{metrics_data['unique_entities']:,}",
-                    delta="🆔 Distinct Businesses"
+                    f"{metrics_data['unique_entities']:,}"
                 )
             with col3:
                 entity_completeness = metrics_data['data_completeness'].get('entity_type', 0)
                 st.metric(
                     "Data Quality", 
-                    f"{entity_completeness:.1f}%",
-                    delta="✅ Completeness Score"
+                    f"{entity_completeness:.1f}%"
                 )
             with col4:
                 postal_completeness = metrics_data['data_completeness'].get('postal_code', 0)
                 st.metric(
                     "Location Coverage", 
-                    f"{postal_completeness:.1f}%",
-                    delta="📍 Geographic Data"
+                    f"{postal_completeness:.1f}%"
                 )
             
             st.markdown('</div>', unsafe_allow_html=True)
@@ -1650,16 +1681,180 @@ class EnhancedDashboard:
         with geo_col2:
             if 'regional_business_density' in charts:
                 density_data = charts['regional_business_density']['data']
-                st.markdown("**Regional Business Metrics**")
                 
-                # Create a summary table
-                density_df = pd.DataFrame({
-                    'Region': density_data['regions'][:10],
-                    'Companies': density_data['total_companies'][:10],
-                    'Diversity': density_data['entity_diversity'][:10],
-                    'Active': density_data['active_companies'][:10]
-                })
-                st.dataframe(density_df, use_container_width=True, height=400)
+                # Beautiful Regional Business Metrics Header
+                st.markdown("""
+                <div style="
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 1.5rem;
+                    border-radius: 15px;
+                    margin-bottom: 1rem;
+                    text-align: center;
+                    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+                ">
+                    <h3 style="color: white; margin: 0; font-size: 1.4rem; font-weight: 600;">🏢 Regional Business Metrics</h3>
+                    <p style="color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0; font-size: 0.9rem;">Top performing districts by business activity</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Create beautiful metric cards for top 8 regions
+                regions = density_data['regions'][:8]
+                companies = density_data['total_companies'][:8]
+                active = density_data['active_companies'][:8]
+                
+                # Display in 2x4 grid
+                for i in range(0, len(regions), 2):
+                    col1, col2 = st.columns(2)
+                    
+                    # First card
+                    if i < len(regions):
+                        with col1:
+                            # Calculate activity rate
+                            activity_rate = (active[i] / companies[i] * 100) if companies[i] > 0 else 0
+                            
+                            # Color based on company count (gradient from blue to purple)
+                            max_companies = max(companies)
+                            intensity = companies[i] / max_companies if max_companies > 0 else 0
+                            # Ensure minimum alpha value to prevent black backgrounds
+                            alpha_value = max(0.7, 0.7 + intensity * 0.3)
+                            
+                            st.markdown(f"""
+                            <div style="
+                                background: linear-gradient(135deg, 
+                                    rgba(102, 126, 234, {alpha_value}) 0%, 
+                                    rgba(118, 75, 162, {alpha_value}) 100%);
+                                padding: 1.2rem;
+                                border-radius: 12px;
+                                margin-bottom: 0.8rem;
+                                color: white;
+                                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+                                transition: transform 0.3s ease;
+                                border: 1px solid rgba(255, 255, 255, 0.1);
+                            ">
+                                <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.3rem;">📍 {regions[i]}</div>
+                                <div style="font-size: 1.8rem; font-weight: bold; margin-bottom: 0.5rem;">{companies[i]:,}</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.75rem; opacity: 0.8;">Companies</span>
+                                    <span style="
+                                        background: rgba(255, 255, 255, 0.2);
+                                        padding: 0.2rem 0.5rem;
+                                        border-radius: 8px;
+                                        font-size: 0.7rem;
+                                        font-weight: 500;
+                                    ">{activity_rate:.0f}% Active</span>
+                                </div>
+                            </div>
+                            """, unsafe_allow_html=True)
+                    
+                    # Second card
+                    if i + 1 < len(regions):
+                        with col2:
+                            # Calculate activity rate
+                            activity_rate = (active[i+1] / companies[i+1] * 100) if companies[i+1] > 0 else 0
+                            
+                            # Color based on company count
+                            intensity = companies[i+1] / max_companies if max_companies > 0 else 0
+                            # Ensure minimum alpha value to prevent black backgrounds
+                            alpha_value = max(0.7, 0.7 + intensity * 0.3)
+                            
+                            st.markdown(f"""
+                            <div style="
+                                background: linear-gradient(135deg, 
+                                    rgba(102, 126, 234, {alpha_value}) 0%, 
+                                    rgba(118, 75, 162, {alpha_value}) 100%);
+                                padding: 1.2rem;
+                                border-radius: 12px;
+                                margin-bottom: 0.8rem;
+                                color: white;
+                                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+                                transition: transform 0.3s ease;
+                                border: 1px solid rgba(255, 255, 255, 0.1);
+                            ">
+                                <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.3rem;">📍 {regions[i+1]}</div>
+                                <div style="font-size: 1.8rem; font-weight: bold; margin-bottom: 0.5rem;">{companies[i+1]:,}</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 0.75rem; opacity: 0.8;">Companies</span>
+                                    <span style="
+                                        background: rgba(255, 255, 255, 0.2);
+                                        padding: 0.2rem 0.5rem;
+                                        border-radius: 8px;
+                                        font-size: 0.7rem;
+                                        font-weight: 500;
+                                    ">{activity_rate:.0f}% Active</span>
+                                </div>
+                            </div>
+                            """, unsafe_allow_html=True)
+                
+                # Summary statistics at the bottom - use ALL regions, not just displayed ones
+                all_companies = density_data['total_companies']
+                all_active = density_data['active_companies']
+                total_companies_all = sum(all_companies)
+                total_active_all = sum(all_active)
+                avg_activity_rate = (total_active_all / total_companies_all * 100) if total_companies_all > 0 else 0
+                
+                st.markdown(f"""
+                <div style="
+                    background: rgba(102, 126, 234, 0.1);
+                    padding: 1rem;
+                    border-radius: 10px;
+                    margin-top: 0.5rem;
+                    border: 1px solid rgba(102, 126, 234, 0.2);
+                ">
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <div>
+                            <div style="
+                                font-size: 1.3rem; 
+                                font-weight: bold; 
+                                color: #667eea;
+                                text-rendering: optimizeLegibility;
+                                -webkit-font-smoothing: antialiased;
+                                -moz-osx-font-smoothing: grayscale;
+                            ">{total_companies_all:,}</div>
+                            <div style="
+                                font-size: 0.85rem; 
+                                color: #333;
+                                font-weight: 500;
+                                text-rendering: optimizeLegibility;
+                                -webkit-font-smoothing: antialiased;
+                            ">Total Companies</div>
+                        </div>
+                        <div>
+                            <div style="
+                                font-size: 1.3rem; 
+                                font-weight: bold; 
+                                color: #764ba2;
+                                text-rendering: optimizeLegibility;
+                                -webkit-font-smoothing: antialiased;
+                                -moz-osx-font-smoothing: grayscale;
+                            ">{total_active_all:,}</div>
+                            <div style="
+                                font-size: 0.85rem; 
+                                color: #333;
+                                font-weight: 500;
+                                text-rendering: optimizeLegibility;
+                                -webkit-font-smoothing: antialiased;
+                            ">Active Companies</div>
+                        </div>
+                        <div>
+                            <div style="
+                                font-size: 1.3rem; 
+                                font-weight: bold; 
+                                color: #9d4edd;
+                                text-rendering: optimizeLegibility;
+                                -webkit-font-smoothing: antialiased;
+                                -moz-osx-font-smoothing: grayscale;
+                            ">{avg_activity_rate:.1f}%</div>
+                            <div style="
+                                font-size: 0.85rem; 
+                                color: #333;
+                                font-weight: 500;
+                                text-rendering: optimizeLegibility;
+                                -webkit-font-smoothing: antialiased;
+                            ">Avg Activity Rate</div>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
         
         # Entity Analysis Section
         entity_col1, entity_col2 = st.columns(2)
@@ -1864,7 +2059,9 @@ class EnhancedDashboard:
             st.session_state.llm_recommendations = None
         
         # Generate dynamic insights using LLM (on first load or regenerate)
-        if not st.session_state.llm_insights_generated or regenerate_clicked:
+        # Use lazy loading to prevent blocking other tabs
+        if regenerate_clicked:
+            # Only generate on explicit regenerate click to avoid blocking
             with st.spinner("Generating AI-powered business formation insights..."):
                 try:
                     # Initialize LLM client
@@ -1921,6 +2118,11 @@ class EnhancedDashboard:
                     st.error(f"Error generating AI insights: {e}")
                     self._render_fallback_business_insights()
                     return
+        elif not st.session_state.llm_insights_generated:
+            # Show prompt to generate insights on first load instead of auto-generating
+            st.info("💡 Click 'Regenerate' to generate AI-powered insights and recommendations.")
+            self._render_fallback_business_insights()
+            return
         
         # Display LLM-generated insights from session state
         if st.session_state.llm_insights_generated and st.session_state.llm_analysis:
@@ -2119,21 +2321,16 @@ class EnhancedDashboard:
                             # Format value based on category
                             if 'GDP' in category.upper():
                                 formatted_value = f"${value:,.0f}M"
-                                delta = "+2.3%"
                             elif 'CPI' in category.upper() or 'INFLATION' in category.upper():
                                 formatted_value = f"{value:.1f}%"
-                                delta = "+0.2%"
                             elif 'UNEMPLOYMENT' in category.upper():
                                 formatted_value = f"{value:.1f}%"
-                                delta = "-0.1%"
                             else:
                                 formatted_value = f"{value:,.0f}"
-                                delta = "Updated"
                             
                             st.metric(
                                 label=category,
-                                value=formatted_value,
-                                delta=delta
+                                value=formatted_value
                             )
             else:
                 st.info("Key indicators data is being processed...")

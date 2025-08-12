@@ -154,24 +154,37 @@ class VisualEconomicAnalyzer:
                     'description': 'Geographic distribution of new business formations by Singapore districts'
                 }
                 
-                # 2. Regional Business Density Heatmap Data
+                # 2. Regional Business Density Heatmap Data with deduplication
+                # First aggregate by postal region
                 region_density = acra_data.groupby('postal_region').agg({
                     'uen': 'count',
                     'entity_type': lambda x: x.nunique(),
                     'entity_status': lambda x: (x == 'REGISTERED').sum()
                 }).rename(columns={'uen': 'total_companies', 'entity_type': 'entity_diversity', 'entity_status': 'active_companies'})
                 
-                top_regions = region_density.nlargest(20, 'total_companies')
+                # Map postal regions to district names and aggregate duplicates
+                region_density['district_name'] = region_density.index.map(self._get_singapore_district_name)
+                
+                # Aggregate by district name to handle duplicates
+                district_aggregated = region_density.groupby('district_name').agg({
+                    'total_companies': 'sum',
+                    'entity_diversity': 'sum',  # Sum unique entity types across postal sectors
+                    'active_companies': 'sum'
+                }).reset_index()
+                
+                # Get top 15 districts by company count
+                top_districts = district_aggregated.nlargest(15, 'total_companies')
+                
                 charts['regional_business_density'] = {
                     'type': 'heatmap',
                     'data': {
-                        'regions': [self._get_singapore_district_name(idx) for idx in top_regions.index.tolist()],
-                        'total_companies': top_regions['total_companies'].tolist(),
-                        'entity_diversity': top_regions['entity_diversity'].tolist(),
-                        'active_companies': top_regions['active_companies'].tolist()
+                        'regions': top_districts['district_name'].tolist(),
+                        'total_companies': top_districts['total_companies'].tolist(),
+                        'entity_diversity': top_districts['entity_diversity'].tolist(),
+                        'active_companies': top_districts['active_companies'].tolist()
                     },
                     'title': 'Regional Business Formation Density Analysis',
-                    'description': 'Comprehensive view of business activity across Singapore regions'
+                    'description': 'Comprehensive view of business activity across Singapore districts (deduplicated)'
                 }
             
             # 3. Enhanced Entity Type Analysis with Growth Metrics
