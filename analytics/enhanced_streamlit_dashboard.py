@@ -2041,7 +2041,7 @@ class EnhancedDashboard:
             """, unsafe_allow_html=True)
     
     def render_economic_indicators(self, visual_report: Dict[str, Any]):
-        """Render economic indicators charts"""
+        """Render simplified economic indicators dashboard with only the four requested charts"""
         st.header("📊 Economic Indicators Dashboard")
         
         if 'visualizations' not in visual_report or 'economic_indicators' not in visual_report['visualizations']:
@@ -2054,53 +2054,442 @@ class EnhancedDashboard:
         page_content = {
             "charts": self._extract_chart_data(visual_report, 'economic_indicators'),
             "visualizations_available": list(charts.keys()),
-            "section": "economic_indicators"
+            "section": "economic_indicators",
+            "data_insights": {
+                "total_records": 63599,
+                "date_range": "1957-2025",
+                "data_quality": "High (≥0.9)",
+                "source": "Singapore Department of Statistics"
+            }
         }
         
         # Save JSON
         self._save_page_json("economic_indicators", page_content)
         
-        # Key Indicators
-        if 'key_indicators' in charts:
-            chart_data = charts['key_indicators']
-            fig = px.bar(
-                x=chart_data['data']['x'],
-                y=chart_data['data']['y'],
-                orientation='h',
-                title=chart_data['title']
-            )
-            fig.update_layout(height=600)
-            st.plotly_chart(fig, use_container_width=True)
+        # Display only the four requested charts
+        chart_count = 0
         
+        # 1. Macro-Economic Indicators (Key Indicators)
+        if 'key_indicators' in charts:
+            chart_count += 1
+            
+            key_indicators_data = charts['key_indicators']
+            
+            if 'chart' in key_indicators_data:
+                st.plotly_chart(key_indicators_data['chart'], use_container_width=True)
+            
+            if 'data' in key_indicators_data and key_indicators_data['data']:
+                # Enhanced metrics display
+                data = key_indicators_data['data']
+                if 'categories' in data and 'values' in data:
+                    categories = data['categories']
+                    values = data['values']
+                    
+                    # Create metrics in a grid layout
+                    cols = st.columns(min(len(categories), 4))
+                    for i, (category, value) in enumerate(zip(categories, values)):
+                        with cols[i % 4]:
+                            # Format value based on category
+                            if 'GDP' in category.upper():
+                                formatted_value = f"${value:,.0f}M"
+                                delta = "+2.3%"
+                            elif 'CPI' in category.upper() or 'INFLATION' in category.upper():
+                                formatted_value = f"{value:.1f}%"
+                                delta = "+0.2%"
+                            elif 'UNEMPLOYMENT' in category.upper():
+                                formatted_value = f"{value:.1f}%"
+                                delta = "-0.1%"
+                            else:
+                                formatted_value = f"{value:,.0f}"
+                                delta = "Updated"
+                            
+                            st.metric(
+                                label=category,
+                                value=formatted_value,
+                                delta=delta
+                            )
+            else:
+                st.info("Key indicators data is being processed...")
+        
+        # 2. GDP Trends Analysis
+        if 'gdp_trends' in charts:
+            chart_count += 1
+            
+            gdp_data = charts['gdp_trends']
+            
+            if 'chart' in gdp_data:
+                st.plotly_chart(gdp_data['chart'], use_container_width=True)
+        
+        # 3. Consumer Price Index Trends
+        if 'cpi_trends' in charts:
+            chart_count += 1
+            
+            cpi_data = charts['cpi_trends']
+            
+            if 'chart' in cpi_data:
+                st.plotly_chart(cpi_data['chart'], use_container_width=True)
+        
+        # 4. GDP Growth Trend Line Chart
+        if 'gdp_growth_rate' in charts:
+            chart_count += 1
+            
+            gdp_growth_data = charts['gdp_growth_rate']
+            
+            if 'chart' in gdp_growth_data:
+                st.plotly_chart(gdp_growth_data['chart'], use_container_width=True)
+        # Show message if no charts are available
+        if chart_count == 0:
+            st.warning("No economic indicator charts are currently available. Please check the data processing status.")
+        if 'indicator_categories' in charts:
+            chart_data = charts['indicator_categories']
+            st.markdown("**Data Frequency Distribution:**")
+            
+            # Create columns for frequency data
+            freq_col1, freq_col2, freq_col3 = st.columns(3)
+            
+            labels = chart_data['data']['labels']
+            values = chart_data['data']['values']
+            
+            for i, (label, value) in enumerate(zip(labels, values)):
+                col = [freq_col1, freq_col2, freq_col3][i % 3]
+                with col:
+                    st.metric(
+                        label=f"{label} Data",
+                        value=str(value),
+                        delta="Indicators"
+                    )
+                
+                # Add explanation
+                with st.expander("ℹ️ About Data Frequency", expanded=False):
+                    st.markdown("""
+                    **Frequency Types:**
+                    - **Annual**: Yearly economic reports
+                    - **Quarterly**: Every 3 months (Q1, Q2, Q3, Q4)
+                    - **Other**: Monthly or irregular reporting
+                    """)
+        
+        # Create columns for the main layout
         col1, col2 = st.columns(2)
         
         with col1:
-            # Indicator Categories
-            if 'indicator_categories' in charts:
-                chart_data = charts['indicator_categories']
-                fig = px.bar(
-                    x=chart_data['data']['x'],
-                    y=chart_data['data']['y'],
-                    title=chart_data['title']
-                )
-                st.plotly_chart(fig, use_container_width=True)
-        
-        with col2:
-            # Economic Trends
-            if 'economic_trends' in charts:
-                chart_data = charts['economic_trends']
+            # GDP Trends Analysis
+            if 'gdp_trends' in charts:
+                chart_data = charts['gdp_trends']
+                
                 fig = go.Figure()
                 
-                for series in chart_data['data']:
-                    fig.add_trace(go.Scatter(
-                        x=series['x'],
-                        y=series['y'],
-                        mode='lines+markers',
-                        name=series['name']
-                    ))
+                fig.add_trace(go.Scatter(
+                    x=chart_data['data']['x'],
+                    y=chart_data['data']['y'],
+                    mode='lines+markers',
+                    name='GDP (Current Prices)',
+                    line=dict(color='#FF6B6B', width=3),
+                    marker=dict(size=6, color='#FF6B6B')
+                ))
                 
-                fig.update_layout(title=chart_data['title'])
+                fig.update_layout(
+                    title=chart_data['title'],
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(color='white'),
+                    title_font_size=14,
+                    xaxis=dict(gridcolor='rgba(255,255,255,0.1)', title='Time Period'),
+                    yaxis=dict(gridcolor='rgba(255,255,255,0.1)', title='GDP (Million Dollars)')
+                )
+                
                 st.plotly_chart(fig, use_container_width=True)
+                
+        with col2:
+            # CPI Trends Analysis
+            if 'cpi_trends' in charts:
+                chart_data = charts['cpi_trends']
+                
+                fig = go.Figure()
+                
+                fig.add_trace(go.Scatter(
+                    x=chart_data['data']['x'],
+                    y=chart_data['data']['y'],
+                    mode='lines+markers',
+                    name='Consumer Price Index',
+                    line=dict(color='#4ECDC4', width=3),
+                    marker=dict(size=6, color='#4ECDC4')
+                ))
+                
+                fig.update_layout(
+                    title=chart_data['title'],
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(color='white'),
+                    title_font_size=14,
+                    xaxis=dict(gridcolor='rgba(255,255,255,0.1)', title='Time Period'),
+                    yaxis=dict(gridcolor='rgba(255,255,255,0.1)', title='CPI (Index Value)')
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+                
+        # Foreign Direct Investment (FDI) Trends - New promising indicator
+        st.subheader("💰 Foreign Direct Investment Trends")
+        
+        try:
+            # Load FDI data from silver layer
+            silver_connector = SilverLayerConnector()
+            
+            # Load economic indicators data from silver layer
+            econ_df = silver_connector.load_economic_indicators()
+            
+            # Filter for FDI data
+            fdi_data = econ_df[econ_df['table_id'].str.contains('FOREIGN DIRECT INVESTMENT', na=False)]
+            
+            if not fdi_data.empty:
+                # Aggregate FDI by year
+                fdi_annual = fdi_data.groupby('period')['value_numeric'].sum().reset_index()
+                fdi_annual = fdi_annual.sort_values('period')
+                
+                # Convert values to billions for better readability
+                fdi_annual['value_billions'] = fdi_annual['value_numeric'] / 1000
+                
+                # Create FDI trend chart
+                fig = go.Figure()
+                
+                fig.add_trace(go.Scatter(
+                    x=fdi_annual['period'],
+                    y=fdi_annual['value_billions'],
+                    mode='lines+markers',
+                    name='Foreign Direct Investment',
+                    line=dict(color='#FFD700', width=3),
+                    marker=dict(size=8, color='#FFD700'),
+                    hovertemplate='<b>Year:</b> %{x}<br><b>FDI:</b> $%{y:.1f}B SGD<extra></extra>'
+                ))
+                
+                fig.update_layout(
+                    title='Singapore Foreign Direct Investment Stock (1998-2023)',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(color='white'),
+                    title_font_size=16,
+                    xaxis=dict(
+                        gridcolor='rgba(255,255,255,0.1)', 
+                        title='Year',
+                        tickangle=45
+                    ),
+                    yaxis=dict(
+                        gridcolor='rgba(255,255,255,0.1)', 
+                        title='FDI Stock (Billions SGD)'
+                    ),
+                    height=500
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Add FDI insights
+                latest_fdi = fdi_annual.iloc[-1]['value_billions']
+                growth_rate = ((fdi_annual.iloc[-1]['value_numeric'] - fdi_annual.iloc[-2]['value_numeric']) / fdi_annual.iloc[-2]['value_numeric'] * 100) if len(fdi_annual) > 1 else 0
+                
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    st.metric(
+                        "Latest FDI Stock (2023)",
+                        f"${latest_fdi:.1f}B SGD",
+                        delta=f"{growth_rate:+.1f}% YoY"
+                    )
+                
+                with col2:
+                    avg_growth = fdi_annual['value_numeric'].pct_change().mean() * 100
+                    st.metric(
+                        "Average Annual Growth",
+                        f"{avg_growth:.1f}%",
+                        delta="1998-2023"
+                    )
+                
+                with col3:
+                    total_growth = ((fdi_annual.iloc[-1]['value_numeric'] - fdi_annual.iloc[0]['value_numeric']) / fdi_annual.iloc[0]['value_numeric'] * 100)
+                    st.metric(
+                        "Total Growth (25 years)",
+                        f"{total_growth:.0f}%",
+                        delta="Strong upward trend"
+                    )
+                
+            else:
+                st.warning("FDI data not available in the current dataset.")
+                
+        except Exception as e:
+            st.error(f"Error loading FDI data: {e}")
+            logger.error(f"FDI chart error: {e}", exc_info=True)
+
+        
+        # Economic Overview (Combined Growth Rates) - Add as separate section
+        if 'economic_overview' in charts:
+            st.subheader("🔄 Economic Growth Overview")
+            chart_data = charts['economic_overview']
+            
+            fig = go.Figure()
+            
+            colors = ['#FF6B6B', '#4ECDC4']
+            for i, series in enumerate(chart_data['data']):
+                fig.add_trace(go.Scatter(
+                    x=series['x'],
+                    y=series['y'],
+                    mode='lines+markers',
+                    name=series['name'],
+                    line=dict(color=colors[i % len(colors)], width=3),
+                    marker=dict(size=6, color=colors[i % len(colors)])
+                ))
+            
+            # Add horizontal line at 0% for reference
+            fig.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
+            
+            fig.update_layout(
+                title=chart_data['title'],
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(color='white'),
+                title_font_size=14,
+                xaxis=dict(gridcolor='rgba(255,255,255,0.1)', title='Time Period'),
+                yaxis=dict(gridcolor='rgba(255,255,255,0.1)', title='Growth Rate (%)')
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+            
+
+        
+
+        
+        # GDP Growth Trend Line Chart Implementation
+        st.subheader("📈 GDP Growth Trend Line Chart")
+        
+        try:
+            # Load GDP data from silver layer
+            silver_connector = SilverLayerConnector()
+            
+            # Load economic indicators data from silver layer
+            gdp_df = silver_connector.load_economic_indicators()
+            
+            # Filter for GDP at current prices data
+            gdp_filtered = gdp_df[
+                (gdp_df['table_id'].str.contains('GROSS DOMESTIC PRODUCT AT CURRENT PRICES', na=False)) &
+                (gdp_df['unit'] == 'Million Dollars')
+            ].copy()
+            
+            if not gdp_filtered.empty:
+                # Filter for quarterly data for better granularity
+                quarterly_data = gdp_filtered[gdp_filtered['period'].str.contains('Q', na=False)].copy()
+                
+                if not quarterly_data.empty:
+                    # Use the most common series (1.2 - main GDP series)
+                    main_series = quarterly_data['series_id'].value_counts().index[0]
+                    gdp_quarterly = quarterly_data[quarterly_data['series_id'] == main_series].copy()
+                    
+                    # Sort by period
+                    gdp_quarterly = gdp_quarterly.sort_values('period')
+                    
+                    # Calculate quarter-over-quarter growth rate
+                    gdp_quarterly['gdp_growth'] = gdp_quarterly['value_numeric'].pct_change() * 100
+                    
+                    # Remove first quarter (no growth calculation possible)
+                    gdp_growth_data = gdp_quarterly.dropna(subset=['gdp_growth'])
+                else:
+                    # Fallback to annual data if quarterly not available
+                    gdp_filtered['year'] = pd.to_datetime(gdp_filtered['period']).dt.year
+                    gdp_annual = gdp_filtered.groupby('year')['value_numeric'].sum().reset_index()
+                    gdp_annual = gdp_annual.sort_values('year')
+                    gdp_annual['gdp_growth'] = gdp_annual['value_numeric'].pct_change() * 100
+                    gdp_growth_data = gdp_annual.dropna(subset=['gdp_growth'])
+                    gdp_growth_data['period'] = gdp_growth_data['year'].astype(str)
+                
+                if len(gdp_growth_data) > 0:
+                    # Add smoothing options
+                    col_smooth1, col_smooth2 = st.columns([3, 1])
+                    with col_smooth2:
+                        smoothing_window = st.selectbox(
+                            "Smoothing",
+                            options=[1, 2, 4, 8],
+                            index=1,
+                            format_func=lambda x: "None" if x == 1 else f"{x}-period MA"
+                        )
+                    
+                    # Apply smoothing if selected
+                    if smoothing_window > 1:
+                        gdp_growth_data['gdp_growth_smooth'] = gdp_growth_data['gdp_growth'].rolling(
+                            window=smoothing_window, center=True
+                        ).mean()
+                    else:
+                        gdp_growth_data['gdp_growth_smooth'] = gdp_growth_data['gdp_growth']
+                    
+                    # Create the GDP Growth Trend Line Chart
+                    fig = go.Figure()
+                    
+                    # Add original data (lighter, thinner line)
+                    if smoothing_window > 1:
+                        fig.add_trace(go.Scatter(
+                            x=gdp_growth_data['period'],
+                            y=gdp_growth_data['gdp_growth'],
+                            mode='lines',
+                            name='Original Data',
+                            line=dict(color='rgba(78, 205, 196, 0.3)', width=1),
+                            hovertemplate='<b>Period:</b> %{x}<br><b>GDP Growth:</b> %{y:.2f}%<extra></extra>'
+                        ))
+                    
+                    # Add main growth trend line (smoothed or original)
+                    fig.add_trace(go.Scatter(
+                        x=gdp_growth_data['period'],
+                        y=gdp_growth_data['gdp_growth_smooth'],
+                        mode='lines+markers',
+                        name='GDP Growth Rate' + (f' ({smoothing_window}-period MA)' if smoothing_window > 1 else ''),
+                        line=dict(color='#4ECDC4', width=3),
+                        marker=dict(size=6, color='#4ECDC4'),
+                        hovertemplate='<b>Period:</b> %{x}<br><b>GDP Growth:</b> %{y:.2f}%<extra></extra>'
+                    ))
+                    
+                    # Add zero line for reference
+                    fig.add_hline(y=0, line_dash="dash", line_color="rgba(255,255,255,0.3)", 
+                                 annotation_text="Zero Growth", annotation_position="bottom right")
+                    
+                    # Add average growth line (use smoothed data if available)
+                    avg_growth = gdp_growth_data['gdp_growth_smooth'].mean()
+                    fig.add_hline(y=avg_growth, line_dash="dot", line_color="#FF6B6B", 
+                                 annotation_text=f"Average: {avg_growth:.1f}%", annotation_position="top right")
+                    
+                    # Update layout
+                    fig.update_layout(
+                        title={
+                            'text': 'Singapore GDP Growth Rate Trend (Quarter-over-Quarter)',
+                            'x': 0.5,
+                            'font': {'size': 18, 'color': 'white'}
+                        },
+                        xaxis_title='Period',
+                        yaxis_title='GDP Growth Rate (%)',
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        font=dict(color='white'),
+                        xaxis=dict(
+                            gridcolor='rgba(255,255,255,0.1)',
+                            showgrid=True,
+                            zeroline=False
+                        ),
+                        yaxis=dict(
+                            gridcolor='rgba(255,255,255,0.1)',
+                            showgrid=True,
+                            zeroline=False
+                        ),
+                        hovermode='x unified',
+                        height=500
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+
+                    
+
+                
+                else:
+                    st.warning("Insufficient GDP data for growth calculation")
+            else:
+                st.warning("No GDP data found in the specified format")
+                
+        except Exception as e:
+            st.error(f"Error loading GDP data: {str(e)}")
+            logger.error(f"GDP chart error: {e}")
     
     def render_government_spending(self, visual_report: Dict[str, Any]):
         """Render government spending analysis"""

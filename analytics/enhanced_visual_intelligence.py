@@ -303,60 +303,309 @@ class VisualEconomicAnalyzer:
             
         return charts
     
+    def _format_indicator_value(self, value: float, unit: str, format_type: str) -> str:
+        """Format indicator values based on unit and type"""
+        try:
+            if format_type == 'percentage' or unit in ['Percent', 'Per Cent']:
+                return f"{value:.1f}%"
+            elif format_type == 'currency' or unit in ['Million Dollars', 'Billion Dollars']:
+                if unit == 'Billion Dollars':
+                    return f"${value:,.1f}B"
+                else:
+                    return f"${value:,.0f}M"
+            elif format_type == 'index' or unit == 'Index':
+                return f"{value:.1f} (Index)"
+            elif format_type == 'mixed':
+                if unit in ['Million Dollars', 'Billion Dollars']:
+                    return f"${value:,.0f}M" if unit == 'Million Dollars' else f"${value:,.1f}B"
+                elif unit == 'Index':
+                    return f"{value:.1f} (Index)"
+                else:
+                    return f"{value:,.0f}"
+            else:
+                return f"{value:,.0f}"
+        except:
+            return str(value)
+    
+    def _extract_period_display(self, period: str) -> str:
+        """Extract and format period for display"""
+        try:
+            import re
+            # Extract 4-digit year
+            year_match = re.search(r'(20\d{2})', str(period))
+            if year_match:
+                return f"({year_match.group(1)})"
+            else:
+                return f"({period})"
+        except:
+            return "(Recent)"
+    
     def _create_economic_indicators_charts(self, econ_data: pd.DataFrame) -> Dict[str, Any]:
-        """Create economic indicators visualization charts"""
+        """Create enhanced economic indicators visualization charts"""
         charts = {}
         
         if econ_data.empty:
             return charts
             
         try:
-            # 1. Key Economic Indicators Dashboard
-            if 'table_id' in econ_data.columns and 'value_numeric' in econ_data.columns:
-                latest_indicators = econ_data.groupby('table_id')['value_numeric'].last().head(15)
-                charts['key_indicators'] = {
-                    'type': 'horizontal_bar',
-                    'data': {
-                        'x': latest_indicators.values.tolist(),
-                        'y': latest_indicators.index.tolist()
-                    },
-                    'title': 'Latest Economic Indicators',
-                    'description': 'Current values of key economic performance metrics'
-                }
+            # Filter for high-quality data
+            quality_data = econ_data[econ_data['data_quality_score'] >= 0.9]
             
-            # 2. Economic Indicator Categories
-            if 'category' in econ_data.columns:
-                category_counts = econ_data['category'].value_counts()
-                charts['indicator_categories'] = {
-                    'type': 'bar',
-                    'data': {
-                        'x': category_counts.index.tolist(),
-                        'y': category_counts.values.tolist()
-                    },
-                    'title': 'Economic Indicator Categories',
-                    'description': 'Distribution of indicators across economic sectors'
-                }
+            # 1. Key Economic Indicators Dashboard - Focus on major indicators
+            if 'table_id' in quality_data.columns and 'value_numeric' in quality_data.columns:
+                # Define key economic indicators to highlight
+                key_indicator_keywords = [
+                    'GROSS DOMESTIC PRODUCT', 'CONSUMER PRICE INDEX', 'GDP', 'CPI',
+                    'UNEMPLOYMENT', 'INFLATION', 'EXPENDITURE ON GROSS DOMESTIC PRODUCT'
+                ]
+                
+                # Filter for key indicators
+                key_indicators_data = quality_data[
+                    quality_data['table_id'].str.contains('|'.join(key_indicator_keywords), case=False, na=False)
+                ]
+                
+                if not key_indicators_data.empty:
+                    # Filter for recent data (last 5 years) to avoid old historical data
+                    current_year = datetime.now().year
+                    
+                    # Use existing period_year column if available, otherwise extract from period
+                    if 'period_year' in key_indicators_data.columns:
+                        recent_data = key_indicators_data[
+                            key_indicators_data['period_year'] >= (current_year - 5)
+                        ].copy()
+                    else:
+                        # Extract year from period string
+                        key_indicators_data_copy = key_indicators_data.copy()
+                        key_indicators_data_copy['period_year'] = pd.to_numeric(
+                            key_indicators_data_copy['period'].astype(str).str.extract(r'(\d{4})')[0], 
+                            errors='coerce'
+                        )
+                        recent_data = key_indicators_data_copy[
+                            key_indicators_data_copy['period_year'] >= (current_year - 5)
+                        ].copy()
+                    
+                    if not recent_data.empty:
+                        # Get the most recent value for each table_id
+                        latest_indicators = recent_data.loc[
+                            recent_data.groupby('table_id')['period_year'].idxmax()
+                        ]
+                        
+                        # Define comprehensive key indicator categories based on data analysis
+                        key_categories = {
+                            'GDP Growth': ['GDP', 'GROSS DOMESTIC PRODUCT', 'ECONOMIC GROWTH'],
+                            'Consumer Prices': ['CPI', 'CONSUMER PRICE INDEX', 'PRICE INDEX'],
+                            'Employment': ['UNEMPLOYMENT', 'EMPLOYMENT', 'LABOUR FORCE', 'WORKFORCE', 'JOBS'],
+                            'Inflation': ['INFLATION', 'PRICE CHANGE', 'PERCENT CHANGE', 'DEFLATOR'],
+                            'Manufacturing': ['MANUFACTURING', 'INDUSTRIAL PRODUCTION', 'FACTORY', 'INDUSTRY', 'PRODUCTION'],
+                            'Services': ['SERVICES', 'EXPORTS OF SERVICES', 'IMPORTS OF SERVICES', 'SERVICE SECTOR', 'RETAIL', 'WHOLESALE', 'ACCOMMODATION', 'FOOD', 'TRANSPORT', 'STORAGE', 'INFORMATION', 'COMMUNICATION', 'PROFESSIONAL', 'ADMINISTRATIVE', 'EDUCATION', 'HEALTH', 'ARTS', 'ENTERTAINMENT'],
+                            'Trade': ['EXPORT', 'IMPORT', 'TRADE', 'TRADING PARTNER', 'MERCHANDISE', 'GOODS', 'EXTERNAL'],
+                            'Construction': ['CONSTRUCTION', 'BUILDING', 'HOUSING', 'REAL ESTATE', 'PROPERTY'],
+                            'Finance': ['FINANCIAL', 'BANKING', 'MONETARY', 'CREDIT', 'INSURANCE']
+                        }
+                        
+                        chart_data = []
+                        
+                        for category, keywords in key_categories.items():
+                            # Find indicators matching this category
+                            category_data = latest_indicators[
+                                latest_indicators['table_id'].str.contains(
+                                    '|'.join(keywords), case=False, na=False
+                                )
+                            ]
+                            
+                            if not category_data.empty:
+                                # Special handling for different indicator types
+                                if category == 'Inflation':
+                                    # For inflation, prefer "PERCENT CHANGE" indicators over index values
+                                    inflation_rate_data = category_data[
+                                        category_data['table_id'].str.contains('PERCENT CHANGE.*CONSUMER PRICE', case=False, na=False)
+                                    ]
+                                    if not inflation_rate_data.empty:
+                                        best_indicator = inflation_rate_data.iloc[0]
+                                    else:
+                                        # Fallback to other inflation indicators but filter by unit
+                                        percent_data = category_data[
+                                            category_data['unit'].isin(['Percent', 'Per Cent'])
+                                        ]
+                                        if not percent_data.empty:
+                                            best_indicator = percent_data.iloc[0]
+                                        else:
+                                            continue  # Skip if no proper percentage data
+                                elif category == 'Consumer Prices':
+                                    # For consumer prices, prefer index values but ensure reasonable range
+                                    index_data = category_data[
+                                        category_data['table_id'].str.contains('INDEX', case=False, na=False) &
+                                        (category_data['value_numeric'] >= 80) & 
+                                        (category_data['value_numeric'] <= 150)  # Reasonable index range
+                                    ]
+                                    if not index_data.empty:
+                                        best_indicator = index_data.iloc[0]
+                                    else:
+                                        continue  # Skip if no reasonable index data
+                                else:
+                                    # For other categories, prefer annual data over quarterly
+                                    annual_data = category_data[
+                                        category_data['table_id'].str.contains('ANNUAL', case=False, na=False)
+                                    ]
+                                    
+                                    if not annual_data.empty:
+                                        best_indicator = annual_data.iloc[0]
+                                    else:
+                                        best_indicator = category_data.iloc[0]
+                                
+                                # Validate value based on unit and category
+                                value = best_indicator['value_numeric']
+                                unit = best_indicator.get('unit', '')
+                                
+                                # Unit-aware validation
+                                is_valid = False
+                                if unit in ['Percent', 'Per Cent']:
+                                    # Percentage values should be reasonable (-50% to 100%)
+                                    is_valid = -50 <= value <= 100
+                                elif unit == 'Index':
+                                    # Index values should be in reasonable range
+                                    is_valid = 50 <= value <= 200
+                                elif unit == 'Million Dollars':
+                                    # Economic values in millions
+                                    is_valid = value > 0 and value < 10000000
+                                elif unit == 'Number':
+                                    # Count data
+                                    is_valid = value >= 0 and value < 100000000
+                                else:
+                                    # Default validation for other units
+                                    is_valid = value > 0 and value < 10000000
+                                
+                                if is_valid:
+                                    # Create more descriptive names with unit context
+                                    period_year = best_indicator.get('period_year', 'Recent')
+                                    if pd.notna(period_year):
+                                        period_display = f"({int(period_year)})"
+                                    else:
+                                        period_display = f"({best_indicator['period']})"
+                                    
+                                    # Format value based on unit
+                                    if unit in ['Percent', 'Per Cent']:
+                                        display_value = f"{value:.1f}%"
+                                    elif unit == 'Million Dollars':
+                                        display_value = f"${value:,.0f}M"
+                                    elif unit == 'Index':
+                                        display_value = f"{value:.1f} (Index)"
+                                    else:
+                                        display_value = f"{value:,.0f}"
+                                    
+                                    chart_data.append({
+                                        'name': f"{category} {period_display}",
+                                        'value': value,
+                                        'display_value': display_value,
+                                        'unit': unit,
+                                        'table_id': best_indicator['table_id'],
+                                        'category': category
+                                    })
+                        
+                        # Sort by category priority and then by value for better visualization
+                        category_priority = {
+                            'GDP Growth': 1, 'Inflation': 2, 'Consumer Prices': 3, 
+                            'Employment': 4, 'Manufacturing': 5, 'Services': 6,
+                            'Trade': 7, 'Construction': 8, 'Finance': 9
+                        }
+                        
+                        chart_data.sort(key=lambda x: (category_priority.get(x['category'], 10), -x['value']))
+                        
+                        # Limit to top 10 indicators for better coverage
+                        chart_data = chart_data[:10]
+                        
+                        if chart_data:
+                            charts['key_indicators'] = {
+                                'type': 'horizontal_bar',
+                                'data': {
+                                    'x': [item['value'] for item in chart_data],
+                                    'y': [item['name'] for item in chart_data],
+                                    'categories': [item['category'] for item in chart_data]
+                                },
+                                'title': 'Key Economic Performance Metrics',
+                                'description': f'Recent values of {len(chart_data)} major economic indicators (enhanced coverage across key sectors)'
+                            }
             
-            # 3. Time Series Analysis (if period data available)
-            if 'period' in econ_data.columns and 'value_numeric' in econ_data.columns:
-                # Get top 5 indicators for time series
-                top_indicators = econ_data['table_id'].value_counts().head(5).index
-                time_series_data = []
+            # Skip indicator categories chart - not in required list
+            
+            # 3. Separate GDP and CPI Time Series Analysis
+            if 'period' in quality_data.columns and 'value_numeric' in quality_data.columns:
                 
-                for indicator in top_indicators:
-                    indicator_data = econ_data[econ_data['table_id'] == indicator]
-                    time_series_data.append({
-                        'name': indicator,
-                        'x': indicator_data['period'].tolist(),
-                        'y': indicator_data['value_numeric'].tolist()
-                    })
+                # GDP Analysis - Use better filter without restrictive QUARTERLY requirement
+                gdp_data = quality_data[
+                    quality_data['table_id'].str.contains('GROSS DOMESTIC PRODUCT.*CURRENT PRICES', case=False, na=False)
+                ].sort_values('period')
                 
-                charts['economic_trends'] = {
-                    'type': 'multi_line',
-                    'data': time_series_data,
-                    'title': 'Economic Indicators Trends',
-                    'description': 'Historical trends of key economic indicators'
-                }
+                if not gdp_data.empty:
+                    # Prefer quarterly data for better granularity
+                    quarterly_gdp = gdp_data[gdp_data['period'].str.contains('Q', na=False)]
+                    
+                    if not quarterly_gdp.empty:
+                        # Group by period and take mean to get unique periods
+                        gdp_by_period = quarterly_gdp.groupby('period')['value_numeric'].mean().reset_index()
+                        gdp_by_period = gdp_by_period.sort_values('period').tail(40)  # Last 10 years of quarterly data
+                        gdp_title = 'GDP Trend (Quarterly)'
+                        gdp_to_use = gdp_by_period
+                    else:
+                        # Fallback to annual data
+                        annual_gdp = gdp_data[~gdp_data['period'].str.contains('Q', na=False)]
+                        gdp_by_period = annual_gdp.groupby('period')['value_numeric'].mean().reset_index()
+                        gdp_by_period = gdp_by_period.sort_values('period').tail(20)  # Last 20 years of annual data
+                        gdp_title = 'GDP Trend (Annual)'
+                        gdp_to_use = gdp_by_period
+                    
+                    charts['gdp_trends'] = {
+                        'type': 'line',
+                        'data': {
+                            'x': gdp_to_use['period'].tolist(),
+                            'y': gdp_to_use['value_numeric'].tolist()
+                        },
+                        'title': gdp_title,
+                        'description': 'Singapore GDP at current prices over time (Million Dollars)'
+                    }
+                
+                # CPI Analysis - Separate chart with better filter
+                cpi_data = quality_data[
+                    quality_data['table_id'].str.contains('CONSUMER PRICE INDEX', case=False, na=False) &
+                    ~quality_data['table_id'].str.contains('PERCENT CHANGE', case=False, na=False)  # Exclude percentage change
+                ].sort_values('period')
+                
+                if not cpi_data.empty:
+                    # Group by period and take mean to get unique periods
+                    cpi_by_period = cpi_data.groupby('period')['value_numeric'].mean().reset_index()
+                    recent_cpi = cpi_by_period.sort_values('period').tail(30)  # Last 30 periods
+                    
+                    charts['cpi_trends'] = {
+                        'type': 'line',
+                        'data': {
+                            'x': recent_cpi['period'].tolist(),
+                            'y': recent_cpi['value_numeric'].tolist()
+                        },
+                        'title': 'Consumer Price Index Trend',
+                        'description': 'Singapore Consumer Price Index over time (Base Year Index)'
+                    }
+                
+                # Create separate growth rate charts instead of combining different time series
+                if not gdp_data.empty:
+                    # GDP Growth Rate Chart
+                    gdp_by_period = gdp_data.groupby('period')['value_numeric'].mean().reset_index()
+                    gdp_by_period = gdp_by_period.sort_values('period').tail(10)
+                    
+                    if len(gdp_by_period) > 1:
+                        gdp_growth = gdp_by_period['value_numeric'].pct_change().fillna(0) * 100
+                        gdp_periods = gdp_by_period['period'].tolist()
+                        
+                        charts['gdp_growth_rate'] = {
+                            'type': 'line',
+                            'data': {
+                                'x': gdp_periods,
+                                'y': gdp_growth.tolist()
+                            },
+                            'title': 'GDP Growth Rate Trend',
+                            'description': 'Quarter-over-quarter GDP growth rate percentage'
+                        }
+                
+                # Skip inflation rate chart - not in required list
                 
         except Exception as e:
             self.logger.error(f"Error creating economic indicators charts: {e}")
