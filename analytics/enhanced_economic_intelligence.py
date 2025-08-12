@@ -464,7 +464,7 @@ class EnhancedLLMEconomicAnalyzer:
         except Exception as e:
             self.logger.error(f"Error extracting insights: {e}")
         
-        return recommendations[:5], risk_factors[:5]  # Limit to top 5 each
+        return recommendations, risk_factors  # Return all recommendations and risk factors
     
     def _generate_business_analysis_fallback(self, data: pd.DataFrame, metrics: Dict[str, float]) -> str:
         """Fallback business analysis when LLM is not available"""
@@ -988,7 +988,7 @@ class EnhancedEconomicIntelligencePlatform:
                 "anomalies_count": len(report.get("anomalies", [])),
                 "high_severity_anomalies": len([a for a in report.get("anomalies", []) if a.get("severity") in ["high", "critical"]]),
                 "data_quality": report.get("data_quality_assessment", {}),
-                "key_insights": [insight.get("title", "") for insight in report.get("insights", [])[:3]]
+                "key_insights": [insight.get("title", "") for insight in report.get("insights", [])]
             }
             
             summary_prompt = """
@@ -1042,7 +1042,7 @@ class EnhancedEconomicIntelligencePlatform:
                     if clean_line:
                         recommendations.append(clean_line)
             
-            return recommendations[:10]  # Top 10 recommendations
+            return recommendations  # Return all recommendations
             
         except Exception as e:
             self.logger.error(f"Error generating strategic recommendations: {e}")
@@ -1223,7 +1223,7 @@ def main():
     # Display top recommendations
     if report.get('strategic_recommendations'):
         print("\n🎯 Top Strategic Recommendations:")
-        for i, rec in enumerate(report['strategic_recommendations'][:3], 1):
+        for i, rec in enumerate(report['strategic_recommendations'], 1):
             print(f"   {i}. {rec}")
     
     # Display critical anomalies

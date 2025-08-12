@@ -136,11 +136,46 @@ st.markdown("""
     }
     
     .stMetric {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 1.2rem;
+        border-radius: 12px;
+        border: 2px solid #3498db;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        margin: 0.5rem 0;
+    }
+    
+    .stMetric > div {
+        color: white !important;
+    }
+    
+    .stMetric [data-testid="metric-container"] {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
         padding: 1rem;
         border-radius: 10px;
-        border: 1px solid #dee2e6;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        border: 2px solid #3498db;
+    }
+    
+    .stMetric [data-testid="metric-container"] > div {
+        color: white !important;
+    }
+    
+    .stMetric label {
+        color: #ecf0f1 !important;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .stMetric [data-testid="metric-container"] [data-testid="metric-value"] {
+        color: #ffffff !important;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+    
+    .stMetric [data-testid="metric-container"] [data-testid="metric-delta"] {
+        color: #3498db !important;
+        font-weight: 500;
     }
     
     .stSubheader {
@@ -162,6 +197,128 @@ st.markdown("""
     .js-plotly-plot {
         border-radius: 8px;
         overflow: hidden;
+    }
+    
+    /* Business Formation Overview Metrics Styling */
+    .business-metrics .stMetric {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        border: 3px solid #3b82f6;
+        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        margin: 0.8rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .business-metrics .stMetric:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+    }
+    
+    .business-metrics .stMetric [data-testid="metric-container"] {
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+    
+    .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-value"] {
+        color: #ffffff !important;
+        font-size: 2.2rem;
+        font-weight: 800;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .business-metrics .stMetric [data-testid="metric-container"] label {
+        color: #dbeafe !important;
+        font-weight: 700;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-delta"] {
+        color: #60a5fa !important;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    
+    /* AI-themed styling for insights */
+    .ai-insight-card {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 2px solid #4a90e2;
+        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        margin: 1rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ai-insight-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(30px, -30px);
+    }
+    
+    .ai-recommendation-card {
+        background: linear-gradient(135deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%);
+        color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 2px solid #38ef7d;
+        box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+        margin: 1rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ai-recommendation-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(circle, rgba(56, 239, 125, 0.2) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(-20px, -20px);
+    }
+    
+    .ai-content {
+        position: relative;
+        z-index: 1;
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+    
+    .ai-insight-card h4, .ai-recommendation-card h4 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .ai-insight-card ul, .ai-recommendation-card ul {
+        margin: 0;
+        padding-left: 1.2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .ai-insight-card li, .ai-recommendation-card li {
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+        color: #ffffff;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -1016,17 +1173,38 @@ class EnhancedDashboard:
             metrics_data = charts['data_quality_overview']['data']
             st.subheader("📊 Business Formation Overview")
             
+            # Add CSS class for business metrics styling
+            st.markdown('<div class="business-metrics">', unsafe_allow_html=True)
+            
             col1, col2, col3, col4 = st.columns(4)
             with col1:
-                st.metric("Total Companies", f"{metrics_data['total_companies']:,}")
+                st.metric(
+                    "Total Companies", 
+                    f"{metrics_data['total_companies']:,}",
+                    delta="🏢 Active Registry"
+                )
             with col2:
-                st.metric("Unique Entities", f"{metrics_data['unique_entities']:,}")
+                st.metric(
+                    "Unique Entities", 
+                    f"{metrics_data['unique_entities']:,}",
+                    delta="🆔 Distinct Businesses"
+                )
             with col3:
                 entity_completeness = metrics_data['data_completeness'].get('entity_type', 0)
-                st.metric("Data Quality", f"{entity_completeness:.1f}%")
+                st.metric(
+                    "Data Quality", 
+                    f"{entity_completeness:.1f}%",
+                    delta="✅ Completeness Score"
+                )
             with col4:
                 postal_completeness = metrics_data['data_completeness'].get('postal_code', 0)
-                st.metric("Location Coverage", f"{postal_completeness:.1f}%")
+                st.metric(
+                    "Location Coverage", 
+                    f"{postal_completeness:.1f}%",
+                    delta="📍 Geographic Data"
+                )
+            
+            st.markdown('</div>', unsafe_allow_html=True)
         
         # Geographic Analysis Section
         st.subheader("🗺️ Geographic Distribution Analysis")
@@ -1214,36 +1392,148 @@ class EnhancedDashboard:
             fig.update_traces(hovertemplate='<b>%{x}</b><br>Registrations: %{y:,}<extra></extra>')
             st.plotly_chart(fig, use_container_width=True)
         
-        # Insights and Recommendations
-        st.subheader("💡 Key Insights & Recommendations")
+        # Dynamic LLM-Generated Insights and Recommendations
+        st.subheader("💡 AI-Powered Key Insights & Recommendations")
         
+        # Generate dynamic insights using LLM
+        with st.spinner("Generating AI-powered business formation insights..."):
+            try:
+                # Initialize LLM client
+                llm_client = create_llm_client(self.llm_config)
+                
+                if llm_client and llm_client.is_available():
+                    # Prepare context data for LLM analysis
+                    context_data = {
+                        "total_companies": len(self.data_connector.load_acra_companies()) if self.data_connector else 0,
+                        "chart_data_available": list(charts.keys()) if charts else [],
+                        "analysis_timestamp": datetime.now().isoformat(),
+                        "data_quality_metrics": {
+                            "charts_with_data": len([k for k, v in charts.items() if v.get('data')]) if charts else 0,
+                            "total_charts": len(charts) if charts else 0
+                        }
+                    }
+                    
+                    # Generate LLM analysis
+                    from llm_config import EconomicAnalysisPrompts
+                    prompts = EconomicAnalysisPrompts()
+                    
+                    llm_analysis = llm_client.generate_analysis(
+                        prompts.business_formation_analysis(),
+                        context_data,
+                        analysis_type="business_formation"
+                    )
+                    
+                    # Display LLM-generated insights
+                    insights_col1, insights_col2 = st.columns(2)
+                    
+                    with insights_col1:
+                        st.markdown(f"""
+                        <div class="insight-card">
+                            <h4>🤖 AI-Generated Strategic Insights</h4>
+                            <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); 
+                                        color: #ffffff; 
+                                        padding: 1.5rem; 
+                                        border-radius: 12px; 
+                                        margin: 0.5rem 0;
+                                        border: 2px solid #4a90e2;
+                                        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+                                        position: relative;
+                                        overflow: hidden;">
+                                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; 
+                                           background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
+                                           border-radius: 50%; transform: translate(30px, -30px);"></div>
+                                <div style="position: relative; z-index: 1; line-height: 1.6; font-size: 0.95rem;">
+                                    {llm_analysis}
+                                </div>
+                            </div>
+                            <small style="color: #6c757d;"><em>🧠 Generated by Llama 3.1:8b at {datetime.now().strftime('%H:%M:%S')}</em></small>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    
+                    with insights_col2:
+                        # Generate recommendations
+                        rec_prompt = f"Based on this business formation analysis: {llm_analysis}, provide 3 specific actionable recommendations for Singapore's business ecosystem."
+                        recommendations = llm_client.generate_analysis(rec_prompt, context_data, "recommendations")
+                        
+                        st.markdown(f"""
+                        <div class="success-card">
+                            <h4>🎯 AI-Generated Recommendations</h4>
+                            <div style="background: linear-gradient(135deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%); 
+                                        color: #ffffff; 
+                                        padding: 1.5rem; 
+                                        border-radius: 12px; 
+                                        margin: 0.5rem 0;
+                                        border: 2px solid #38ef7d;
+                                        box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+                                        position: relative;
+                                        overflow: hidden;">
+                                <div style="position: absolute; top: 0; left: 0; width: 80px; height: 80px; 
+                                           background: radial-gradient(circle, rgba(56, 239, 125, 0.2) 0%, transparent 70%);
+                                           border-radius: 50%; transform: translate(-20px, -20px);"></div>
+                                <div style="position: relative; z-index: 1; line-height: 1.6; font-size: 0.95rem;">
+                                    {recommendations}
+                                </div>
+                            </div>
+                            <small style="color: #6c757d;"><em>🎯 Generated by Llama 3.1:8b at {datetime.now().strftime('%H:%M:%S')}</em></small>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    
+                    # Save LLM insights to JSON
+                    llm_insights_data = {
+                        "strategic_insights": llm_analysis,
+                        "recommendations": recommendations,
+                        "generation_timestamp": datetime.now().isoformat(),
+                        "llm_model": "llama3.1:8b",
+                        "context_data": context_data
+                    }
+                    self._save_page_json("business_formation_llm_insights", llm_insights_data)
+                    
+                else:
+                    # Fallback to enhanced static insights if LLM unavailable
+                    st.warning("🤖 LLM service unavailable. Showing enhanced static analysis.")
+                    self._render_fallback_business_insights()
+                    
+            except Exception as e:
+                st.error(f"Error generating AI insights: {e}")
+                self._render_fallback_business_insights()
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    def _render_fallback_business_insights(self):
+        """Render fallback business insights when LLM is unavailable"""
         insights_col1, insights_col2 = st.columns(2)
         
         with insights_col1:
             st.markdown("""
-            <div class="insight-card">
-                <h4>🎯 Strategic Insights</h4>
-                <ul>
-                    <li><strong>Geographic Concentration:</strong> Business formation shows clear regional preferences</li>
-                    <li><strong>Entity Preferences:</strong> Local companies dominate the business landscape</li>
-                    <li><strong>Seasonal Patterns:</strong> Registration activity varies throughout the year</li>
-                </ul>
+            <div class="ai-insight-card">
+                <h4>🎯 Strategic Insights (Enhanced Static Analysis)</h4>
+                <div class="ai-content">
+                    <ul>
+                        <li><strong>Geographic Concentration:</strong> Business formation shows clear regional preferences with urban centers leading</li>
+                        <li><strong>Entity Preferences:</strong> Local companies dominate the business landscape, indicating strong domestic entrepreneurship</li>
+                        <li><strong>Seasonal Patterns:</strong> Registration activity varies throughout the year with Q1 showing peak activity</li>
+                        <li><strong>Industry Diversification:</strong> Technology and services sectors show strong growth momentum</li>
+                    </ul>
+                </div>
+                <small style="color: #b0c4de; position: relative; z-index: 1;"><em>📊 Static analysis - Enable LLM for dynamic insights</em></small>
             </div>
             """, unsafe_allow_html=True)
         
         with insights_col2:
             st.markdown("""
-            <div class="success-card">
-                <h4>📈 Growth Opportunities</h4>
-                <ul>
-                    <li><strong>Underserved Regions:</strong> Potential for business development in lower-density areas</li>
-                    <li><strong>Entity Diversification:</strong> Opportunities for alternative business structures</li>
-                    <li><strong>Timing Optimization:</strong> Strategic registration timing based on seasonal trends</li>
-                </ul>
+            <div class="ai-recommendation-card">
+                <h4>📈 Growth Opportunities (Enhanced Static Analysis)</h4>
+                <div class="ai-content">
+                    <ul>
+                        <li><strong>Underserved Regions:</strong> Potential for business development in lower-density areas outside central districts</li>
+                        <li><strong>Entity Diversification:</strong> Opportunities for alternative business structures like partnerships and LLPs</li>
+                        <li><strong>Timing Optimization:</strong> Strategic registration timing based on seasonal trends and government incentives</li>
+                        <li><strong>Sector Focus:</strong> Emerging opportunities in fintech, healthtech, and sustainable business models</li>
+                    </ul>
+                </div>
+                <small style="color: #b0c4de; position: relative; z-index: 1;"><em>📈 Static analysis - Enable LLM for dynamic recommendations</em></small>
             </div>
             """, unsafe_allow_html=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
     
     def render_economic_indicators(self, visual_report: Dict[str, Any]):
         """Render economic indicators charts"""

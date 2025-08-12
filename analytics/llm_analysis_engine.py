@@ -342,9 +342,9 @@ class ComprehensiveLLMAnalysisEngine:
             # Generate executive summary
             if self.llm_available:
                 summary_context = {
-                    "business_insights": business_analysis.key_insights[:3],
-                    "economic_insights": economic_analysis.key_insights[:3],
-                    "cross_sector_insights": cross_sector_analysis.key_insights[:3],
+                    "business_insights": business_analysis.key_insights,
+                    "economic_insights": economic_analysis.key_insights,
+                    "cross_sector_insights": cross_sector_analysis.key_insights,
                     "anomaly_count": len(anomalies),
                     "overall_confidence": np.mean([
                         business_analysis.confidence_score,
@@ -685,9 +685,9 @@ class ComprehensiveLLMAnalysisEngine:
         all_recommendations.extend(economic_analysis.recommendations)
         all_recommendations.extend(cross_sector_analysis.recommendations)
         
-        # Remove duplicates and return top recommendations
+        # Remove duplicates and return all recommendations
         unique_recommendations = list(set(all_recommendations))
-        return unique_recommendations[:10]
+        return unique_recommendations
     
     def _compile_risk_assessment(self, business_analysis: AnalysisResult,
                                economic_analysis: AnalysisResult,
