@@ -633,30 +633,56 @@ class VisualEconomicAnalyzer:
                     'description': 'Distribution of government expenditure across different categories'
                 }
             
-            # 2. Spending Trends Over Time
-            if 'fiscal_year' in gov_data.columns and 'amount_million_numeric' in gov_data.columns:
-                yearly_spending = gov_data.groupby('fiscal_year')['amount_million_numeric'].sum()
+            # 2. Spending Trends Over Time (using correct column name)
+            if 'financial_year' in gov_data.columns and 'amount_million_numeric' in gov_data.columns:
+                yearly_spending = gov_data.groupby('financial_year')['amount_million_numeric'].sum()
                 charts['spending_trends'] = {
                     'type': 'line',
                     'data': {
                         'x': yearly_spending.index.tolist(),
                         'y': yearly_spending.values.tolist()
                     },
-                    'title': 'Government Spending Trends by Fiscal Year',
+                    'title': 'Government Spending Trends by Financial Year',
                     'description': 'Annual government expenditure patterns'
                 }
             
-            # 3. Top Spending Areas
-            if 'description' in gov_data.columns and 'amount_million_numeric' in gov_data.columns:
-                top_spending = gov_data.groupby('description')['amount_million_numeric'].sum().sort_values(ascending=False).head(10)
-                charts['top_spending_areas'] = {
+            # 3. Spending by Expenditure Category (using available column)
+            if 'expenditure_category' in gov_data.columns and 'amount_million_numeric' in gov_data.columns:
+                expenditure_spending = gov_data.groupby('expenditure_category')['amount_million_numeric'].sum().sort_values(ascending=False)
+                charts['spending_by_expenditure_category'] = {
                     'type': 'horizontal_bar',
                     'data': {
-                        'x': top_spending.values.tolist(),
-                        'y': top_spending.index.tolist()
+                        'x': expenditure_spending.values.tolist(),
+                        'y': expenditure_spending.index.tolist()
                     },
-                    'title': 'Top 10 Government Spending Areas',
-                    'description': 'Highest government expenditure categories'
+                    'title': 'Government Spending by Expenditure Category',
+                    'description': 'Spending distribution by expenditure size category (Large, Medium, Small)'
+                }
+            
+            # 4. Spending by Expenditure Type
+            if 'expenditure_type' in gov_data.columns and 'amount_million_numeric' in gov_data.columns:
+                type_spending = gov_data.groupby('expenditure_type')['amount_million_numeric'].sum().sort_values(ascending=False)
+                charts['spending_by_type'] = {
+                    'type': 'pie',
+                    'data': {
+                        'labels': type_spending.index.tolist(),
+                        'values': type_spending.values.tolist()
+                    },
+                    'title': 'Government Spending by Expenditure Type',
+                    'description': 'Distribution of spending by expenditure type'
+                }
+            
+            # 5. Spending by Expenditure Class
+            if 'expenditure_class' in gov_data.columns and 'amount_million_numeric' in gov_data.columns:
+                class_spending = gov_data.groupby('expenditure_class')['amount_million_numeric'].sum().sort_values(ascending=False).head(10)
+                charts['top_spending_classes'] = {
+                    'type': 'horizontal_bar',
+                    'data': {
+                        'x': class_spending.values.tolist(),
+                        'y': class_spending.index.tolist()
+                    },
+                    'title': 'Top 10 Government Spending Classes',
+                    'description': 'Highest government expenditure by class'
                 }
                 
         except Exception as e:

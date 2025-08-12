@@ -2701,6 +2701,7 @@ class EnhancedDashboard:
         # Save JSON
         self._save_page_json("government_spending", page_content)
         
+        # Row 1: Main category breakdowns
         col1, col2 = st.columns(2)
         
         with col1:
@@ -2712,27 +2713,60 @@ class EnhancedDashboard:
                     names=chart_data['data']['labels'],
                     title=chart_data['title']
                 )
+                fig.update_traces(textposition='inside', textinfo='percent+label')
                 st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            # Spending Trends
+            # Spending by Expenditure Type
+            if 'spending_by_type' in charts:
+                chart_data = charts['spending_by_type']
+                fig = px.pie(
+                    values=chart_data['data']['values'],
+                    names=chart_data['data']['labels'],
+                    title=chart_data['title']
+                )
+                fig.update_traces(textposition='inside', textinfo='percent+label')
+                st.plotly_chart(fig, use_container_width=True)
+        
+        # Row 2: Trends and expenditure categories
+        col3, col4 = st.columns(2)
+        
+        with col3:
+            # Spending Trends Over Time
             if 'spending_trends' in charts:
                 chart_data = charts['spending_trends']
                 fig = px.line(
                     x=chart_data['data']['x'],
                     y=chart_data['data']['y'],
-                    title=chart_data['title']
+                    title=chart_data['title'],
+                    labels={'x': 'Financial Year', 'y': 'Amount (Million SGD)'}
                 )
+                fig.update_traces(mode='lines+markers')
                 st.plotly_chart(fig, use_container_width=True)
         
-        # Top Spending Areas
-        if 'top_spending_areas' in charts:
-            chart_data = charts['top_spending_areas']
+        with col4:
+            # Spending by Expenditure Category
+            if 'spending_by_expenditure_category' in charts:
+                chart_data = charts['spending_by_expenditure_category']
+                fig = px.bar(
+                    x=chart_data['data']['x'],
+                    y=chart_data['data']['y'],
+                    orientation='h',
+                    title=chart_data['title'],
+                    labels={'x': 'Amount (Million SGD)', 'y': 'Expenditure Category'}
+                )
+                fig.update_layout(height=400)
+                st.plotly_chart(fig, use_container_width=True)
+        
+        # Row 3: Top spending classes (full width)
+        if 'top_spending_classes' in charts:
+            chart_data = charts['top_spending_classes']
             fig = px.bar(
                 x=chart_data['data']['x'],
                 y=chart_data['data']['y'],
                 orientation='h',
-                title=chart_data['title']
+                title=chart_data['title'],
+                labels={'x': 'Amount (Million SGD)', 'y': 'Expenditure Class'}
             )
             fig.update_layout(height=500)
             st.plotly_chart(fig, use_container_width=True)
