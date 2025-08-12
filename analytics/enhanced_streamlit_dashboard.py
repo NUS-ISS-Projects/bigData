@@ -36,44 +36,244 @@ st.set_page_config(
     page_title="Enhanced Economic Intelligence Dashboard - Singapore",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for enhanced styling
+# Custom CSS for enhanced styling with dynamic backgrounds
 st.markdown("""
 <style>
+    /* Dynamic animated background */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    
+    @keyframes particleFloat {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        33% { transform: translateY(-20px) rotate(120deg); }
+        66% { transform: translateY(10px) rotate(240deg); }
+    }
+    
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+        50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(102, 126, 234, 0.3); }
+    }
+    
+    /* Floating particles - Apple minimalist style */
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: particleFloat 8s ease-in-out infinite;
+        opacity: 0.6;
+    }
+    
+    .particle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { top: 20%; left: 80%; animation-delay: 1s; }
+    .particle:nth-child(3) { top: 60%; left: 20%; animation-delay: 2s; }
+    .particle:nth-child(4) { top: 80%; left: 70%; animation-delay: 3s; }
+    .particle:nth-child(5) { top: 40%; left: 90%; animation-delay: 4s; }
+    .particle:nth-child(6) { top: 70%; left: 5%; animation-delay: 5s; }
+    
+    /* Enhanced sidebar styling - Apple Black Theme */
+    .stSidebar {
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stSidebar .stSelectbox > div > div {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: white;
+    }
+    
+    .stSidebar .stButton > button {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(40, 40, 40, 0.8) 100%);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .stSidebar .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(60, 60, 60, 0.9) 100%);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Enhanced tabs styling - Apple Black Theme */
+    .stTabs [data-baseweb="tab-list"] {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(20px);
+        border-radius: 15px;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        border-radius: 10px;
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-1px);
+    }
+    
+    /* Apple-inspired black theme */
+    .main .block-container {
+        padding-top: 1rem;
+        padding-bottom: 0rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        max-width: none;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #000000 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 20s ease infinite;
+        min-height: 100vh;
+        position: relative;
+    }
+    
+    .main .block-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: -1;
+    }
+    
+    .stApp > header {
+        background-color: transparent;
+    }
+    
+    .stApp {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #000000 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 20s ease infinite;
+    }
+    
     .main-header {
         font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f77b4;
+        font-weight: 700;
+        color: #ffffff;
         text-align: center;
-        margin-bottom: 2rem;
-        padding: 1rem;
-        background: linear-gradient(90deg, #f0f2f6, #ffffff);
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 1rem;
+        padding: 2rem;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: float 3s ease-in-out infinite;
+        position: relative;
+        overflow: hidden;
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+        letter-spacing: -0.5px;
+    }
+    
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: shimmer 3s infinite;
     }
     
     .metric-card {
-        background: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-left: 4px solid #1f77b4;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(20px);
+        padding: 1.5rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         margin: 0.5rem 0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        animation: float 4s ease-in-out infinite;
+        color: #ffffff;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.8);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #ffffff, #cccccc, #ffffff);
+        background-size: 200% 200%;
+        animation: gradientShift 4s ease infinite;
+        opacity: 0.3;
     }
     
     .insight-card {
-        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
         padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid #90caf9;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 0.5rem 0;
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
     
     .insight-card h4 {
-        color: #1565c0;
+        color: #ffffff;
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
@@ -87,29 +287,55 @@ st.markdown("""
     .insight-card li {
         margin-bottom: 0.5rem;
         line-height: 1.5;
-        color: #2c3e50;
+        color: #ffffff;
     }
     
     .warning-card {
-        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
         padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid #ffeaa7;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        margin: 0.5rem 0;
+        box-shadow: 0 8px 32px rgba(255, 193, 7, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .warning-card h4 {
+        color: #ffc107;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    
+    .warning-card ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+    
+    .warning-card li {
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+        color: #ffffff;
     }
     
     .success-card {
-        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
         padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid #c3e6cb;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        margin: 0.5rem 0;
+        box-shadow: 0 8px 32px rgba(40, 167, 69, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
     
     .success-card h4 {
-        color: #155724;
+        color: #28a745;
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
@@ -123,26 +349,62 @@ st.markdown("""
     .success-card li {
         margin-bottom: 0.5rem;
         line-height: 1.5;
-        color: #2c3e50;
+        color: #ffffff;
     }
     
     .chart-container {
-        background: white;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
         padding: 1.5rem;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.12);
-        margin: 1.5rem 0;
-        border: 1px solid #e1e5e9;
+        border-radius: 25px;
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        margin: 0.5rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        animation: float 5s ease-in-out infinite;
+    }
+    
+    .chart-container:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.9);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .chart-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, #ffffff, #888888, #ffffff);
+        background-size: 300% 300%;
+        animation: gradientShift 5s ease infinite;
+        opacity: 0.4;
     }
     
     .stMetric {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
         color: white;
-        padding: 1.2rem;
-        border-radius: 12px;
-        border: 2px solid #3498db;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        padding: 1.5rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
         margin: 0.5rem 0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stMetric:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.9);
+        border-color: rgba(255, 255, 255, 0.2);
     }
     
     .stMetric > div {
@@ -150,11 +412,11 @@ st.markdown("""
     }
     
     .stMetric [data-testid="metric-container"] {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        background: transparent;
         color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        border: 2px solid #3498db;
+        padding: 0;
+        border-radius: 0;
+        border: none;
     }
     
     .stMetric [data-testid="metric-container"] > div {
@@ -162,7 +424,7 @@ st.markdown("""
     }
     
     .stMetric label {
-        color: #ecf0f1 !important;
+        color: #ffffff !important;
         font-weight: 600;
         font-size: 0.9rem;
     }
@@ -174,46 +436,73 @@ st.markdown("""
     }
     
     .stMetric [data-testid="metric-container"] [data-testid="metric-delta"] {
-        color: #3498db !important;
+        color: #60a5fa !important;
         font-weight: 500;
     }
     
     .stSubheader {
-        color: #2c3e50;
+        color: #ffffff;
         font-weight: 600;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid #e9ecef;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     }
     
     .stDataFrame {
-        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     /* Enhanced plotly chart styling */
     .js-plotly-plot {
-        border-radius: 8px;
+        border-radius: 15px;
         overflow: hidden;
+        transition: all 0.3s ease;
+        animation: glow 4s ease-in-out infinite;
     }
     
-    /* Business Formation Overview Metrics Styling */
+    .js-plotly-plot:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+    }
+    
+    /* Business Formation Overview Metrics Styling - Apple Black Theme */
     .business-metrics .stMetric {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.9) 100%);
+        backdrop-filter: blur(20px);
         color: white;
-        padding: 1.5rem;
-        border-radius: 15px;
-        border: 3px solid #3b82f6;
-        box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+        padding: 2rem;
+        border-radius: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         margin: 0.8rem 0;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .business-metrics .stMetric::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        animation: shimmer 4s infinite;
     }
     
     .business-metrics .stMetric:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 16px 48px rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
     }
     
     .business-metrics .stMetric [data-testid="metric-container"] {
@@ -243,17 +532,53 @@ st.markdown("""
         font-size: 1.1rem;
     }
     
+    /* Enhanced regenerate button styling */
+    .regenerate-button {
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.8) 0%, rgba(56, 239, 125, 0.8) 100%) !important;
+        color: white !important;
+        border: 1px solid rgba(74, 144, 226, 0.6) !important;
+        border-radius: 12px !important;
+        padding: 0.6rem 1.2rem !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3) !important;
+        backdrop-filter: blur(10px) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .regenerate-button:hover {
+        transform: translateY(-2px) scale(1.05) !important;
+        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5) !important;
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(56, 239, 125, 0.9) 100%) !important;
+        border-color: rgba(74, 144, 226, 0.8) !important;
+    }
+    
+    .regenerate-button:active {
+        transform: translateY(0px) scale(1.02) !important;
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4) !important;
+    }
+
     /* AI-themed styling for insights */
     .ai-insight-card {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 50%, rgba(15, 52, 96, 0.95) 100%);
+        backdrop-filter: blur(20px);
         color: #ffffff;
-        padding: 1.5rem;
-        border-radius: 12px;
-        border: 2px solid #4a90e2;
-        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 2px solid rgba(74, 144, 226, 0.6);
+        box-shadow: 0 8px 32px rgba(74, 144, 226, 0.4);
         margin: 1rem 0;
         position: relative;
         overflow: hidden;
+        transition: all 0.4s ease;
+        animation: float 7s ease-in-out infinite;
+    }
+    
+    .ai-insight-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 16px 48px rgba(74, 144, 226, 0.6);
+        border-color: rgba(74, 144, 226, 0.9);
     }
     
     .ai-insight-card::before {
@@ -261,23 +586,46 @@ st.markdown("""
         position: absolute;
         top: 0;
         right: 0;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(74, 144, 226, 0.3) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(50px, -50px);
+        animation: pulse 4s ease-in-out infinite;
+    }
+    
+    .ai-insight-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
         width: 100px;
         height: 100px;
         background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
         border-radius: 50%;
-        transform: translate(30px, -30px);
+        transform: translate(-30px, 30px);
+        animation: pulse 3s ease-in-out infinite reverse;
     }
     
     .ai-recommendation-card {
-        background: linear-gradient(135deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%);
+        background: linear-gradient(135deg, rgba(45, 27, 105, 0.95) 0%, rgba(17, 153, 142, 0.95) 50%, rgba(56, 239, 125, 0.95) 100%);
+        backdrop-filter: blur(20px);
         color: #ffffff;
-        padding: 1.5rem;
-        border-radius: 12px;
-        border: 2px solid #38ef7d;
-        box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
+        padding: 2rem;
+        border-radius: 20px;
+        border: 2px solid rgba(56, 239, 125, 0.6);
+        box-shadow: 0 8px 32px rgba(56, 239, 125, 0.4);
         margin: 1rem 0;
         position: relative;
         overflow: hidden;
+        transition: all 0.4s ease;
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    .ai-recommendation-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 16px 48px rgba(56, 239, 125, 0.6);
+        border-color: rgba(56, 239, 125, 0.9);
     }
     
     .ai-recommendation-card::before {
@@ -285,11 +633,25 @@ st.markdown("""
         position: absolute;
         top: 0;
         left: 0;
-        width: 80px;
-        height: 80px;
-        background: radial-gradient(circle, rgba(56, 239, 125, 0.2) 0%, transparent 70%);
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, rgba(56, 239, 125, 0.3) 0%, transparent 70%);
         border-radius: 50%;
-        transform: translate(-20px, -20px);
+        transform: translate(-40px, -40px);
+        animation: pulse 5s ease-in-out infinite;
+    }
+    
+    .ai-recommendation-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 90px;
+        height: 90px;
+        background: radial-gradient(circle, rgba(17, 153, 142, 0.3) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(30px, 30px);
+        animation: pulse 4s ease-in-out infinite reverse;
     }
     
     .ai-content {
@@ -1048,6 +1410,20 @@ class EnhancedDashboard:
         """Render dashboard header"""
         st.markdown('<div class="main-header">📊 Enhanced Economic Intelligence Dashboard - Singapore</div>', unsafe_allow_html=True)
         
+        # Add floating particles for visual enhancement
+        st.markdown("""
+        <div style="position: relative; height: 0; overflow: visible; pointer-events: none;">
+            <div class="particle" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+            <div class="particle" style="top: 60%; left: 20%; animation-delay: 2s;"></div>
+            <div class="particle" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+            <div class="particle" style="top: 40%; left: 90%; animation-delay: 4s;"></div>
+            <div class="particle" style="top: 70%; left: 5%; animation-delay: 5s;"></div>
+            <div class="particle" style="top: 30%; left: 60%; animation-delay: 2.5s;"></div>
+            <div class="particle" style="top: 90%; left: 30%; animation-delay: 4.5s;"></div>
+        </div>
+        """, unsafe_allow_html=True)
+        
         # Status indicators
         col1, col2, col3, col4 = st.columns(4)
         
@@ -1063,6 +1439,22 @@ class EnhancedDashboard:
     def render_executive_summary(self, data: Dict[str, pd.DataFrame], visual_report: Dict[str, Any]):
         """Render executive summary with key metrics"""
         st.header("📈 Executive Summary")
+        
+        # Prepare JSON data for executive metrics
+        if 'visualizations' in visual_report and 'executive_metrics' in visual_report['visualizations']:
+            exec_charts = visual_report['visualizations']['executive_metrics']
+            
+            # Prepare executive metrics JSON data
+            page_content = {
+                "charts": self._extract_chart_data(visual_report, 'executive_metrics'),
+                "kpi_dashboard": exec_charts.get('kpi_dashboard', {}),
+                "health_summary": exec_charts.get('health_summary', {}),
+                "visualizations_available": list(exec_charts.keys()),
+                "section": "executive_metrics"
+            }
+            
+            # Save JSON
+            self._save_page_json("executive_metrics", page_content)
         
         # Key Performance Indicators
         if 'visualizations' in visual_report and 'executive_metrics' in visual_report['visualizations']:
@@ -1109,38 +1501,119 @@ class EnhancedDashboard:
                             delta=f"🏠 {kpi['trend']}"
                         )
         
-        # Economic Health Score
+        # Economic Health Score - Enhanced Professional View
         if 'visualizations' in visual_report and 'executive_metrics' in visual_report['visualizations']:
             exec_charts = visual_report['visualizations']['executive_metrics']
             
             if 'health_summary' in exec_charts:
                 health_data = exec_charts['health_summary']['data']
                 
-                # Create gauge chart for economic health
+                st.markdown("### 🎯 Data Quality Score")
+                
+                # Enhanced professional gauge chart with vibrant colors
                 fig = go.Figure(go.Indicator(
                     mode = "gauge+number+delta",
                     value = health_data['value'],
                     domain = {'x': [0, 1], 'y': [0, 1]},
-                    title = {'text': "Economic Health Score"},
-                    delta = {'reference': 70},
+                    title = {
+                        'text': "<b>Data Quality Score</b>",
+                        'font': {'size': 24, 'color': '#ffffff', 'family': 'Segoe UI, Arial'}
+                    },
+                    delta = {
+                        'reference': 70,
+                        'increasing': {'color': '#00ff88'},
+                        'decreasing': {'color': '#ff4757'},
+                        'font': {'size': 18, 'family': 'Segoe UI'}
+                    },
+                    number = {
+                        'font': {'size': 56, 'color': '#ffffff', 'family': 'Segoe UI', 'weight': 'bold'},
+                        'suffix': '<span style="font-size:24px;color:#a0aec0">/100</span>'
+                    },
                     gauge = {
-                        'axis': {'range': [None, 100]},
-                        'bar': {'color': "darkblue"},
+                        'axis': {
+                            'range': [None, 100],
+                            'tickwidth': 3,
+                            'tickcolor': '#ffffff',
+                            'tickfont': {'size': 16, 'color': '#ffffff', 'family': 'Segoe UI'}
+                        },
+                        'bar': {
+                            'color': '#4a90e2',
+                            'thickness': 0.8,
+                            'line': {'color': '#357abd', 'width': 3}
+                        },
+                        'bgcolor': 'rgba(0, 0, 0, 0.3)',
+                        'borderwidth': 3,
+                        'bordercolor': 'rgba(255, 255, 255, 0.2)',
                         'steps': [
-                            {'range': [0, 30], 'color': "lightgray"},
-                            {'range': [30, 70], 'color': "yellow"},
-                            {'range': [70, 100], 'color': "green"}
+                            {'range': [0, 25], 'color': 'rgba(255, 71, 87, 0.3)', 'name': 'Critical'},
+                            {'range': [25, 50], 'color': 'rgba(255, 165, 0, 0.3)', 'name': 'Poor'},
+                            {'range': [50, 75], 'color': 'rgba(255, 235, 59, 0.3)', 'name': 'Good'},
+                            {'range': [75, 100], 'color': 'rgba(0, 255, 136, 0.3)', 'name': 'Excellent'}
                         ],
                         'threshold': {
-                            'line': {'color': "red", 'width': 4},
-                            'thickness': 0.75,
-                            'value': 90
+                            'line': {'color': '#00ff88', 'width': 6},
+                            'thickness': 0.9,
+                            'value': 85
                         }
                     }
                 ))
                 
-                fig.update_layout(height=300)
+                fig.update_layout(
+                    height=300,
+                    margin=dict(l=10, r=10, t=20, b=10),
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family="Segoe UI, Arial, sans-serif", size=14),
+                    showlegend=False
+                )
                 st.plotly_chart(fig, use_container_width=True)
+                
+                # Collapsible calculation method section
+                with st.expander("📊 Calculation Method", expanded=False):
+                    # Component breakdown
+                    st.markdown("**Components:**")
+                    
+                    # Data Availability
+                    data_avail = health_data.get('data_availability', 0)
+                    st.info(f"📈 **Data Availability**: {data_avail:.1f}%\n\nSources Connected")
+                    
+                    # Data Volume
+                    data_vol = health_data.get('data_volume', 0)
+                    st.info(f"📊 **Data Volume**: {data_vol:.1f}%\n\nRecords Quality")
+                    
+                    # Sector Diversity
+                    sector_div = health_data.get('sector_diversity', 0)
+                    st.success(f"🎯 **Sector Diversity**: {sector_div:.1f}%\n\nCoverage Breadth")
+                    
+                    # Formula explanation
+                    st.warning("📋 **Formula**: Average of 3 Components")
+                    
+                    # Score interpretation
+                    st.markdown("**Score Ranges:**")
+                    col_poor, col_mod, col_good = st.columns(3)
+                    with col_poor:
+                        st.markdown("🔴 **0-30**: Poor")
+                    with col_mod:
+                        st.markdown("🟡 **30-70**: Moderate")
+                    with col_good:
+                        st.markdown("🟢 **70-100**: Good")
+                    
+                    # Detailed calculation
+                    st.markdown("---")
+                    st.markdown("**Detailed Calculation:**")
+                    st.markdown(f"""
+                    **Current Values:**
+                    - Data Availability: {data_avail:.1f}%
+                    - Data Volume: {data_vol:.1f}%
+                    - Sector Diversity: {sector_div:.1f}%
+                    
+                    **Overall Score**: ({data_avail:.1f} + {data_vol:.1f} + {sector_div:.1f}) ÷ 3 = **{health_data['value']:.1f}**
+                    
+                    **Methodology:**
+                    - Data Availability: Number of connected data sources (max 4)
+                    - Data Volume: Total records normalized to 10,000 baseline
+                    - Sector Diversity: Average diversity across all economic sectors
+                    """)
     
     def render_business_formation_analysis(self, visual_report: Dict[str, Any]):
         """Render enhanced business formation analysis with comprehensive insights"""
@@ -1393,109 +1866,141 @@ class EnhancedDashboard:
             st.plotly_chart(fig, use_container_width=True)
         
         # Dynamic LLM-Generated Insights and Recommendations
-        st.subheader("💡 AI-Powered Key Insights & Recommendations")
+        insights_header_col, regenerate_col = st.columns([4, 1])
         
-        # Generate dynamic insights using LLM
-        with st.spinner("Generating AI-powered business formation insights..."):
-            try:
-                # Initialize LLM client
-                llm_client = create_llm_client(self.llm_config)
-                
-                if llm_client and llm_client.is_available():
-                    # Prepare context data for LLM analysis
-                    context_data = {
-                        "total_companies": len(self.data_connector.load_acra_companies()) if self.data_connector else 0,
-                        "chart_data_available": list(charts.keys()) if charts else [],
-                        "analysis_timestamp": datetime.now().isoformat(),
-                        "data_quality_metrics": {
-                            "charts_with_data": len([k for k, v in charts.items() if v.get('data')]) if charts else 0,
-                            "total_charts": len(charts) if charts else 0
+        with insights_header_col:
+            st.subheader("💡 AI-Powered Key Insights & Recommendations")
+        
+        with regenerate_col:
+            # Add regenerate button with enhanced Apple-style styling
+            st.markdown("""
+            <style>
+            div[data-testid="column"]:nth-child(2) div.stButton > button:first-child {
+                background: linear-gradient(135deg, rgba(74, 144, 226, 0.8) 0%, rgba(56, 239, 125, 0.8) 100%) !important;
+                color: white !important;
+                border: 1px solid rgba(74, 144, 226, 0.6) !important;
+                border-radius: 12px !important;
+                padding: 0.6rem 1.2rem !important;
+                font-weight: 600 !important;
+                font-size: 0.9rem !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3) !important;
+                backdrop-filter: blur(10px) !important;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+                width: 100% !important;
+            }
+            
+            div[data-testid="column"]:nth-child(2) div.stButton > button:first-child:hover {
+                transform: translateY(-2px) scale(1.05) !important;
+                box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5) !important;
+                background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(56, 239, 125, 0.9) 100%) !important;
+                border-color: rgba(74, 144, 226, 0.8) !important;
+            }
+            
+            div[data-testid="column"]:nth-child(2) div.stButton > button:first-child:active {
+                transform: translateY(0px) scale(1.02) !important;
+                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4) !important;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+            
+            regenerate_clicked = st.button(
+                "🔄 Regenerate",
+                key="regenerate_insights",
+                help="Generate new AI insights and recommendations",
+                use_container_width=True
+            )
+        
+        # Initialize session state for insights if not exists
+        if 'llm_insights_generated' not in st.session_state:
+            st.session_state.llm_insights_generated = False
+            st.session_state.llm_analysis = None
+            st.session_state.llm_recommendations = None
+        
+        # Generate dynamic insights using LLM (on first load or regenerate)
+        if not st.session_state.llm_insights_generated or regenerate_clicked:
+            with st.spinner("Generating AI-powered business formation insights..."):
+                try:
+                    # Initialize LLM client
+                    llm_client = create_llm_client(self.llm_config)
+                    
+                    if llm_client and llm_client.is_available():
+                        # Prepare context data for LLM analysis
+                        context_data = {
+                            "total_companies": len(self.data_connector.load_acra_companies()) if self.data_connector else 0,
+                            "chart_data_available": list(charts.keys()) if charts else [],
+                            "analysis_timestamp": datetime.now().isoformat(),
+                            "data_quality_metrics": {
+                                "charts_with_data": len([k for k, v in charts.items() if v.get('data')]) if charts else 0,
+                                "total_charts": len(charts) if charts else 0
+                            }
                         }
-                    }
-                    
-                    # Generate LLM analysis
-                    from llm_config import EconomicAnalysisPrompts
-                    prompts = EconomicAnalysisPrompts()
-                    
-                    llm_analysis = llm_client.generate_analysis(
-                        prompts.business_formation_analysis(),
-                        context_data,
-                        analysis_type="business_formation"
-                    )
-                    
-                    # Display LLM-generated insights
-                    insights_col1, insights_col2 = st.columns(2)
-                    
-                    with insights_col1:
-                        st.markdown(f"""
-                        <div class="insight-card">
-                            <h4>🤖 AI-Generated Strategic Insights</h4>
-                            <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); 
-                                        color: #ffffff; 
-                                        padding: 1.5rem; 
-                                        border-radius: 12px; 
-                                        margin: 0.5rem 0;
-                                        border: 2px solid #4a90e2;
-                                        box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
-                                        position: relative;
-                                        overflow: hidden;">
-                                <div style="position: absolute; top: 0; right: 0; width: 100px; height: 100px; 
-                                           background: radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%);
-                                           border-radius: 50%; transform: translate(30px, -30px);"></div>
-                                <div style="position: relative; z-index: 1; line-height: 1.6; font-size: 0.95rem;">
-                                    {llm_analysis}
-                                </div>
-                            </div>
-                            <small style="color: #6c757d;"><em>🧠 Generated by Llama 3.1:8b at {datetime.now().strftime('%H:%M:%S')}</em></small>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    with insights_col2:
+                        
+                        # Generate LLM analysis
+                        from llm_config import EconomicAnalysisPrompts
+                        prompts = EconomicAnalysisPrompts()
+                        
+                        llm_analysis = llm_client.generate_analysis(
+                            prompts.business_formation_analysis(),
+                            context_data,
+                            analysis_type="business_formation"
+                        )
+                        
                         # Generate recommendations
                         rec_prompt = f"Based on this business formation analysis: {llm_analysis}, provide 3 specific actionable recommendations for Singapore's business ecosystem."
                         recommendations = llm_client.generate_analysis(rec_prompt, context_data, "recommendations")
                         
-                        st.markdown(f"""
-                        <div class="success-card">
-                            <h4>🎯 AI-Generated Recommendations</h4>
-                            <div style="background: linear-gradient(135deg, #2d1b69 0%, #11998e 50%, #38ef7d 100%); 
-                                        color: #ffffff; 
-                                        padding: 1.5rem; 
-                                        border-radius: 12px; 
-                                        margin: 0.5rem 0;
-                                        border: 2px solid #38ef7d;
-                                        box-shadow: 0 4px 12px rgba(56, 239, 125, 0.3);
-                                        position: relative;
-                                        overflow: hidden;">
-                                <div style="position: absolute; top: 0; left: 0; width: 80px; height: 80px; 
-                                           background: radial-gradient(circle, rgba(56, 239, 125, 0.2) 0%, transparent 70%);
-                                           border-radius: 50%; transform: translate(-20px, -20px);"></div>
-                                <div style="position: relative; z-index: 1; line-height: 1.6; font-size: 0.95rem;">
-                                    {recommendations}
-                                </div>
-                            </div>
-                            <small style="color: #6c757d;"><em>🎯 Generated by Llama 3.1:8b at {datetime.now().strftime('%H:%M:%S')}</em></small>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    # Save LLM insights to JSON
-                    llm_insights_data = {
-                        "strategic_insights": llm_analysis,
-                        "recommendations": recommendations,
-                        "generation_timestamp": datetime.now().isoformat(),
-                        "llm_model": "llama3.1:8b",
-                        "context_data": context_data
-                    }
-                    self._save_page_json("business_formation_llm_insights", llm_insights_data)
-                    
-                else:
-                    # Fallback to enhanced static insights if LLM unavailable
-                    st.warning("🤖 LLM service unavailable. Showing enhanced static analysis.")
+                        # Store in session state
+                        st.session_state.llm_analysis = llm_analysis
+                        st.session_state.llm_recommendations = recommendations
+                        st.session_state.llm_insights_generated = True
+                        
+                        # Save LLM insights to JSON
+                        llm_insights_data = {
+                            "strategic_insights": llm_analysis,
+                            "recommendations": recommendations,
+                            "generation_timestamp": datetime.now().isoformat(),
+                            "llm_model": "llama3.1:8b",
+                            "context_data": context_data
+                        }
+                        self._save_page_json("business_formation_llm_insights", llm_insights_data)
+                        
+                    else:
+                        # Fallback to enhanced static insights if LLM unavailable
+                        st.warning("🤖 LLM service unavailable. Showing enhanced static analysis.")
+                        self._render_fallback_business_insights()
+                        return
+                        
+                except Exception as e:
+                    st.error(f"Error generating AI insights: {e}")
                     self._render_fallback_business_insights()
-                    
-            except Exception as e:
-                st.error(f"Error generating AI insights: {e}")
-                self._render_fallback_business_insights()
+                    return
+        
+        # Display LLM-generated insights from session state
+        if st.session_state.llm_insights_generated and st.session_state.llm_analysis:
+            insights_col1, insights_col2 = st.columns(2)
+            
+            with insights_col1:
+                st.markdown(f"""
+                <div class="ai-insight-card">
+                    <h4>🤖 AI-Generated Strategic Insights</h4>
+                    <div class="ai-content">
+                        {st.session_state.llm_analysis}
+                    </div>
+                    <small style="color: #b0c4de; position: relative; z-index: 1;"><em>🧠 Generated by Llama 3.1:8b at {datetime.now().strftime('%H:%M:%S')}</em></small>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with insights_col2:
+                st.markdown(f"""
+                <div class="ai-recommendation-card">
+                    <h4>🎯 AI-Generated Recommendations</h4>
+                    <div class="ai-content">
+                        {st.session_state.llm_recommendations}
+                    </div>
+                    <small style="color: #b0c4de; position: relative; z-index: 1;"><em>🎯 Generated by Llama 3.1:8b at {datetime.now().strftime('%H:%M:%S')}</em></small>
+                </div>
+                """, unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
     
@@ -1986,9 +2491,8 @@ class EnhancedDashboard:
                 run_debug["visual_report_completed"] = True
                 run_debug["visual_report_available"] = visual_report is not None and len(visual_report) > 0
             
-            # Render sidebar
-            self.render_sidebar(visual_report)
-            run_debug["sidebar_rendered"] = True
+            # Sidebar removed - controls integrated into main interface
+            run_debug["sidebar_removed"] = True
             
             # Render main dashboard
             self.render_header()

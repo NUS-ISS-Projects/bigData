@@ -586,6 +586,9 @@ class VisualEconomicAnalyzer:
                 'type': 'speedometer',
                 'data': {
                     'value': health_summary['overall_score'],
+                    'data_availability': health_summary['data_availability'],
+                    'data_volume': health_summary['data_volume'],
+                    'sector_diversity': health_summary['sector_diversity'],
                     'max': 100,
                     'zones': [
                         {'min': 0, 'max': 30, 'color': 'red', 'label': 'Poor'},
@@ -607,24 +610,30 @@ class VisualEconomicAnalyzer:
         scores = {}
         
         # Business Formation Health (based on diversity and activity)
-        if not data['acra'].empty:
+        if 'acra' in data and not data['acra'].empty:
             industry_diversity = data['acra']['primary_ssic_description'].nunique() if 'primary_ssic_description' in data['acra'].columns else 0
             scores['Business Formation'] = min(100, (industry_diversity / 50) * 100)  # Normalize to 100
         
         # Economic Indicators Health
-        if not data['economic'].empty:
+        if 'economic' in data and not data['economic'].empty:
             indicator_count = data['economic']['table_id'].nunique() if 'table_id' in data['economic'].columns else 0
             scores['Economic Indicators'] = min(100, (indicator_count / 20) * 100)
         
         # Government Spending Health
-        if not data['government'].empty:
+        if 'government' in data and not data['government'].empty:
             spending_diversity = data['government']['category'].nunique() if 'category' in data['government'].columns else 0
             scores['Government Spending'] = min(100, (spending_diversity / 10) * 100)
         
         # Property Market Health
-        if not data['property'].empty:
+        if 'property' in data and not data['property'].empty:
             property_diversity = data['property']['property_type'].nunique() if 'property_type' in data['property'].columns else 0
             scores['Property Market'] = min(100, (property_diversity / 15) * 100)
+        
+        # Commercial Rental Health
+        if 'commercial' in data and not data['commercial'].empty:
+            # Use record count as a proxy for market activity
+            commercial_activity = len(data['commercial'])
+            scores['Commercial Rental'] = min(100, (commercial_activity / 500) * 100)
         
         return scores
     
@@ -718,8 +727,9 @@ class VisualEconomicAnalyzer:
         """Calculate overall economic health summary"""
         health_factors = []
         
-        # Data availability factor
-        data_availability = sum(1 for df in data.values() if not df.empty) / 4 * 100
+        # Data availability factor (5 data sources: acra, economic, government, property, commercial)
+        total_sources = 5
+        data_availability = sum(1 for df in data.values() if not df.empty) / total_sources * 100
         health_factors.append(data_availability)
         
         # Data volume factor
