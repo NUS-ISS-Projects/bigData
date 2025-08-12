@@ -2317,6 +2317,114 @@ class EnhancedDashboard:
             st.error(f"Error loading FDI data: {e}")
             logger.error(f"FDI chart error: {e}", exc_info=True)
 
+        # Services Trade Balance - New promising indicator
+        st.subheader("🌐 Services Trade Balance")
+        
+        try:
+            # Load services trade data from silver layer
+            silver_connector = SilverLayerConnector()
+            
+            # Load economic indicators data from silver layer
+            econ_df = silver_connector.load_economic_indicators()
+            
+            # Filter for exports and imports of services data
+            exports_data = econ_df[econ_df['table_id'] == 'EXPORTS OF SERVICES BY MAJOR TRADING PARTNER AND SERVICES CATEGORY, ANNUAL']
+            imports_data = econ_df[econ_df['table_id'] == 'IMPORTS OF SERVICES BY MAJOR TRADING PARTNER AND SERVICES CATEGORY, ANNUAL']
+            
+            if not exports_data.empty and not imports_data.empty:
+                # Aggregate by year
+                annual_exports = exports_data.groupby('period')['value_numeric'].sum().reset_index()
+                annual_imports = imports_data.groupby('period')['value_numeric'].sum().reset_index()
+                
+                # Merge and calculate trade balance
+                trade_balance = annual_exports.merge(annual_imports, on='period', suffixes=('_exports', '_imports'))
+                trade_balance['balance'] = trade_balance['value_numeric_exports'] - trade_balance['value_numeric_imports']
+                trade_balance = trade_balance.sort_values('period')
+                
+                # Convert to billions for better readability
+                trade_balance['exports_billions'] = trade_balance['value_numeric_exports'] / 1000
+                trade_balance['imports_billions'] = trade_balance['value_numeric_imports'] / 1000
+                trade_balance['balance_billions'] = trade_balance['balance'] / 1000
+                
+                # Create Services Trade chart
+                fig = go.Figure()
+                
+                # Add exports line
+                fig.add_trace(go.Scatter(
+                    x=trade_balance['period'],
+                    y=trade_balance['exports_billions'],
+                    mode='lines+markers',
+                    name='Services Exports',
+                    line=dict(color='#00CC96', width=3),
+                    marker=dict(size=6, color='#00CC96'),
+                    hovertemplate='<b>Year:</b> %{x}<br><b>Exports:</b> $%{y:.1f}B SGD<extra></extra>'
+                ))
+                
+                # Add imports line
+                fig.add_trace(go.Scatter(
+                    x=trade_balance['period'],
+                    y=trade_balance['imports_billions'],
+                    mode='lines+markers',
+                    name='Services Imports',
+                    line=dict(color='#FF6692', width=3),
+                    marker=dict(size=6, color='#FF6692'),
+                    hovertemplate='<b>Year:</b> %{x}<br><b>Imports:</b> $%{y:.1f}B SGD<extra></extra>'
+                ))
+                
+                # Add trade balance line
+                fig.add_trace(go.Scatter(
+                    x=trade_balance['period'],
+                    y=trade_balance['balance_billions'],
+                    mode='lines+markers',
+                    name='Trade Balance',
+                    line=dict(color='#AB63FA', width=3, dash='dash'),
+                    marker=dict(size=6, color='#AB63FA'),
+                    hovertemplate='<b>Year:</b> %{x}<br><b>Balance:</b> $%{y:.1f}B SGD<extra></extra>'
+                ))
+                
+                fig.update_layout(
+                    title='Singapore Services Trade Balance (2000-2023)',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(color='white'),
+                    title_font_size=16,
+                    xaxis=dict(
+                        gridcolor='rgba(255,255,255,0.1)', 
+                        title='Year',
+                        tickangle=45
+                    ),
+                    yaxis=dict(
+                        gridcolor='rgba(255,255,255,0.1)', 
+                        title='Value (Billions SGD)'
+                    ),
+                    height=500,
+                    legend=dict(
+                        orientation="h",
+                        yanchor="bottom",
+                        y=1.02,
+                        xanchor="right",
+                        x=1
+                    )
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+                
+                # Add Services Trade insights
+                latest_exports = trade_balance.iloc[-1]['exports_billions']
+                latest_imports = trade_balance.iloc[-1]['imports_billions']
+                latest_balance = trade_balance.iloc[-1]['balance_billions']
+                
+                # Calculate growth rates
+                exports_growth = ((trade_balance.iloc[-1]['value_numeric_exports'] - trade_balance.iloc[-2]['value_numeric_exports']) / trade_balance.iloc[-2]['value_numeric_exports'] * 100) if len(trade_balance) > 1 else 0
+                balance_trend = "Surplus" if latest_balance > 0 else "Deficit"
+                
+            else:
+                st.warning("Services trade data not available in the current dataset.")
+                
+        except Exception as e:
+            st.error(f"Error loading services trade data: {e}")
+            logger.error(f"Services trade chart error: {e}", exc_info=True)
+
         
         # Economic Overview (Combined Growth Rates) - Add as separate section
         if 'economic_overview' in charts:
