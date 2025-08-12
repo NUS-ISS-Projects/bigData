@@ -1438,7 +1438,6 @@ class EnhancedDashboard:
     
     def render_executive_summary(self, data: Dict[str, pd.DataFrame], visual_report: Dict[str, Any]):
         """Render executive summary with key metrics"""
-        st.header("📈 Executive Summary")
         
         # Prepare JSON data for executive metrics
         if 'visualizations' in visual_report and 'executive_metrics' in visual_report['visualizations']:
@@ -1456,50 +1455,7 @@ class EnhancedDashboard:
             # Save JSON
             self._save_page_json("executive_metrics", page_content)
         
-        # Key Performance Indicators
-        if 'visualizations' in visual_report and 'executive_metrics' in visual_report['visualizations']:
-            exec_charts = visual_report['visualizations']['executive_metrics']
-            
-            if 'kpi_dashboard' in exec_charts:
-                kpis = exec_charts['kpi_dashboard']['data']
-                
-                col1, col2, col3, col4 = st.columns(4)
-                
-                with col1:
-                    if 'Total Companies' in kpis:
-                        kpi = kpis['Total Companies']
-                        st.metric(
-                            "Total Companies",
-                            f"{kpi['value']:,}",
-                            delta=f"📈 {kpi['trend']}"
-                        )
-                
-                with col2:
-                    if 'Economic Indicators' in kpis:
-                        kpi = kpis['Economic Indicators']
-                        st.metric(
-                            "Economic Indicators",
-                            f"{kpi['value']}",
-                            delta=f"📊 {kpi['trend']}"
-                        )
-                
-                with col3:
-                    if 'Government Spending' in kpis:
-                        kpi = kpis['Government Spending']
-                        st.metric(
-                            "Gov Spending (M SGD)",
-                            f"{kpi['value']:,.1f}",
-                            delta=f"💰 {kpi['trend']}"
-                        )
-                
-                with col4:
-                    if 'Property Records' in kpis:
-                        kpi = kpis['Property Records']
-                        st.metric(
-                            "Property Records",
-                            f"{kpi['value']:,}",
-                            delta=f"🏠 {kpi['trend']}"
-                        )
+        # KPI metrics removed as requested
         
         # Economic Health Score - Enhanced Professional View
         if 'visualizations' in visual_report and 'executive_metrics' in visual_report['visualizations']:
@@ -1508,117 +1464,109 @@ class EnhancedDashboard:
             if 'health_summary' in exec_charts:
                 health_data = exec_charts['health_summary']['data']
                 
-                st.markdown("### 🎯 Data Quality Score")
+                # Compact Smart Data Quality Score
+                score = health_data['value']
+                data_avail = health_data.get('data_availability', 0)
+                data_vol = health_data.get('data_volume', 0)
+                sector_div = health_data.get('sector_diversity', 0)
                 
-                # Enhanced professional gauge chart with vibrant colors
-                fig = go.Figure(go.Indicator(
-                    mode = "gauge+number+delta",
-                    value = health_data['value'],
-                    domain = {'x': [0, 1], 'y': [0, 1]},
-                    title = {
-                        'text': "<b>Data Quality Score</b>",
-                        'font': {'size': 24, 'color': '#ffffff', 'family': 'Segoe UI, Arial'}
-                    },
-                    delta = {
-                        'reference': 70,
-                        'increasing': {'color': '#00ff88'},
-                        'decreasing': {'color': '#ff4757'},
-                        'font': {'size': 18, 'family': 'Segoe UI'}
-                    },
-                    number = {
-                        'font': {'size': 56, 'color': '#ffffff', 'family': 'Segoe UI', 'weight': 'bold'},
-                        'suffix': '<span style="font-size:24px;color:#a0aec0">/100</span>'
-                    },
-                    gauge = {
-                        'axis': {
-                            'range': [None, 100],
-                            'tickwidth': 3,
-                            'tickcolor': '#ffffff',
-                            'tickfont': {'size': 16, 'color': '#ffffff', 'family': 'Segoe UI'}
-                        },
-                        'bar': {
-                            'color': '#4a90e2',
-                            'thickness': 0.8,
-                            'line': {'color': '#357abd', 'width': 3}
-                        },
-                        'bgcolor': 'rgba(0, 0, 0, 0.3)',
-                        'borderwidth': 3,
-                        'bordercolor': 'rgba(255, 255, 255, 0.2)',
-                        'steps': [
-                            {'range': [0, 25], 'color': 'rgba(255, 71, 87, 0.3)', 'name': 'Critical'},
-                            {'range': [25, 50], 'color': 'rgba(255, 165, 0, 0.3)', 'name': 'Poor'},
-                            {'range': [50, 75], 'color': 'rgba(255, 235, 59, 0.3)', 'name': 'Good'},
-                            {'range': [75, 100], 'color': 'rgba(0, 255, 136, 0.3)', 'name': 'Excellent'}
-                        ],
-                        'threshold': {
-                            'line': {'color': '#00ff88', 'width': 6},
-                            'thickness': 0.9,
-                            'value': 85
-                        }
-                    }
-                ))
+                # Determine status and color
+                if score >= 75:
+                    status = "Excellent"
+                    color = "#00ff88"
+                    bg_color = "rgba(0, 255, 136, 0.1)"
+                elif score >= 50:
+                    status = "Good"
+                    color = "#4a90e2"
+                    bg_color = "rgba(74, 144, 226, 0.1)"
+                elif score >= 25:
+                    status = "Fair"
+                    color = "#ffa500"
+                    bg_color = "rgba(255, 165, 0, 0.1)"
+                else:
+                    status = "Poor"
+                    color = "#ff4757"
+                    bg_color = "rgba(255, 71, 87, 0.1)"
                 
-                fig.update_layout(
-                    height=300,
-                    margin=dict(l=10, r=10, t=20, b=10),
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    font=dict(family="Segoe UI, Arial, sans-serif", size=14),
-                    showlegend=False
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                # Removed compact display to eliminate duplication
                 
-                # Collapsible calculation method section
-                with st.expander("📊 Calculation Method", expanded=False):
-                    # Component breakdown
-                    st.markdown("**Components:**")
-                    
-                    # Data Availability
-                    data_avail = health_data.get('data_availability', 0)
-                    st.info(f"📈 **Data Availability**: {data_avail:.1f}%\n\nSources Connected")
-                    
-                    # Data Volume
-                    data_vol = health_data.get('data_volume', 0)
-                    st.info(f"📊 **Data Volume**: {data_vol:.1f}%\n\nRecords Quality")
-                    
-                    # Sector Diversity
-                    sector_div = health_data.get('sector_diversity', 0)
-                    st.success(f"🎯 **Sector Diversity**: {sector_div:.1f}%\n\nCoverage Breadth")
-                    
-                    # Formula explanation
-                    st.warning("📋 **Formula**: Average of 3 Components")
-                    
-                    # Score interpretation
-                    st.markdown("**Score Ranges:**")
-                    col_poor, col_mod, col_good = st.columns(3)
-                    with col_poor:
-                        st.markdown("🔴 **0-30**: Poor")
-                    with col_mod:
-                        st.markdown("🟡 **30-70**: Moderate")
-                    with col_good:
-                        st.markdown("🟢 **70-100**: Good")
-                    
-                    # Detailed calculation
-                    st.markdown("---")
-                    st.markdown("**Detailed Calculation:**")
-                    st.markdown(f"""
-                    **Current Values:**
-                    - Data Availability: {data_avail:.1f}%
-                    - Data Volume: {data_vol:.1f}%
-                    - Sector Diversity: {sector_div:.1f}%
-                    
-                    **Overall Score**: ({data_avail:.1f} + {data_vol:.1f} + {sector_div:.1f}) ÷ 3 = **{health_data['value']:.1f}**
-                    
-                    **Methodology:**
-                    - Data Availability: Number of connected data sources (max 4)
-                    - Data Volume: Total records normalized to 10,000 baseline
-                    - Sector Diversity: Average diversity across all economic sectors
-                    """)
+                # Enhanced dynamic data quality visualization
+                st.markdown(f"""
+                <div style="
+                    background: linear-gradient(45deg, {bg_color}, rgba(255,255,255,0.02));
+                    border-radius: 20px;
+                    padding: 20px;
+                    margin: 15px 0;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                    border: 1px solid {color};
+                ">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div style="
+                                width: 80px;
+                                height: 80px;
+                                border-radius: 50%;
+                                background: conic-gradient(from 0deg, {color} 0%, {color} {score}%, rgba(255,255,255,0.15) {score}%, rgba(255,255,255,0.15) 100%);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-weight: bold;
+                                font-size: 20px;
+                                color: white;
+                                text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+                                position: relative;
+                                animation: pulse 2s infinite;
+                            ">
+                                <div style="
+                                    position: absolute;
+                                    width: 60px;
+                                    height: 60px;
+                                    border-radius: 50%;
+                                    background: rgba(0,0,0,0.3);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                ">
+                                    {score:.0f}
+                                </div>
+                            </div>
+                            <div>
+                                <div style="font-size: 24px; font-weight: bold; color: {color}; margin-bottom: 8px;">
+                                    Data Quality: {status}
+                                </div>
+                                <div style="font-size: 14px; color: #888; line-height: 1.4;">
+                                    Real-time system health monitoring
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; min-width: 80px;">
+                                <div style="font-size: 18px; font-weight: bold; color: {color};">{data_avail:.0f}%</div>
+                                <div style="font-size: 11px; color: #666;">Sources</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; min-width: 80px;">
+                                <div style="font-size: 18px; font-weight: bold; color: {color};">{data_vol:.0f}%</div>
+                                <div style="font-size: 11px; color: #666;">Volume</div>
+                            </div>
+                            <div style="text-align: center; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; min-width: 80px;">
+                                <div style="font-size: 18px; font-weight: bold; color: {color};">{sector_div:.0f}%</div>
+                                <div style="font-size: 11px; color: #666;">Diversity</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                @keyframes pulse {{
+                    0% {{ transform: scale(1); }}
+                    50% {{ transform: scale(1.05); }}
+                    100% {{ transform: scale(1); }}
+                }}
+                </style>
+                """, unsafe_allow_html=True)
     
     def render_business_formation_analysis(self, visual_report: Dict[str, Any]):
         """Render enhanced business formation analysis with comprehensive insights"""
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.header("🏢 Singapore Business Formation Intelligence")
         
         if 'visualizations' not in visual_report or 'business_formation' not in visual_report['visualizations']:
             st.warning("Business formation data not available")
@@ -1644,7 +1592,7 @@ class EnhancedDashboard:
         # Key Metrics Overview
         if 'data_quality_overview' in charts:
             metrics_data = charts['data_quality_overview']['data']
-            st.subheader("📊 Business Formation Overview")
+
             
             # Add CSS class for business metrics styling
             st.markdown('<div class="business-metrics">', unsafe_allow_html=True)
@@ -1680,7 +1628,6 @@ class EnhancedDashboard:
             st.markdown('</div>', unsafe_allow_html=True)
         
         # Geographic Analysis Section
-        st.subheader("🗺️ Geographic Distribution Analysis")
         geo_col1, geo_col2 = st.columns([2, 1])
         
         with geo_col1:
@@ -1715,7 +1662,6 @@ class EnhancedDashboard:
                 st.dataframe(density_df, use_container_width=True, height=400)
         
         # Entity Analysis Section
-        st.subheader("🏛️ Business Entity Analysis")
         entity_col1, entity_col2 = st.columns(2)
         
         with entity_col1:
@@ -2124,7 +2070,6 @@ class EnhancedDashboard:
     
     def render_economic_indicators(self, visual_report: Dict[str, Any]):
         """Render simplified economic indicators dashboard with only the four requested charts"""
-        st.header("📊 Economic Indicators Dashboard")
         
         if 'visualizations' not in visual_report or 'economic_indicators' not in visual_report['visualizations']:
             st.warning("Economic indicators data not available")
@@ -2400,7 +2345,6 @@ class EnhancedDashboard:
             logger.error(f"FDI chart error: {e}", exc_info=True)
 
         # Services Trade Balance - New promising indicator
-        st.subheader("🌐 Services Trade Balance")
         
         try:
             # Load services trade data from silver layer
@@ -2510,7 +2454,6 @@ class EnhancedDashboard:
         
         # Economic Overview (Combined Growth Rates) - Add as separate section
         if 'economic_overview' in charts:
-            st.subheader("🔄 Economic Growth Overview")
             chart_data = charts['economic_overview']
             
             fig = go.Figure()
@@ -2546,7 +2489,6 @@ class EnhancedDashboard:
 
         
         # GDP Growth Trend Line Chart Implementation
-        st.subheader("📈 GDP Growth Trend Line Chart")
         
         try:
             # Load GDP data from silver layer
@@ -2817,16 +2759,6 @@ class EnhancedDashboard:
         self._save_page_json("property_market", page_content)
         
         # Section 1: Market Overview
-        st.markdown("""
-        <div style="
-            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        ">
-            <h3 style="color: white; margin: 0; text-align: center;">📊 Market Distribution Overview</h3>
-        </div>
-        """, unsafe_allow_html=True)
         
         col1, col2 = st.columns(2, gap="large")
         
@@ -2877,16 +2809,6 @@ class EnhancedDashboard:
                 st.plotly_chart(fig, use_container_width=True)
         
         # Section 2: Geographic & Price Analysis
-        st.markdown("""
-        <div style="
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        ">
-            <h3 style="color: white; margin: 0; text-align: center;">🗺️ Geographic & Price Analysis</h3>
-        </div>
-        """, unsafe_allow_html=True)
         
         col3, col4 = st.columns(2, gap="large")
         
@@ -2940,16 +2862,6 @@ class EnhancedDashboard:
                 st.plotly_chart(fig, use_container_width=True)
         
         # Section 3: Advanced Analytics
-        st.markdown("""
-        <div style="
-            background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-        ">
-            <h3 style="color: white; margin: 0; text-align: center;">📈 Advanced Market Analytics</h3>
-        </div>
-        """, unsafe_allow_html=True)
         
         col5, col6 = st.columns(2, gap="large")
         
@@ -3128,10 +3040,6 @@ class EnhancedDashboard:
             margin-top: 2rem;
             text-align: center;
         ">
-            <h4 style="color: white; margin: 0 0 0.5rem 0;">💡 Market Insights</h4>
-            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 1.1rem;">
-                Comprehensive analysis of Singapore's property rental market across districts and time periods
-            </p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -3265,7 +3173,6 @@ class EnhancedDashboard:
     
     def render_insights_and_recommendations(self, visual_report: Dict[str, Any]):
         """Render insights and recommendations"""
-        st.header("💡 Visual Insights & Recommendations")
         
         # Prepare JSON data
         page_content = {
@@ -3282,7 +3189,7 @@ class EnhancedDashboard:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("📈 Key Insights")
+
             
             if 'visual_insights' in visual_report:
                 for insight in visual_report['visual_insights']:
@@ -3295,7 +3202,7 @@ class EnhancedDashboard:
                     """, unsafe_allow_html=True)
         
         with col2:
-            st.subheader("🎯 Recommendations")
+
             
             if 'chart_recommendations' in visual_report:
                 for rec in visual_report['chart_recommendations']:
@@ -3315,7 +3222,6 @@ class EnhancedDashboard:
     
     def render_ai_predictions_analytics(self, visual_report: Dict[str, Any]):
         """Render AI-Powered Predictions & Advanced Analytics section"""
-        st.header("🔮 AI-Powered Predictions & Advanced Analytics")
         
         # Initialize session state for predictions
         if 'ai_predictions_generated' not in st.session_state:
@@ -3324,7 +3230,6 @@ class EnhancedDashboard:
             st.session_state.ai_predictions_data = None
         
         # Prediction Controls
-        st.subheader("🎯 Prediction Configuration")
         
         col1, col2, col3 = st.columns(3)
         
@@ -3963,12 +3868,12 @@ class EnhancedDashboard:
                 
                 # Create tabs for different sections
                 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-                    "🏢 Business Formation",
-                    "📊 Economic Indicators", 
-                    "💰 Government Spending",
-                    "🏠 Property Market",
-                    "🔗 Cross-Sector Analysis",
-                    "🔮 AI Predictions & Analytics"
+                    "Business Formation",
+                    "Economic Indicators", 
+                    "Government Spending",
+                    "Property Market",
+                    "Cross-Sector Analysis",
+                    "AI Predictions & Analytics"
                 ])
                 
                 # Enhanced debugging for each tab
