@@ -3043,6 +3043,510 @@ class EnhancedDashboard:
         </div>
         """, unsafe_allow_html=True)
     
+    def render_commercial_rental(self, visual_report: Dict[str, Any]):
+        """Render commercial rental analysis"""
+        # Enhanced header with gradient styling
+        st.markdown("""
+        <div style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        ">
+            <div style="
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                animation: pulse 4s ease-in-out infinite;
+            "></div>
+            <h1 style="
+                color: white;
+                text-align: center;
+                margin: 0;
+                font-size: 3rem;
+                font-weight: 800;
+                text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+                letter-spacing: 2px;
+            ">🏢 Commercial Rental Intelligence</h1>
+            <p style="
+                color: rgba(255,255,255,0.95);
+                text-align: center;
+                margin: 1rem 0 0 0;
+                font-size: 1.3rem;
+                font-weight: 300;
+                text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            ">🚀 Dynamic Analysis of Singapore's Commercial Rental Ecosystem</p>
+            <div style="
+                display: flex;
+                justify-content: center;
+                margin-top: 1.5rem;
+            ">
+                <div style="
+                    background: rgba(255,255,255,0.2);
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 25px;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255,255,255,0.3);
+                ">
+                    <span style="color: white; font-weight: 500;">📈 Real-time Market Insights</span>
+                </div>
+            </div>
+        </div>
+        <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        # Check if commercial rental data is available
+        if hasattr(self, 'data') and self.data and 'commercial_rental' in self.data:
+            commercial_data = self.data['commercial_rental']
+            
+            if commercial_data is not None and len(commercial_data) > 0:
+                # Convert to DataFrame if needed
+                import pandas as pd
+                if not isinstance(commercial_data, pd.DataFrame):
+                    commercial_data = pd.DataFrame(commercial_data)
+                
+                # Prepare JSON data
+                page_content = {
+                    "data_summary": {
+                        "total_records": len(commercial_data),
+                        "columns": list(commercial_data.columns),
+                        "property_types": commercial_data['property_type'].unique().tolist() if 'property_type' in commercial_data.columns else [],
+                        "quarters": commercial_data['quarter'].unique().tolist() if 'quarter' in commercial_data.columns else []
+                    },
+                    "section": "commercial_rental"
+                }
+                
+                # Save JSON
+                self._save_page_json("commercial_rental", page_content)
+                
+                # Enhanced Dynamic Metrics Cards
+                st.markdown("""
+                <style>
+                .metric-card {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 1.5rem;
+                    border-radius: 15px;
+                    color: white;
+                    text-align: center;
+                    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    margin: 0.5rem;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .metric-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+                }
+                .metric-card::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+                    transform: rotate(45deg);
+                    transition: all 0.5s;
+                }
+                .metric-card:hover::before {
+                    animation: shine 0.5s ease-in-out;
+                }
+                @keyframes shine {
+                    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+                    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+                }
+                .metric-value {
+                    font-size: 2.5rem;
+                    font-weight: 800;
+                    margin: 0.5rem 0;
+                    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                }
+                .metric-label {
+                    font-size: 1rem;
+                    font-weight: 500;
+                    opacity: 0.9;
+                    margin: 0;
+                }
+                .metric-icon {
+                    font-size: 2rem;
+                    margin-bottom: 0.5rem;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    st.markdown(f"""
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-value">{len(commercial_data):,}</div>
+                        <div class="metric-label">Total Records</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                
+                with col2:
+                    if 'property_type' in commercial_data.columns:
+                        property_types = commercial_data['property_type'].nunique()
+                        st.markdown(f"""
+                        <div class="metric-card">
+                            <div class="metric-icon">🏢</div>
+                            <div class="metric-value">{property_types}</div>
+                            <div class="metric-label">Property Types</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                with col3:
+                    if 'quarter' in commercial_data.columns:
+                        quarters = commercial_data['quarter'].nunique()
+                        st.markdown(f"""
+                        <div class="metric-card">
+                            <div class="metric-icon">📅</div>
+                            <div class="metric-value">{quarters}</div>
+                            <div class="metric-label">Time Periods</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                with col4:
+                    if 'rental_index_numeric' in commercial_data.columns:
+                        avg_index = commercial_data['rental_index_numeric'].mean()
+                        st.markdown(f"""
+                        <div class="metric-card">
+                            <div class="metric-icon">📈</div>
+                            <div class="metric-value">{avg_index:.1f}</div>
+                            <div class="metric-label">Avg Rental Index</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                st.markdown("---")
+                
+                # Section 1: Enhanced Property Type Analysis
+                st.markdown("""
+                <div style="
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    padding: 1rem;
+                    border-radius: 15px;
+                    margin: 1rem 0;
+                    text-align: center;
+                ">
+                    <h2 style="color: white; margin: 0; font-size: 1.8rem; font-weight: 600;">🎨 Dynamic Market Analytics</h2>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                col1, col2 = st.columns(2, gap="large")
+                
+                with col1:
+                    if 'property_type' in commercial_data.columns and 'rental_index_numeric' in commercial_data.columns:
+                        # Enhanced Property type rental index comparison
+                        property_avg = commercial_data.groupby('property_type')['rental_index_numeric'].mean().reset_index()
+                        property_avg = property_avg.sort_values('rental_index_numeric', ascending=False)
+                        
+                        fig = px.bar(
+                            property_avg,
+                            x='property_type',
+                            y='rental_index_numeric',
+                            title="🏢 Property Type Performance Dashboard",
+                            labels={'property_type': 'Property Type', 'rental_index_numeric': 'Average Rental Index'},
+                            color='rental_index_numeric',
+                            color_continuous_scale=['#667eea', '#764ba2', '#f093fb']
+                        )
+                        fig.update_layout(
+                            height=480,
+                            title_font_size=18,
+                            title_font_color='#2c3e50',
+                            title_font_weight=600,
+                            plot_bgcolor='rgba(0,0,0,0)',
+                            paper_bgcolor='rgba(0,0,0,0)',
+                            font=dict(family="Inter, sans-serif", size=13),
+                            margin=dict(t=80, b=80, l=50, r=50),
+                            xaxis_tickangle=-45,
+                            xaxis=dict(
+                                showgrid=True,
+                                gridwidth=1,
+                                gridcolor='rgba(102, 126, 234, 0.1)',
+                                title_font_size=14,
+                                title_font_weight=600
+                            ),
+                            yaxis=dict(
+                                showgrid=True,
+                                gridwidth=1,
+                                gridcolor='rgba(102, 126, 234, 0.1)',
+                                title_font_size=14,
+                                title_font_weight=600
+                            )
+                        )
+                        fig.update_traces(
+                            marker_line_width=2,
+                            marker_line_color="white",
+                            hovertemplate="<b>%{x}</b><br>Rental Index: %{y:.1f}<extra></extra>"
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
+                
+                with col2:
+                    if 'quarter' in commercial_data.columns and 'rental_index_numeric' in commercial_data.columns:
+                        # Enhanced Quarterly trends with area chart
+                        quarterly_avg = commercial_data.groupby('quarter')['rental_index_numeric'].mean().reset_index()
+                        quarterly_avg = quarterly_avg.sort_values('quarter')
+                        
+                        # Create area chart for more dynamic visualization
+                        fig = px.area(
+                            quarterly_avg,
+                            x='quarter',
+                            y='rental_index_numeric',
+                            title="📈 Market Trend Evolution",
+                            labels={'quarter': 'Quarter', 'rental_index_numeric': 'Average Rental Index'},
+                            line_shape='spline'
+                        )
+                        fig.update_traces(
+                            fill='tonexty',
+                            fillcolor='rgba(102, 126, 234, 0.3)',
+                            line=dict(color='#667eea', width=4),
+                            mode='lines+markers',
+                            marker=dict(
+                                size=10,
+                                color='#764ba2',
+                                line=dict(width=3, color='white'),
+                                symbol='circle'
+                            ),
+                            hovertemplate="<b>%{x}</b><br>Index: %{y:.1f}<br><extra></extra>"
+                        )
+                        fig.update_layout(
+                            height=480,
+                            title_font_size=18,
+                            title_font_color='#2c3e50',
+                            title_font_weight=600,
+                            plot_bgcolor='rgba(0,0,0,0)',
+                            paper_bgcolor='rgba(0,0,0,0)',
+                            font=dict(family="Inter, sans-serif", size=13),
+                            margin=dict(t=80, b=60, l=50, r=50),
+                            xaxis=dict(
+                                showgrid=True,
+                                gridwidth=1,
+                                gridcolor='rgba(102, 126, 234, 0.1)',
+                                title_font_size=14,
+                                title_font_weight=600,
+                                tickangle=-45
+                            ),
+                            yaxis=dict(
+                                showgrid=True,
+                                gridwidth=1,
+                                gridcolor='rgba(102, 126, 234, 0.1)',
+                                title_font_size=14,
+                                title_font_weight=600
+                            )
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
+                
+                # Section 2: Enhanced Interactive Analysis
+                st.markdown("""
+                <div style="
+                    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                    padding: 1rem;
+                    border-radius: 15px;
+                    margin: 2rem 0 1rem 0;
+                    text-align: center;
+                ">
+                    <h3 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 600;">🔥 Advanced Market Heatmap</h3>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                col5, col6 = st.columns([2, 1], gap="large")
+                
+                with col5:
+                    if 'property_type' in commercial_data.columns and 'quarter' in commercial_data.columns and 'rental_index_numeric' in commercial_data.columns:
+                        # Enhanced Interactive Heatmap
+                        pivot_data = commercial_data.pivot_table(
+                            values='rental_index_numeric',
+                            index='property_type',
+                            columns='quarter',
+                            aggfunc='mean'
+                        )
+                        
+                        if not pivot_data.empty:
+                            fig = px.imshow(
+                                pivot_data,
+                                title="🌡️ Market Temperature: Property × Time Matrix",
+                                labels=dict(x="Quarter", y="Property Type", color="Rental Index"),
+                                color_continuous_scale=['#667eea', '#764ba2', '#f093fb', '#f5576c'],
+                                aspect="auto"
+                            )
+                            fig.update_layout(
+                                height=500,
+                                title_font_size=18,
+                                title_font_color='#2c3e50',
+                                title_font_weight=600,
+                                font=dict(family="Inter, sans-serif", size=13),
+                                margin=dict(t=80, b=60, l=100, r=60),
+                                xaxis=dict(
+                                    title_font_size=14,
+                                    title_font_weight=600,
+                                    tickangle=-45
+                                ),
+                                yaxis=dict(
+                                    title_font_size=14,
+                                    title_font_weight=600
+                                )
+                            )
+                            fig.update_traces(
+                                hovertemplate="<b>%{y}</b><br>Quarter: %{x}<br>Index: %{z:.1f}<extra></extra>"
+                            )
+                            st.plotly_chart(fig, use_container_width=True)
+                
+                with col6:
+                    # Add distribution analysis
+                    if 'rental_index_numeric' in commercial_data.columns:
+                        st.markdown("""
+                        <div style="
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            padding: 1rem;
+                            border-radius: 12px;
+                            margin-bottom: 1rem;
+                            text-align: center;
+                        ">
+                            <h4 style="color: white; margin: 0; font-size: 1.2rem;">📊 Index Distribution</h4>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        
+                        # Box plot for distribution
+                        fig = px.box(
+                            commercial_data,
+                            y='rental_index_numeric',
+                            title="📈 Index Range Analysis",
+                            color_discrete_sequence=['#667eea']
+                        )
+                        fig.update_layout(
+                            height=350,
+                            title_font_size=14,
+                            title_font_color='#2c3e50',
+                            title_font_weight=600,
+                            plot_bgcolor='rgba(0,0,0,0)',
+                            paper_bgcolor='rgba(0,0,0,0)',
+                            font=dict(family="Inter, sans-serif", size=11),
+                            margin=dict(t=60, b=40, l=40, r=40),
+                            showlegend=False
+                        )
+                        fig.update_traces(
+                            marker_color='#667eea',
+                            line_color='#764ba2'
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
+                
+                # Enhanced Market Intelligence Summary
+                st.markdown("---")
+                st.markdown("""
+                <div style="
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                    padding: 2rem;
+                    border-radius: 20px;
+                    margin: 2rem 0;
+                    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <div style="
+                        position: absolute;
+                        top: -50%;
+                        right: -50%;
+                        width: 100%;
+                        height: 100%;
+                        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                        animation: pulse 3s ease-in-out infinite;
+                    "></div>
+                    <h2 style="
+                        color: white;
+                        text-align: center;
+                        margin: 0 0 1rem 0;
+                        font-size: 2rem;
+                        font-weight: 700;
+                        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                    ">🚀 Commercial Rental Intelligence Hub</h2>
+                    <p style="
+                        color: rgba(255,255,255,0.9);
+                        text-align: center;
+                        margin: 0;
+                        font-size: 1.1rem;
+                        font-weight: 400;
+                    ">Advanced analytics for Singapore's dynamic commercial property market</p>
+                </div>
+                
+                <style>
+                @keyframes pulse {
+                    0%, 100% { opacity: 0.3; transform: scale(1); }
+                    50% { opacity: 0.6; transform: scale(1.05); }
+                }
+                </style>
+                """, unsafe_allow_html=True)
+                
+                # Dynamic Market Summary Cards
+                if 'rental_index_numeric' in commercial_data.columns:
+                    col_summary1, col_summary2, col_summary3 = st.columns(3, gap="medium")
+                    
+                    with col_summary1:
+                        avg_index = commercial_data['rental_index_numeric'].mean()
+                        st.markdown(f"""
+                        <div style="
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            padding: 1.5rem;
+                            border-radius: 15px;
+                            text-align: center;
+                            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+                            transition: transform 0.3s ease;
+                        " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <h3 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">{avg_index:.1f}</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin: 0.5rem 0 0 0; font-size: 1rem;">Average Market Index</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    
+                    with col_summary2:
+                        max_index = commercial_data['rental_index_numeric'].max()
+                        st.markdown(f"""
+                        <div style="
+                            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                            padding: 1.5rem;
+                            border-radius: 15px;
+                            text-align: center;
+                            box-shadow: 0 4px 20px rgba(240, 147, 251, 0.3);
+                            transition: transform 0.3s ease;
+                        " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <h3 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">{max_index:.1f}</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin: 0.5rem 0 0 0; font-size: 1rem;">Peak Market Value</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    
+                    with col_summary3:
+                        volatility = commercial_data['rental_index_numeric'].std()
+                        st.markdown(f"""
+                        <div style="
+                            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                            padding: 1.5rem;
+                            border-radius: 15px;
+                            text-align: center;
+                            box-shadow: 0 4px 20px rgba(118, 75, 162, 0.3);
+                            transition: transform 0.3s ease;
+                        " onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <h3 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">{volatility:.1f}</h3>
+                            <p style="color: rgba(255,255,255,0.8); margin: 0.5rem 0 0 0; font-size: 1rem;">Market Volatility</p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+            else:
+                st.warning("📊 Commercial rental data is empty or not properly loaded.")
+        else:
+            st.error("🚫 Commercial rental data not available in the current dataset.")
+            st.info("💡 **Tip:** Ensure commercial rental data is loaded in the data pipeline.")
+    
     def render_cross_sector_analysis(self, visual_report: Dict[str, Any]):
         """Render cross-sector correlation analysis"""
         st.header("🔗 Cross-Sector Analysis")
@@ -3802,6 +4306,7 @@ class EnhancedDashboard:
             # Load data
             with st.spinner("Loading economic data..."):
                 data = self.load_data()
+                self.data = data  # Assign data to self.data for access in render methods
                 run_debug["data_loading_completed"] = True
                 run_debug["data_available"] = data is not None and len(data) > 0
             
@@ -3872,7 +4377,7 @@ class EnhancedDashboard:
                     "Economic Indicators", 
                     "Government Spending",
                     "Property Market",
-                    "Cross-Sector Analysis",
+                    "Commercial Rental",
                     "AI Predictions & Analytics"
                 ])
                 
@@ -3921,13 +4426,13 @@ class EnhancedDashboard:
                 
                 with tab5:
                     try:
-                        self.render_cross_sector_analysis(visual_report)
-                        run_debug["cross_sector_analysis_tab_rendered"] = True
-                        tab_debug["cross_sector_analysis"] = {"status": "success", "charts_generated": True}
+                        self.render_commercial_rental(visual_report)
+                        run_debug["commercial_rental_tab_rendered"] = True
+                        tab_debug["commercial_rental"] = {"status": "success", "charts_generated": True}
                     except Exception as e:
-                        run_debug["cross_sector_analysis_tab_error"] = str(e)
-                        tab_debug["cross_sector_analysis"] = {"status": "error", "error": str(e)}
-                        logger.error(f"Cross sector analysis tab error: {e}", exc_info=True)
+                        run_debug["commercial_rental_tab_error"] = str(e)
+                        tab_debug["commercial_rental"] = {"status": "error", "error": str(e)}
+                        logger.error(f"Commercial rental tab error: {e}", exc_info=True)
                 
                 with tab6:
                     try:
