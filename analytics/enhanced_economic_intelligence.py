@@ -112,10 +112,21 @@ class EnhancedLLMEconomicAnalyzer:
             llm_analysis = ""
             if self.llm_client and self.llm_client.is_available():
                 try:
+                    # Check for industry-related columns with fallback
+                    industry_column = None
+                    for col in ['industry_category', 'primary_ssic_description', 'industry_sector', 'business_sector']:
+                        if col in acra_data.columns:
+                            industry_column = col
+                            break
+                    
+                    industry_distribution = {}
+                    if industry_column:
+                        industry_distribution = acra_data[industry_column].value_counts().to_dict()
+                    
                     context_data = {
                         "data_summary": key_metrics,
                         "sample_records": acra_data.head(10).to_dict('records'),
-                        "industry_distribution": acra_data['industry_category'].value_counts().to_dict()
+                        "industry_distribution": industry_distribution
                     }
                     
                     llm_analysis = self.llm_client.generate_analysis(
@@ -134,7 +145,7 @@ class EnhancedLLMEconomicAnalyzer:
             insight = EnhancedEconomicInsight(
                 insight_type="business_formation",
                 title="Business Formation Trend Analysis",
-                description=f"Analysis of {len(acra_data)} business registrations across {acra_data['industry_category'].nunique()} industries",
+                description=f"Analysis of {len(acra_data)} business registrations across {acra_data[industry_column].nunique() if industry_column else 'multiple'} industries",
                 llm_analysis=llm_analysis,
                 confidence_score=0.85 if self.llm_client and self.llm_client.is_available() else 0.70,
                 data_sources=["ACRA Companies (Silver Layer)"],
@@ -176,11 +187,18 @@ class EnhancedLLMEconomicAnalyzer:
             llm_analysis = ""
             if self.llm_client and self.llm_client.is_available():
                 try:
+                    # Check for indicator_name column with fallback
+                    latest_values = {}
+                    indicators_count = 0
+                    if 'indicator_name' in econ_data.columns:
+                        latest_values = econ_data.groupby('indicator_name')['value'].last().to_dict() if 'value' in econ_data.columns else {}
+                        indicators_count = econ_data['indicator_name'].nunique()
+                    
                     context_data = {
                         "indicators_summary": key_metrics,
-                        "latest_values": econ_data.groupby('indicator_name')['value'].last().to_dict(),
+                        "latest_values": latest_values,
                         "data_coverage": {
-                            "indicators_count": econ_data['indicator_name'].nunique(),
+                            "indicators_count": indicators_count,
                             "latest_period": econ_data['period'].max() if 'period' in econ_data.columns else None
                         }
                     }
@@ -200,13 +218,13 @@ class EnhancedLLMEconomicAnalyzer:
             insight = EnhancedEconomicInsight(
                 insight_type="economic_indicators",
                 title="Economic Indicators Analysis",
-                description=f"Analysis of {econ_data['indicator_name'].nunique()} economic indicators",
+                description=f"Analysis of {econ_data['indicator_name'].nunique() if 'indicator_name' in econ_data.columns else len(econ_data)} economic indicators",
                 llm_analysis=llm_analysis,
                 confidence_score=0.90 if self.llm_client and self.llm_client.is_available() else 0.75,
                 data_sources=["SingStat Economic Indicators (Silver Layer)"],
                 timestamp=datetime.now(),
                 metadata={
-                    "indicators_analyzed": econ_data['indicator_name'].unique().tolist(),
+                    "indicators_analyzed": econ_data['indicator_name'].unique().tolist() if 'indicator_name' in econ_data.columns else [],
                     "data_quality": econ_data['data_quality_score'].mean() if 'data_quality_score' in econ_data.columns else None
                 },
                 key_metrics=key_metrics,
@@ -317,11 +335,18 @@ class EnhancedLLMEconomicAnalyzer:
                 metrics['active_companies'] = len(acra_data[acra_data['entity_status'] == 'REGISTERED'])
                 metrics['active_rate'] = metrics['active_companies'] / metrics['total_companies']
             
-            if 'industry_category' in acra_data.columns:
-                metrics['industry_diversity'] = acra_data['industry_category'].nunique()
-                top_industry = acra_data['industry_category'].value_counts().index[0]
+            # Check for industry-related columns with fallback
+            industry_column = None
+            for col in ['industry_category', 'primary_ssic_description', 'industry_sector', 'business_sector']:
+                if col in acra_data.columns:
+                    industry_column = col
+                    break
+            
+            if industry_column:
+                metrics['industry_diversity'] = acra_data[industry_column].nunique()
+                top_industry = acra_data[industry_column].value_counts().index[0]
                 metrics['top_industry_concentration'] = (
-                    acra_data['industry_category'].value_counts().iloc[0] / len(acra_data)
+                    acra_data[industry_column].value_counts().iloc[0] / len(acra_data)
                 )
             
             if 'data_quality_score' in acra_data.columns:
@@ -344,26 +369,34 @@ class EnhancedLLMEconomicAnalyzer:
         metrics = {}
         
         try:
-            metrics['indicators_count'] = econ_data['indicator_name'].nunique() if 'indicator_name' in econ_data.columns else 0
+            # Check for indicator name columns with fallback
+            indicator_column = None
+            for col in ['indicator_name', 'table_id', 'indicator_id', 'series_name']:
+                if col in econ_data.columns:
+                    indicator_column = col
+                    break
+            
+            metrics['indicators_count'] = econ_data[indicator_column].nunique() if indicator_column else 0
             
             if 'data_quality_score' in econ_data.columns:
                 metrics['avg_data_quality'] = econ_data['data_quality_score'].mean()
             
             # Get latest values for key indicators
-            if 'indicator_name' in econ_data.columns and 'value' in econ_data.columns:
-                latest_values = econ_data.groupby('indicator_name')['value'].last()
+            if indicator_column and 'value' in econ_data.columns:
+                latest_values = econ_data.groupby(indicator_column)['value'].last()
                 
                 for indicator in ['GDP Growth Rate', 'Inflation Rate', 'Unemployment Rate']:
                     if indicator in latest_values.index:
                         metrics[f'latest_{indicator.lower().replace(" ", "_").replace("%", "_rate")}'] = latest_values[indicator]
             
             # Calculate volatility if we have time series data
-            if 'period' in econ_data.columns and 'value' in econ_data.columns:
-                for indicator in econ_data['indicator_name'].unique():
-                    indicator_data = econ_data[econ_data['indicator_name'] == indicator]['value']
+            if 'period' in econ_data.columns and 'value' in econ_data.columns and indicator_column:
+                for indicator in econ_data[indicator_column].unique():
+                    indicator_data = econ_data[econ_data[indicator_column] == indicator]['value']
                     if len(indicator_data) > 1:
                         volatility = indicator_data.std()
-                        metrics[f'{indicator.lower().replace(" ", "_")}_volatility'] = volatility
+                        safe_indicator_name = str(indicator).lower().replace(' ', '_').replace('%', '_rate')[:50]  # Limit length
+                        metrics[f'{safe_indicator_name}_volatility'] = volatility
             
         except Exception as e:
             self.logger.error(f"Error calculating economic metrics: {e}")

@@ -39,7 +39,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for enhanced styling with Property Market theme
+# Custom CSS for Professional Black Dynamic Theme
 st.markdown("""
 <style>
     /* Dynamic animated background */
@@ -73,16 +73,16 @@ st.markdown("""
     }
     
     @keyframes glow {
-        0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
-        50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(102, 126, 234, 0.3); }
+        0%, 100% { box-shadow: 0 0 20px rgba(64, 224, 208, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(64, 224, 208, 0.5), 0 0 60px rgba(64, 224, 208, 0.2); }
     }
     
-    /* Floating particles - Property Market theme */
+    /* Floating particles - Professional Black theme */
     .particle {
         position: absolute;
         width: 4px;
         height: 4px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.4) 50%, transparent 70%);
+        background: radial-gradient(circle, rgba(64, 224, 208, 0.6) 0%, rgba(255, 215, 0, 0.4) 50%, transparent 70%);
         border-radius: 50%;
         pointer-events: none;
         animation: particleFloat 8s ease-in-out infinite;
@@ -96,76 +96,76 @@ st.markdown("""
     .particle:nth-child(5) { top: 40%; left: 90%; animation-delay: 4s; }
     .particle:nth-child(6) { top: 70%; left: 5%; animation-delay: 5s; }
     
-    /* Enhanced sidebar styling - Property Market Theme */
+    /* Enhanced sidebar styling - Professional Black Theme */
     .stSidebar {
-        background: linear-gradient(180deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+        background: linear-gradient(180deg, rgba(15, 15, 15, 0.98) 0%, rgba(25, 25, 25, 0.98) 100%);
         backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
+        border-right: 1px solid rgba(64, 224, 208, 0.2);
     }
     
     .stSidebar .stSelectbox > div > div {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(40, 40, 40, 0.8);
+        border: 1px solid rgba(64, 224, 208, 0.3);
         border-radius: 10px;
-        color: white;
+        color: #e0e0e0;
     }
     
     .stSidebar .stButton > button {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(50, 50, 50, 0.9) 100%);
+        color: #40e0d0;
+        border: 1px solid rgba(64, 224, 208, 0.4);
         border-radius: 15px;
         padding: 0.5rem 1rem;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
     
     .stSidebar .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
-        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 6px 20px rgba(64, 224, 208, 0.4);
+        background: linear-gradient(135deg, rgba(40, 40, 40, 0.9) 0%, rgba(60, 60, 60, 0.9) 100%);
+        border-color: rgba(64, 224, 208, 0.6);
     }
     
-    /* Enhanced tabs styling - Property Market Theme */
+    /* Enhanced tabs styling - Professional Black Theme */
     .stTabs [data-baseweb="tab-list"] {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.6) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(35, 35, 35, 0.9) 100%);
         backdrop-filter: blur(20px);
         border-radius: 15px;
         padding: 0.5rem;
         margin-bottom: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        border: 1px solid rgba(64, 224, 208, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     }
     
     .stTabs [data-baseweb="tab"] {
         background: transparent;
         border-radius: 10px;
-        color: #ffffff;
+        color: #e0e0e0;
         font-weight: 600;
         transition: all 0.3s ease;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-        color: white !important;
-        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: linear-gradient(135deg, rgba(64, 224, 208, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%);
+        color: #40e0d0 !important;
+        box-shadow: 0 4px 15px rgba(64, 224, 208, 0.3);
+        border: 1px solid rgba(64, 224, 208, 0.4);
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(64, 224, 208, 0.1);
         transform: translateY(-1px);
     }
     
-    /* Property Market inspired theme */
+    /* Professional Black inspired theme */
     .main .block-container {
         padding-top: 1rem;
         padding-bottom: 0rem;
         padding-left: 1rem;
         padding-right: 1rem;
         max-width: none;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #764ba2 75%, #667eea 100%);
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0f0f0f 50%, #1f1f1f 75%, #0a0a0a 100%);
         background-size: 400% 400%;
         animation: gradientShift 20s ease infinite;
         min-height: 100vh;
@@ -179,7 +179,7 @@ st.markdown("""
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(102, 126, 234, 0.1);
+        background: rgba(64, 224, 208, 0.02);
         z-index: -1;
     }
     
@@ -190,7 +190,7 @@ st.markdown("""
     .stApp {
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #764ba2 75%, #667eea 100%);
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0f0f0f 50%, #1f1f1f 75%, #0a0a0a 100%);
         background-size: 400% 400%;
         animation: gradientShift 20s ease infinite;
     }
@@ -198,19 +198,19 @@ st.markdown("""
     .main-header {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #ffffff;
+        color: #40e0d0;
         text-align: center;
         margin-bottom: 1rem;
         padding: 2rem;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        background: linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(30, 30, 30, 0.95) 100%);
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(64, 224, 208, 0.3);
         animation: float 3s ease-in-out infinite;
         position: relative;
         overflow: hidden;
-        text-shadow: 0 2px 10px rgba(102, 126, 234, 0.5);
+        text-shadow: 0 2px 10px rgba(64, 224, 208, 0.5);
         letter-spacing: -0.5px;
     }
     
@@ -221,30 +221,30 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(64, 224, 208, 0.2), transparent);
         animation: shimmer 3s infinite;
     }
     
     .metric-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(64, 224, 208, 0.3);
         margin: 0.5rem 0;
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
         animation: float 4s ease-in-out infinite;
-        color: #ffffff;
+        color: #e0e0e0;
     }
     
     .metric-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
-        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 12px 40px rgba(64, 224, 208, 0.4);
+        background: linear-gradient(135deg, rgba(25, 25, 25, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%);
+        border-color: rgba(64, 224, 208, 0.5);
     }
     
     .metric-card::before {
@@ -254,31 +254,31 @@ st.markdown("""
         left: 0;
         right: 0;
         height: 2px;
-        background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+        background: linear-gradient(90deg, #40e0d0, #ffd700, #40e0d0);
         background-size: 200% 200%;
         animation: gradientShift 4s ease infinite;
-        opacity: 0.6;
+        opacity: 0.8;
     }
     
     .insight-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        background: linear-gradient(135deg, rgba(25, 25, 25, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(64, 224, 208, 0.3);
         margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
     }
     
     .insight-card h4 {
-        color: #ffffff;
+        color: #40e0d0;
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
-        text-shadow: 0 1px 3px rgba(102, 126, 234, 0.5);
+        text-shadow: 0 1px 3px rgba(64, 224, 208, 0.5);
     }
     
     .insight-card ul {
@@ -289,24 +289,24 @@ st.markdown("""
     .insight-card li {
         margin-bottom: 0.5rem;
         line-height: 1.5;
-        color: #ffffff;
+        color: #e0e0e0;
     }
     
     .warning-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(255, 193, 7, 0.6) 100%);
+        background: linear-gradient(135deg, rgba(40, 30, 10, 0.95) 0%, rgba(60, 45, 15, 0.95) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
         border: 1px solid rgba(255, 193, 7, 0.4);
         margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
+        box-shadow: 0 8px 32px rgba(255, 193, 7, 0.3);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
     }
     
     .warning-card h4 {
-        color: #ffc107;
+        color: #ffd700;
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
@@ -320,28 +320,28 @@ st.markdown("""
     .warning-card li {
         margin-bottom: 0.5rem;
         line-height: 1.5;
-        color: #ffffff;
+        color: #e0e0e0;
     }
     
     .success-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(40, 167, 69, 0.6) 100%);
+        background: linear-gradient(135deg, rgba(10, 40, 20, 0.95) 0%, rgba(15, 60, 30, 0.95) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 20px;
         border: 1px solid rgba(40, 167, 69, 0.4);
         margin: 0.5rem 0;
-        box-shadow: 0 8px 32px rgba(40, 167, 69, 0.2);
+        box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
     }
     
     .success-card h4 {
-        color: #28a745;
+        color: #00ff7f;
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
-        text-shadow: 0 1px 3px rgba(102, 126, 234, 0.5);
+        text-shadow: 0 1px 3px rgba(0, 255, 127, 0.5);
     }
     
     .success-card ul {
@@ -352,17 +352,17 @@ st.markdown("""
     .success-card li {
         margin-bottom: 0.5rem;
         line-height: 1.5;
-        color: #ffffff;
+        color: #e0e0e0;
     }
     
     .chart-container {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%);
         backdrop-filter: blur(20px);
         padding: 1.5rem;
         border-radius: 25px;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         margin: 0.5rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(64, 224, 208, 0.3);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -371,9 +371,9 @@ st.markdown("""
     
     .chart-container:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
-        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 12px 40px rgba(64, 224, 208, 0.4);
+        background: linear-gradient(135deg, rgba(25, 25, 25, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%);
+        border-color: rgba(64, 224, 208, 0.5);
     }
     
     .chart-container::before {
@@ -383,20 +383,20 @@ st.markdown("""
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+        background: linear-gradient(90deg, #40e0d0, #ffd700, #40e0d0);
         background-size: 300% 300%;
         animation: gradientShift 5s ease infinite;
-        opacity: 0.6;
+        opacity: 0.8;
     }
     
     .stMetric {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%);
         backdrop-filter: blur(20px);
-        color: white;
+        color: #e0e0e0;
         padding: 1.5rem;
         border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        border: 1px solid rgba(64, 224, 208, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         margin: 0.5rem 0;
         transition: all 0.3s ease;
         position: relative;
@@ -405,60 +405,60 @@ st.markdown("""
     
     .stMetric:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
-        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 12px 40px rgba(64, 224, 208, 0.4);
+        background: linear-gradient(135deg, rgba(25, 25, 25, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%);
+        border-color: rgba(64, 224, 208, 0.5);
     }
     
     .stMetric > div {
-        color: white !important;
+        color: #e0e0e0 !important;
     }
     
     .stMetric [data-testid="metric-container"] {
         background: transparent;
-        color: white;
+        color: #e0e0e0;
         padding: 0;
         border-radius: 0;
         border: none;
     }
     
     .stMetric [data-testid="metric-container"] > div {
-        color: white !important;
+        color: #e0e0e0 !important;
     }
     
     .stMetric label {
-        color: #ffffff !important;
+        color: #40e0d0 !important;
         font-weight: 600;
         font-size: 0.9rem;
     }
     
     .stMetric [data-testid="metric-container"] [data-testid="metric-value"] {
-        color: #ffffff !important;
+        color: #e0e0e0 !important;
         font-size: 1.8rem;
         font-weight: bold;
     }
     
     .stMetric [data-testid="metric-container"] [data-testid="metric-delta"] {
-        color: #60a5fa !important;
+        color: #ffd700 !important;
         font-weight: 500;
     }
     
     .stSubheader {
-        color: #ffffff;
+        color: #40e0d0;
         font-weight: 600;
         margin-top: 1rem;
         margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 2px solid rgba(64, 224, 208, 0.3);
     }
     
     .stDataFrame {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%);
         backdrop-filter: blur(20px);
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(64, 224, 208, 0.3);
     }
     
     /* Enhanced plotly chart styling */
@@ -471,21 +471,21 @@ st.markdown("""
     
     .js-plotly-plot:hover {
         transform: scale(1.02);
-        box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 0 30px rgba(64, 224, 208, 0.6);
     }
     
-    /* Business Formation Overview Metrics Styling - Property Market Theme */
+    /* Business Formation Overview Metrics Styling - Professional Black Theme */
     .business-metrics .stMetric,
     [data-testid="metric-container"],
     .stApp [data-testid="metric-container"],
     div[data-testid="metric-container"] {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%) !important;
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%) !important;
         backdrop-filter: blur(20px);
-        color: white !important;
+        color: #e0e0e0 !important;
         padding: 2rem !important;
         border-radius: 25px !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
+        border: 1px solid rgba(64, 224, 208, 0.3) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
         margin: 0.8rem 0 !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         position: relative;
@@ -495,22 +495,22 @@ st.markdown("""
     
     /* Additional targeting for all metric containers */
     .stApp div[data-testid="metric-container"] {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%) !important;
-        color: white !important;
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%) !important;
+        color: #e0e0e0 !important;
         border-radius: 25px !important;
         padding: 2rem !important;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+        border: 1px solid rgba(64, 224, 208, 0.3) !important;
     }
     
     /* Target metric containers in tabs */
     .stTabs [data-testid="metric-container"] {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%) !important;
-        color: white !important;
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 100%) !important;
+        color: #e0e0e0 !important;
         border-radius: 25px !important;
         padding: 2rem !important;
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+        border: 1px solid rgba(64, 224, 208, 0.3) !important;
     }
     
     .business-metrics .stMetric::before {
@@ -520,7 +520,7 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(90deg, transparent, rgba(64, 224, 208, 0.2), transparent);
         animation: shimmer 4s infinite;
     }
     
@@ -529,9 +529,9 @@ st.markdown("""
     .stApp [data-testid="metric-container"]:hover,
     div[data-testid="metric-container"]:hover {
         transform: translateY(-8px) scale(1.02) !important;
-        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.4) !important;
-        border-color: rgba(255, 255, 255, 0.3) !important;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%) !important;
+        box-shadow: 0 16px 48px rgba(64, 224, 208, 0.4) !important;
+        border-color: rgba(64, 224, 208, 0.5) !important;
+        background: linear-gradient(135deg, rgba(25, 25, 25, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%) !important;
     }
     
     .business-metrics .stMetric [data-testid="metric-container"] {
@@ -543,16 +543,16 @@ st.markdown("""
     .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-value"],
     [data-testid="metric-container"] [data-testid="metric-value"],
     div[data-testid="metric-container"] [data-testid="metric-value"] {
-        color: #ffffff !important;
+        color: #e0e0e0 !important;
         font-size: 2.2rem !important;
         font-weight: 800 !important;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+        text-shadow: 0 2px 4px rgba(64, 224, 208, 0.3) !important;
     }
     
     .business-metrics .stMetric [data-testid="metric-container"] label,
     [data-testid="metric-container"] label,
     div[data-testid="metric-container"] label {
-        color: #dbeafe !important;
+        color: #40e0d0 !important;
         font-weight: 700 !important;
         font-size: 1rem !important;
         text-transform: uppercase !important;
@@ -562,47 +562,47 @@ st.markdown("""
     .business-metrics .stMetric [data-testid="metric-container"] [data-testid="metric-delta"],
     [data-testid="metric-container"] [data-testid="metric-delta"],
     div[data-testid="metric-container"] [data-testid="metric-delta"] {
-        color: #60a5fa !important;
+        color: #ffd700 !important;
         font-weight: 600 !important;
         font-size: 1.1rem !important;
     }
     
     /* Enhanced regenerate button styling */
     .regenerate-button {
-        background: linear-gradient(135deg, rgba(74, 144, 226, 0.8) 0%, rgba(56, 239, 125, 0.8) 100%) !important;
-        color: white !important;
-        border: 1px solid rgba(74, 144, 226, 0.6) !important;
+        background: linear-gradient(135deg, rgba(64, 224, 208, 0.8) 0%, rgba(255, 215, 0, 0.8) 100%) !important;
+        color: #1a1a1a !important;
+        border: 1px solid rgba(64, 224, 208, 0.6) !important;
         border-radius: 12px !important;
         padding: 0.6rem 1.2rem !important;
         font-weight: 600 !important;
         font-size: 0.9rem !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3) !important;
+        box-shadow: 0 4px 15px rgba(64, 224, 208, 0.3) !important;
         backdrop-filter: blur(10px) !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
     }
     
     .regenerate-button:hover {
         transform: translateY(-2px) scale(1.05) !important;
-        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5) !important;
-        background: linear-gradient(135deg, rgba(74, 144, 226, 0.9) 0%, rgba(56, 239, 125, 0.9) 100%) !important;
-        border-color: rgba(74, 144, 226, 0.8) !important;
+        box-shadow: 0 8px 25px rgba(64, 224, 208, 0.5) !important;
+        background: linear-gradient(135deg, rgba(64, 224, 208, 0.9) 0%, rgba(255, 215, 0, 0.9) 100%) !important;
+        border-color: rgba(64, 224, 208, 0.8) !important;
     }
     
     .regenerate-button:active {
         transform: translateY(0px) scale(1.02) !important;
-        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4) !important;
+        box-shadow: 0 4px 15px rgba(64, 224, 208, 0.4) !important;
     }
 
-    /* Property Market themed styling for insights */
+    /* Professional Black themed styling for insights */
     .ai-insight-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(102, 126, 234, 0.95) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 50%, rgba(20, 20, 20, 0.95) 100%);
         backdrop-filter: blur(20px);
-        color: #ffffff;
+        color: #e0e0e0;
         padding: 2rem;
         border-radius: 20px;
-        border: 2px solid rgba(102, 126, 234, 0.6);
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        border: 2px solid rgba(64, 224, 208, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         margin: 1rem 0;
         position: relative;
         overflow: hidden;
@@ -612,8 +612,8 @@ st.markdown("""
     
     .ai-insight-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.6);
-        border-color: rgba(102, 126, 234, 0.9);
+        box-shadow: 0 16px 48px rgba(64, 224, 208, 0.6);
+        border-color: rgba(64, 224, 208, 0.9);
     }
     
     .ai-insight-card::before {
@@ -623,7 +623,7 @@ st.markdown("""
         right: 0;
         width: 150px;
         height: 150px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(64, 224, 208, 0.3) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(50px, -50px);
         animation: pulse 4s ease-in-out infinite;
@@ -636,20 +636,20 @@ st.markdown("""
         left: 0;
         width: 100px;
         height: 100px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(64, 224, 208, 0.2) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(-30px, 30px);
         animation: pulse 3s ease-in-out infinite reverse;
     }
     
     .ai-recommendation-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(102, 126, 234, 0.95) 100%);
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(35, 35, 35, 0.95) 50%, rgba(20, 20, 20, 0.95) 100%);
         backdrop-filter: blur(20px);
-        color: #ffffff;
+        color: #e0e0e0;
         padding: 2rem;
         border-radius: 20px;
-        border: 2px solid rgba(102, 126, 234, 0.6);
-        box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+        border: 2px solid rgba(255, 215, 0, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         margin: 1rem 0;
         position: relative;
         overflow: hidden;
@@ -659,8 +659,8 @@ st.markdown("""
     
     .ai-recommendation-card:hover {
         transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 16px 48px rgba(102, 126, 234, 0.6);
-        border-color: rgba(102, 126, 234, 0.9);
+        box-shadow: 0 16px 48px rgba(255, 215, 0, 0.6);
+        border-color: rgba(255, 215, 0, 0.9);
     }
     
     .ai-recommendation-card::before {
@@ -670,7 +670,7 @@ st.markdown("""
         left: 0;
         width: 120px;
         height: 120px;
-        background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(-40px, -40px);
         animation: pulse 5s ease-in-out infinite;
@@ -683,7 +683,7 @@ st.markdown("""
         right: 0;
         width: 90px;
         height: 90px;
-        background: radial-gradient(circle, rgba(118, 75, 162, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
         border-radius: 50%;
         transform: translate(30px, 30px);
         animation: pulse 4s ease-in-out infinite reverse;
@@ -697,7 +697,7 @@ st.markdown("""
     }
     
     .ai-insight-card h4, .ai-recommendation-card h4 {
-        color: #ffffff;
+        color: #40e0d0;
         margin-bottom: 1rem;
         font-weight: 600;
         font-size: 1.1rem;
@@ -715,7 +715,7 @@ st.markdown("""
     .ai-insight-card li, .ai-recommendation-card li {
         margin-bottom: 0.5rem;
         line-height: 1.5;
-        color: #ffffff;
+        color: #e0e0e0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -4288,29 +4288,9 @@ class EnhancedDashboard:
             
             with col1:
                 st.markdown(f"""
-                <div style="
-                    background: linear-gradient(135deg, {model_color}15, {model_color}05);
-                    padding: 2rem;
-                    border-radius: 15px;
-                    border: 1px solid {model_color}30;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-                    height: 400px;
-                    overflow-y: auto;
-                ">
-                    <h4 style="
-                        color: {model_color};
-                        margin: 0 0 1rem 0;
-                        font-size: 1.3rem;
-                        font-weight: 600;
-                        display: flex;
-                        align-items: center;
-                        gap: 0.5rem;
-                    ">{model_icon} AI Predictions</h4>
-                    <div style="
-                        color: #2C3E50;
-                        line-height: 1.6;
-                        font-size: 0.95rem;
-                    ">
+                <div class="ai-insight-card">
+                    <h4>{model_icon} AI Predictions</h4>
+                    <div class="ai-content">
                         {pred_data['predictions']}
                     </div>
                 </div>
@@ -4318,29 +4298,9 @@ class EnhancedDashboard:
             
             with col2:
                 st.markdown(f"""
-                <div style="
-                    background: linear-gradient(135deg, #2ECC7115, #2ECC7105);
-                    padding: 2rem;
-                    border-radius: 15px;
-                    border: 1px solid #2ECC7130;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-                    height: 400px;
-                    overflow-y: auto;
-                ">
-                    <h4 style="
-                        color: #2ECC71;
-                        margin: 0 0 1rem 0;
-                        font-size: 1.3rem;
-                        font-weight: 600;
-                        display: flex;
-                        align-items: center;
-                        gap: 0.5rem;
-                    ">💡 Strategic Insights</h4>
-                    <div style="
-                        color: #2C3E50;
-                        line-height: 1.6;
-                        font-size: 0.95rem;
-                    ">
+                <div class="ai-recommendation-card">
+                    <h4>💡 Strategic Insights</h4>
+                    <div class="ai-content">
                         {pred_data['insights']}
                     </div>
                 </div>

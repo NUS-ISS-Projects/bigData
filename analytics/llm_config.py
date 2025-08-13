@@ -43,18 +43,23 @@ class LLMClient:
     def _initialize_client(self):
         """Initialize the appropriate LLM client based on provider"""
         try:
-            if self.config.provider == LLMProvider.OPENAI:
+            self.logger.info(f"Initializing LLM client for provider: {self.config.provider} (type: {type(self.config.provider)})")
+            
+            # Handle both enum and string values
+            provider_value = self.config.provider.value if hasattr(self.config.provider, 'value') else self.config.provider
+            
+            if provider_value == LLMProvider.OPENAI.value:
                 self._init_openai_client()
-            elif self.config.provider == LLMProvider.ANTHROPIC:
+            elif provider_value == LLMProvider.ANTHROPIC.value:
                 self._init_anthropic_client()
-            elif self.config.provider == LLMProvider.AZURE_OPENAI:
+            elif provider_value == LLMProvider.AZURE_OPENAI.value:
                 self._init_azure_openai_client()
-            elif self.config.provider == LLMProvider.LOCAL_OLLAMA:
+            elif provider_value == LLMProvider.LOCAL_OLLAMA.value:
                 self._init_ollama_client()
-            elif self.config.provider == LLMProvider.HUGGINGFACE:
+            elif provider_value == LLMProvider.HUGGINGFACE.value:
                 self._init_huggingface_client()
             else:
-                raise ValueError(f"Unsupported LLM provider: {self.config.provider}")
+                raise ValueError(f"Unsupported LLM provider: {self.config.provider} (value: {provider_value})")
                 
         except Exception as e:
             self.logger.error(f"Failed to initialize LLM client: {e}")
@@ -106,14 +111,25 @@ class LLMClient:
         """Initialize local Ollama client"""
         try:
             import ollama
-            self.client = ollama.Client(
-                host=self.config.api_base or 'http://localhost:11434'
-            )
-            self.logger.info("Ollama client initialized")
+            host = self.config.api_base or 'http://localhost:11434'
+            self.client = ollama.Client(host=host)
+            
+            # Test connection to Ollama service
+            try:
+                # Try to list models to verify connection
+                models = self.client.list()
+                self.logger.info(f"Ollama client initialized successfully. Available models: {len(models.get('models', []))}")
+            except Exception as conn_error:
+                self.logger.warning(f"Ollama client created but service may not be running: {conn_error}")
+                self.logger.info("To start Ollama service, run: ollama serve")
+                # Still keep the client as it might work later
+                
         except ImportError:
             self.logger.error("Ollama package not installed. Run: pip install ollama")
+            self.client = None
         except Exception as e:
             self.logger.error(f"Ollama client initialization failed: {e}")
+            self.client = None
     
     def _init_huggingface_client(self):
         """Initialize Hugging Face client"""
@@ -145,18 +161,21 @@ class LLMClient:
             if analysis_type:
                 enhanced_prompt = f"[Analysis Type: {analysis_type}]\n\n{prompt}"
             
-            if self.config.provider == LLMProvider.OPENAI:
+            # Handle both enum and string values
+            provider_value = self.config.provider.value if hasattr(self.config.provider, 'value') else self.config.provider
+            
+            if provider_value == LLMProvider.OPENAI.value:
                 return self._generate_openai_analysis(enhanced_prompt, context_data)
-            elif self.config.provider == LLMProvider.ANTHROPIC:
+            elif provider_value == LLMProvider.ANTHROPIC.value:
                 return self._generate_anthropic_analysis(enhanced_prompt, context_data)
-            elif self.config.provider == LLMProvider.AZURE_OPENAI:
+            elif provider_value == LLMProvider.AZURE_OPENAI.value:
                 return self._generate_azure_openai_analysis(enhanced_prompt, context_data)
-            elif self.config.provider == LLMProvider.LOCAL_OLLAMA:
+            elif provider_value == LLMProvider.LOCAL_OLLAMA.value:
                 return self._generate_ollama_analysis(enhanced_prompt, context_data)
-            elif self.config.provider == LLMProvider.HUGGINGFACE:
+            elif provider_value == LLMProvider.HUGGINGFACE.value:
                 return self._generate_huggingface_analysis(enhanced_prompt, context_data)
             else:
-                raise ValueError(f"Unsupported provider: {self.config.provider}")
+                raise ValueError(f"Unsupported provider: {self.config.provider} (value: {provider_value})")
                 
         except Exception as e:
             self.logger.error(f"Analysis generation failed: {e}")

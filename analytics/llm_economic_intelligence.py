@@ -151,7 +151,17 @@ class LLMEconomicAnalyzer:
             # Calculate basic statistics
             total_companies = len(acra_data)
             active_companies = len(acra_data[acra_data['status'] == 'Active'])
-            tech_companies = len(acra_data[acra_data['industry_category'] == 'Technology'])
+            # Check for industry-related columns with fallback
+            industry_column = None
+            for col in ['industry_category', 'primary_ssic_description', 'industry_sector', 'business_sector']:
+                if col in acra_data.columns:
+                    industry_column = col
+                    break
+            
+            tech_companies = 0
+            if industry_column:
+                tech_keywords = ['technology', 'software', 'digital', 'tech', 'IT', 'computer', 'information']
+                tech_companies = len(acra_data[acra_data[industry_column].str.contains('|'.join(tech_keywords), case=False, na=False)])
             
             # Generate LLM-based insights
             if self.llm_available:
@@ -267,7 +277,18 @@ class LLMEconomicAnalyzer:
         """Fallback analysis when LLM is not available"""
         total = len(data)
         active = len(data[data['status'] == 'Active'])
-        tech_pct = len(data[data['industry_category'] == 'Technology']) / total * 100
+        # Check for industry-related columns with fallback
+        industry_column = None
+        for col in ['industry_category', 'primary_ssic_description', 'industry_sector', 'business_sector']:
+            if col in data.columns:
+                industry_column = col
+                break
+        
+        tech_pct = 0
+        if industry_column:
+            tech_keywords = ['technology', 'software', 'digital', 'tech', 'IT', 'computer', 'information']
+            tech_companies = len(data[data[industry_column].str.contains('|'.join(tech_keywords), case=False, na=False)])
+            tech_pct = tech_companies / total * 100
         
         return f"""Business Formation Analysis:
         - Total companies analyzed: {total}
@@ -282,8 +303,18 @@ class LLMEconomicAnalyzer:
     
     def _generate_economic_analysis_fallback(self, data: pd.DataFrame) -> str:
         """Fallback economic analysis when LLM is not available"""
-        gdp_growth = data[data['indicator_name'] == 'GDP Growth Rate']['value'].iloc[0] if not data.empty else 0
-        inflation = data[data['indicator_name'] == 'Inflation Rate']['value'].iloc[0] if len(data) > 1 else 0
+        gdp_growth = 0
+        inflation = 0
+        
+        # Check for indicator_name column with fallback
+        if 'indicator_name' in data.columns and not data.empty:
+            gdp_data = data[data['indicator_name'] == 'GDP Growth Rate']
+            if not gdp_data.empty and 'value' in gdp_data.columns:
+                gdp_growth = gdp_data['value'].iloc[0]
+            
+            inflation_data = data[data['indicator_name'] == 'Inflation Rate']
+            if not inflation_data.empty and 'value' in inflation_data.columns:
+                inflation = inflation_data['value'].iloc[0]
         
         return f"""Economic Indicators Analysis:
         - GDP Growth Rate: {gdp_growth}% (Q4 2023)
@@ -327,7 +358,17 @@ class AnomalyDetector:
                 return alerts
             
             # Simple rule-based anomaly detection (would be enhanced with LLM)
-            tech_ratio = len(acra_data[acra_data['industry_category'] == 'Technology']) / len(acra_data)
+            tech_ratio = 0
+            # Check for industry-related columns with fallback
+            industry_column = None
+            for col in ['industry_category', 'primary_ssic_description', 'industry_sector', 'business_sector']:
+                if col in acra_data.columns:
+                    industry_column = col
+                    break
+            
+            if industry_column:
+                tech_companies = acra_data[acra_data[industry_column].str.contains('Technology|tech|IT|software', case=False, na=False)]
+                tech_ratio = len(tech_companies) / len(acra_data)
             
             if tech_ratio > 0.5:  # More than 50% tech companies might be unusual
                 alert = AnomalyAlert(
