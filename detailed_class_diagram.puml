@@ -1,0 +1,337 @@
+@startuml Economic_Intelligence_Platform_Class_Diagram
+
+!define ABSTRACT abstract
+!define INTERFACE interface
+
+' Enhanced visual styling for beautiful appearance
+skinparam classAttributeIconSize 0
+skinparam classFontSize 11
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam shadowing true
+skinparam roundCorner 12
+skinparam backgroundColor #F8F9FA
+skinparam arrowThickness 2
+skinparam arrowColor #2C3E50
+
+' Beautiful class styling with gradients
+skinparam class {
+  BackgroundColor #FFFFFF-#F5F5F5
+  BorderColor #37474F
+  FontColor #263238
+  FontStyle bold
+  BorderThickness 2
+  AttributeFontColor #455A64
+  AttributeFontSize 10
+}
+
+' Enhanced abstract class styling
+skinparam class<<abstract>> {
+  BackgroundColor #E8EAF6-#C5CAE9
+  BorderColor #3F51B5
+  FontColor #1A237E
+  FontStyle bold italic
+  BorderThickness 3
+}
+
+' Beautiful enum styling
+skinparam enum {
+  BackgroundColor #FFF3E0-#FFE0B2
+  BorderColor #FF9800
+  FontColor #E65100
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Enhanced package styling with gradients
+skinparam package {
+  BackgroundColor #E3F2FD-#BBDEFB
+  BorderColor #1976D2
+  FontColor #0D47A1
+  FontStyle bold
+  BorderThickness 3
+}
+
+' Beautiful note styling
+skinparam note {
+  BackgroundColor #FFFDE7-#FFF9C4
+  BorderColor #F57F17
+  FontColor #F57F17
+  FontStyle italic
+  BorderThickness 2
+}
+
+!define DIRECTION top to bottom direction
+
+' Beautiful title with enhanced styling
+title <size:20><color:#1976D2><b>🏗️ Economic Intelligence Platform</b></color></size>\n<size:16><color:#37474F><i>Detailed Class Relationships</i></color></size>\n<size:12><color:#666666>Object-Oriented Architecture Design</color></size>
+
+' Top Row - Core Data Models and Producers
+package "📊 Data Foundation Layer" {
+  
+  package "🗃️ Data Models" {
+    class DataRecord {
+      +source: str
+      +timestamp: datetime
+      +data_type: str
+      +raw_data: Dict[str, Any]
+      +processed_data: Dict[str, Any]
+      +record_id: Optional[str]
+      +quality_score: Optional[float]
+      +validation_errors: Optional[list]
+      +processing_notes: Optional[str]
+      --
+      +validate_quality(): float
+      +to_kafka_message(): Dict[str, Any]
+    }
+  }
+
+  package "🏭 Data Producers" {
+    ABSTRACT class BaseProducer {
+      #kafka_config: Dict[str, Any]
+      #topic: str
+      #source_name: str
+      #producer: KafkaProducer
+      --
+      +__init__(kafka_config, topic, source_name)
+      #_validate_configuration(): void
+      #_setup_kafka(): void
+      +fetch_data(url, params, headers): Dict[str, Any]
+      +send_to_kafka(data, key): bool
+      {abstract} +extract_data(): void
+      {abstract} +transform_data(raw_data): DataRecord
+      +run_extraction(): void
+      +close(): void
+    }
+    
+    class ACRAProducer {
+      -base_url: str
+      -resource_id: str
+      -csv_file_path: str
+      --
+      +extract_data(): void
+      +extract_csv_data(batch_size, max_records): void
+      +transform_data(raw_data, source_type): DataRecord
+      +run_hybrid_extraction(csv_batch_size, csv_max_records): void
+      -_process_csv_batch(batch, start_record_num): tuple
+    }
+    
+    class SingStatProducer {
+      -api_endpoint: str
+      -indicators: List[str]
+      --
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class URAProducer {
+      -property_endpoint: str
+      -rental_endpoint: str
+      --
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class GovernmentExpenditureProducer {
+      -expenditure_endpoint: str
+      --
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class CommercialRentalProducer {
+      -rental_api_endpoint: str
+      --
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+  }
+}
+
+' Middle Row - Processing Layer
+package "⚙️ Data Processing Layer" {
+  
+  package "🌊 Stream Processing" {
+    class SparkStreamingConsumer {
+      -spark: SparkSession
+      -kafka_bootstrap_servers: str
+      -minio_endpoint: str
+      -delta_path: str
+      --
+      +__init__(): void
+      -_create_spark_session(): SparkSession
+      +create_kafka_stream(topic): DataFrame
+      +process_acra_stream(): void
+      +process_singstat_stream(): void
+      +process_ura_stream(): void
+      +process_commercial_rental_stream(): void
+      +process_government_expenditure_stream(): void
+      +start_all_streams(): void
+      +test_kafka_connectivity(): bool
+    }
+    
+    class BronzeToSilverETL {
+      -spark: SparkSession
+      -bronze_path: str
+      -silver_path: str
+      --
+      +__init__(): void
+      -_create_spark_session(): SparkSession
+      +read_bronze_table(table_name): DataFrame
+      +write_silver_table(df, table_name, mode): void
+      +transform_acra_companies(): void
+      +transform_singstat_economics(): void
+      +transform_ura_geospatial(): void
+      +transform_commercial_rental_index(): void
+      +transform_government_expenditure(): void
+      +run_etl_parallel(): Dict[str, Any]
+      +run_etl(): void
+    }
+  }
+
+  package "🔍 Data Access" {
+    class DeltaLakeQueryTool {
+      -s3_client: boto3.client
+      -bucket: str
+      -dataset: str
+      -prefix: str
+      --
+      +__init__(endpoint_url, dataset): void
+      +load_data(max_files): pd.DataFrame
+      +get_summary(max_files): Dict[str, Any]
+      +search_entities(search_term, column): pd.DataFrame
+      +filter_data(filters): pd.DataFrame
+      +get_recent_data(hours): pd.DataFrame
+      +export_to_csv(df, filename): bool
+      +run_custom_query(query_func): Any
+    }
+  }
+}
+
+' Bottom Row - Analytics and Intelligence Layer
+package "🧠 Analytics & Intelligence Layer" {
+  
+  package "🤖 Analytics Engine" {
+    class LLMConfig {
+      +provider: LLMProvider
+      +enabled: bool
+      +api_key: str
+      +model_name: str
+      +max_tokens: int
+      +temperature: float
+    }
+    
+    enum LLMProvider {
+      OPENAI
+      ANTHROPIC
+      LOCAL
+      MOCK
+    }
+    
+    class LLMClient {
+      -provider: LLMProvider
+      -config: LLMConfig
+      -_client: Any
+      --
+      +__init__(provider, config): void
+      -_create_client(): Any
+      +generate_analysis(prompt): str
+      +is_available(): bool
+    }
+    
+    class ComprehensiveLLMAnalysisEngine {
+      -data_connector: SilverLayerConnector
+      -llm_client: Optional[LLMClient]
+      --
+      +__init__(data_config, llm_config): void
+      +analyze_business_formation_trends(limit): AnalysisResult
+      +analyze_economic_indicators(limit): AnalysisResult
+      +analyze_cross_sector_correlations(): AnalysisResult
+      +detect_anomalies(): List[Dict[str, Any]]
+      +generate_comprehensive_report(): Dict[str, Any]
+      -_calculate_business_metrics(data): Dict[str, float]
+      -_calculate_economic_metrics(data): Dict[str, float]
+      -_extract_structured_insights(analysis_text): Tuple
+    }
+    
+    class EnhancedEconomicIntelligencePlatform {
+      -data_connector: SilverLayerConnector
+      -llm_client: Optional[LLMClient]
+      -analyzer: EnhancedLLMEconomicAnalyzer
+      -anomaly_detector: EnhancedAnomalyDetector
+      --
+      +__init__(data_config, llm_config): void
+      +generate_comprehensive_intelligence_report(): Dict[str, Any]
+      -_check_data_sources_status(): Dict[str, Any]
+      -_generate_executive_summary(report): str
+      -_generate_strategic_recommendations(report): List[str]
+      -_generate_risk_assessment(report): List[str]
+      +save_report(report, output_path): str
+      +close(): void
+    }
+    
+    class SilverLayerConnector {
+      -config: DataSourceConfig
+      -s3_client: boto3.client
+      --
+      +__init__(config): void
+      +load_acra_data(limit, filters): pd.DataFrame
+      +load_economic_data(limit): pd.DataFrame
+      +load_government_data(limit): pd.DataFrame
+      +load_property_data(limit): pd.DataFrame
+      +get_cross_source_summary(): Dict[str, Any]
+      -_setup_s3_client(): void
+    }
+  }
+
+  package "📊 Visualization" {
+    class InteractiveChartGenerator {
+      -data_connector: SilverLayerConnector
+      --
+      +__init__(data_connector): void
+      +create_business_formation_chart(data): plotly.Figure
+      +create_economic_indicators_chart(data): plotly.Figure
+      +create_geospatial_heatmap(data): plotly.Figure
+      +create_anomaly_detection_chart(data): plotly.Figure
+      +create_dashboard_charts(report_data): Dict[str, plotly.Figure]
+    }
+    
+    class EnhancedVisualIntelligencePlatform {
+      -data_connector: SilverLayerConnector
+      -chart_generator: InteractiveChartGenerator
+      --
+      +__init__(data_connector): void
+      +generate_comprehensive_dashboard(): Dict[str, Any]
+      +create_executive_summary_charts(): Dict[str, plotly.Figure]
+      +create_detailed_analysis_charts(): Dict[str, plotly.Figure]
+      +export_charts_to_html(charts, output_path): str
+    }
+  }
+}
+
+' Inheritance relationships
+BaseProducer <|-- ACRAProducer
+BaseProducer <|-- SingStatProducer
+BaseProducer <|-- URAProducer
+BaseProducer <|-- GovernmentExpenditureProducer
+BaseProducer <|-- CommercialRentalProducer
+
+' Composition relationships
+BaseProducer *-- DataRecord : creates
+ACRAProducer *-- DataRecord : creates
+LLMClient *-- LLMConfig : uses
+LLMClient *-- LLMProvider : uses
+ComprehensiveLLMAnalysisEngine *-- LLMClient : uses
+ComprehensiveLLMAnalysisEngine *-- SilverLayerConnector : uses
+EnhancedEconomicIntelligencePlatform *-- SilverLayerConnector : uses
+EnhancedEconomicIntelligencePlatform *-- LLMClient : uses
+InteractiveChartGenerator *-- SilverLayerConnector : uses
+EnhancedVisualIntelligencePlatform *-- InteractiveChartGenerator : uses
+EnhancedVisualIntelligencePlatform *-- SilverLayerConnector : uses
+
+' Dependencies
+SparkStreamingConsumer ..> DataRecord : processes
+BronzeToSilverETL ..> DataRecord : transforms
+DeltaLakeQueryTool ..> SilverLayerConnector : queries
+
+@enduml
