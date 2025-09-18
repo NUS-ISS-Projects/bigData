@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1320px" preserveAspectRatio="none" style="width:9794px;height:1320px;background:#F8F9FA;" version="1.1" viewBox="0 0 9794 1320" width="9794px" zoomAndPan="magnify"><defs><linearGradient id="g19afanolz1s480" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F5F5F5"/></linearGradient><filter height="300%" id="f19afanolz1s48" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter><linearGradient id="g19afanolz1s481" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#E3F2FD"/><stop offset="100%" stop-color="#BBDEFB"/></linearGradient><linearGradient id="g19afanolz1s482" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#E8F5E8"/><stop offset="100%" stop-color="#C8E6C9"/></linearGradient><linearGradient id="g19afanolz1s483" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#FFF3E0"/><stop offset="100%" stop-color="#FFE0B2"/></linearGradient><linearGradient id="g19afanolz1s484" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#F3E5F5"/><stop offset="100%" stop-color="#E1BEE7"/></linearGradient><linearGradient id="g19afanolz1s485" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#FCE4EC"/><stop offset="100%" stop-color="#F8BBD9"/></linearGradient><linearGradient id="g19afanolz1s486" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#FFFDE7"/><stop offset="100%" stop-color="#FFF9C4"/></linearGradient></defs><g><text fill="#1976D2" font-family="sans-serif" font-size="20" font-weight="bold" lengthAdjust="spacing" textLength="375" x="4698.5" y="18.5645">&#128640; Economic Intelligence Platform</text><text fill="#37474F" font-family="sans-serif" font-size="16" font-style="italic" lengthAdjust="spacing" textLength="288" x="4742" y="38.1328">Kubernetes Deployment Architecture</text><text fill="#666666" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="249" x="4761.5" y="53.0449">Modern Data Lakehouse on Kubernetes</text><!--MD5=[2c03b228a9895f61c1da924f0a3398ba]
+cluster Minikube Cluster--><rect fill="url(#g19afanolz1s480)" filter="url(#f19afanolz1s48)" height="1083" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="9109" x="68.5" y="225.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="132" x="4557" y="240.8701">Minikube Cluster</text><!--MD5=[c679c1830f6745aef1b51bc25f43fbf8]
+cluster economic-observatory namespace--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="1016" rx="7.5" ry="7.5" style="stroke:#1976D2;stroke-width:3.0;" width="7635" x="1383.5" y="268.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="100" x="5151" y="283.8701">«Namespace»</text><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="273" x="5064.5" y="300.167">economic-observatory namespace</text><!--MD5=[35b8feaca244f5a2924f26ed1b48d6cd]
+cluster 🏗️ Infrastructure Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="601" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="2137" x="3355.5" y="659.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="172" x="4338" y="674.8701">&#127959;️ Infrastructure Layer</text><!--MD5=[18cfb83f9386c9bd55347d4f16c25ae1]
+cluster 💾 Storage Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="534" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1321" x="3379.5" y="702.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="124" x="3978" y="717.8701">&#128190; Storage Layer</text><!--MD5=[adf82b4973c5c9fc0d8829688e652d40]
+cluster MinIO Deployment--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="467" rx="7.5" ry="7.5" style="stroke:#388E3C;stroke-width:2.0;" width="252" x="4424.5" y="745.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#388E3C;stroke-width:2.0;" width="15" x="4656.5" y="750.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="4654.5" y="752.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="4654.5" y="756.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="103" x="4499" y="771.8701">«Deployment»</text><text fill="#1B5E20" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="142" x="4479.5" y="788.167">MinIO Deployment</text><!--MD5=[99002ca301a69aec11128aa2fa1852ca]
+cluster minio-pod--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="384" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="204" x="4448.5" y="804.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="4632.5" y="809.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="4630.5" y="811.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="4630.5" y="815.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="78" x="4511.5" y="830.8701">minio-pod</text><!--MD5=[4b882cec63068d509a894831369e6515]
+cluster MinIO Service--><rect fill="url(#g19afanolz1s483)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#F57C00;stroke-width:2.0;" width="379" x="4021.5" y="797.375"/><rect fill="url(#g19afanolz1s483)" height="10" style="stroke:#F57C00;stroke-width:2.0;" width="15" x="4380.5" y="802.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="4378.5" y="804.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="4378.5" y="808.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="69" x="4176.5" y="823.3701">«Service»</text><text fill="#E65100" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="107" x="4157.5" y="839.667">MinIO Service</text><!--MD5=[3bf6b7b31f1efc9240e6a3c0b978a63c]
+cluster MinIO NodePort Service--><rect fill="url(#g19afanolz1s483)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#F57C00;stroke-width:2.0;" width="451" x="3546.5" y="797.375"/><rect fill="url(#g19afanolz1s483)" height="10" style="stroke:#F57C00;stroke-width:2.0;" width="15" x="3977.5" y="802.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="3975.5" y="804.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="3975.5" y="808.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="69" x="3737.5" y="823.3701">«Service»</text><text fill="#E65100" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="186" x="3679" y="839.667">MinIO NodePort Service</text><!--MD5=[1bfc3193d93f4e404a9ed9209209b591]
+cluster 📨 Message Broker Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="534" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="744" x="4724.5" y="702.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="190" x="5001.5" y="717.8701">&#128232; Message Broker Layer</text><!--MD5=[79a2c1da22f09f2ff6cb16b5073574f6]
+cluster Zookeeper Deployment--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="197" rx="7.5" ry="7.5" style="stroke:#388E3C;stroke-width:2.0;" width="358" x="5086.5" y="745.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#388E3C;stroke-width:2.0;" width="15" x="5424.5" y="750.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="5422.5" y="752.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="5422.5" y="756.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="103" x="5214" y="771.8701">«Deployment»</text><text fill="#1B5E20" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="186" x="5172.5" y="788.167">Zookeeper Deployment</text><!--MD5=[f36db081f3739db71232620d67938221]
+cluster zookeeper-pod--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="310" x="5110.5" y="804.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="5400.5" y="809.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="5398.5" y="811.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="5398.5" y="815.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="121" x="5205" y="830.8701">zookeeper-pod</text><!--MD5=[ac0facb88f0ec0f06b9abf97d2b32301]
+cluster Kafka Deployment--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="197" rx="7.5" ry="7.5" style="stroke:#388E3C;stroke-width:2.0;" width="318" x="5126.5" y="1015.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#388E3C;stroke-width:2.0;" width="15" x="5424.5" y="1020.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="5422.5" y="1022.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="5422.5" y="1026.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="103" x="5234" y="1041.8701">«Deployment»</text><text fill="#1B5E20" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="143" x="5214" y="1058.167">Kafka Deployment</text><!--MD5=[22d1f53a9f9569b11e2cc23ff5d1cb69]
+cluster kafka-pod--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="270" x="5150.5" y="1074.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="5400.5" y="1079.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="5398.5" y="1081.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="5398.5" y="1085.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="78" x="5246.5" y="1100.8701">kafka-pod</text><!--MD5=[e7d5d199445a8c5621272acfa9119225]
+cluster Kafka Service--><rect fill="url(#g19afanolz1s483)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#F57C00;stroke-width:2.0;" width="196" x="4866.5" y="797.375"/><rect fill="url(#g19afanolz1s483)" height="10" style="stroke:#F57C00;stroke-width:2.0;" width="15" x="5042.5" y="802.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="5040.5" y="804.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="5040.5" y="808.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="69" x="4930" y="823.3701">«Service»</text><text fill="#E65100" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="108" x="4910.5" y="839.667">Kafka Service</text><!--MD5=[af905e0ef5856ee89570fedded3ead28]
+cluster ⚙️ Processing Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="639" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="3478" x="5516.5" y="327.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="155" x="7178" y="342.8701">⚙️ Processing Layer</text><!--MD5=[4548f19abba056cc0b9a9e300faa3136]
+cluster 📥 Data Ingestion Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="572" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1770" x="7200.5" y="370.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="175" x="7998" y="385.8701">&#128229; Data Ingestion Layer</text><!--MD5=[fb905cb5e41857010b95bd8543d4f19c]
+cluster Data Producers Deployment--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="197" rx="7.5" ry="7.5" style="stroke:#388E3C;stroke-width:2.0;" width="1722" x="7224.5" y="413.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#388E3C;stroke-width:2.0;" width="15" x="8926.5" y="418.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="8924.5" y="420.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="8924.5" y="424.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="103" x="8034" y="439.8701">«Deployment»</text><text fill="#1B5E20" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="221" x="7975" y="456.167">Data Producers Deployment</text><!--MD5=[b6679134f14c5294acd034a614f531b4]
+cluster producers-pod--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1674" x="7248.5" y="472.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="8902.5" y="477.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="8900.5" y="479.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="8900.5" y="483.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="118" x="8026.5" y="498.8701">producers-pod</text><!--MD5=[406439fbdc7531b7286a7b003575c760]
+cluster Producers ConfigMap--><rect fill="url(#g19afanolz1s484)" filter="url(#f19afanolz1s48)" height="130" rx="7.5" ry="7.5" style="stroke:#7B1FA2;stroke-width:2.0;" width="208" x="8544.5" y="788.875"/><rect fill="url(#g19afanolz1s484)" height="10" style="stroke:#7B1FA2;stroke-width:2.0;" width="15" x="8732.5" y="793.875"/><rect fill="url(#g19afanolz1s484)" height="2" style="stroke:#7B1FA2;stroke-width:2.0;" width="4" x="8730.5" y="795.875"/><rect fill="url(#g19afanolz1s484)" height="2" style="stroke:#7B1FA2;stroke-width:2.0;" width="4" x="8730.5" y="799.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="91" x="8603" y="814.8701">«ConfigMap»</text><text fill="#4A148C" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="170" x="8563.5" y="831.167">Producers ConfigMap</text><!--MD5=[fa64da1bfa7314d9639363116ddd2576]
+cluster 🌊 Stream Processing Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="567" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1636" x="5540.5" y="370.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="211" x="6253" y="385.8701">&#127754; Stream Processing Layer</text><!--MD5=[51c685590caabc4c6ff6e461f80bac33]
+cluster Spark Streaming Deployment--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="197" rx="7.5" ry="7.5" style="stroke:#388E3C;stroke-width:2.0;" width="741" x="6411.5" y="413.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#388E3C;stroke-width:2.0;" width="15" x="7132.5" y="418.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="7130.5" y="420.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="7130.5" y="424.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="103" x="6730.5" y="439.8701">«Deployment»</text><text fill="#1B5E20" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="229" x="6667.5" y="456.167">Spark Streaming Deployment</text><!--MD5=[44356b28e207ca35d4f962a8d0636971]
+cluster spark-streaming-pod--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="693" x="6435.5" y="472.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="7108.5" y="477.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="7106.5" y="479.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="7106.5" y="483.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="165" x="6699.5" y="498.8701">spark-streaming-pod</text><!--MD5=[75cb2cd0af548e239f7ae408c1db7a7e]
+cluster Spark ETL CronJob--><rect fill="url(#g19afanolz1s485)" filter="url(#f19afanolz1s48)" height="130" rx="7.5" ry="7.5" style="stroke:#C2185B;stroke-width:2.0;" width="455" x="5932.5" y="456.875"/><rect fill="url(#g19afanolz1s485)" height="10" style="stroke:#C2185B;stroke-width:2.0;" width="15" x="6367.5" y="461.875"/><rect fill="url(#g19afanolz1s485)" height="2" style="stroke:#C2185B;stroke-width:2.0;" width="4" x="6365.5" y="463.875"/><rect fill="url(#g19afanolz1s485)" height="2" style="stroke:#C2185B;stroke-width:2.0;" width="4" x="6365.5" y="467.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="73" x="6123.5" y="482.8701">«CronJob»</text><text fill="#880E4F" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="145" x="6087.5" y="499.167">Spark ETL CronJob</text><!--MD5=[5497cb7d1e3e7dceb0152611b085f6c9]
+cluster Spark ConfigMaps--><rect fill="url(#g19afanolz1s484)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#7B1FA2;stroke-width:2.0;" width="584" x="6568.5" y="797.375"/><rect fill="url(#g19afanolz1s484)" height="10" style="stroke:#7B1FA2;stroke-width:2.0;" width="15" x="7132.5" y="802.375"/><rect fill="url(#g19afanolz1s484)" height="2" style="stroke:#7B1FA2;stroke-width:2.0;" width="4" x="7130.5" y="804.375"/><rect fill="url(#g19afanolz1s484)" height="2" style="stroke:#7B1FA2;stroke-width:2.0;" width="4" x="7130.5" y="808.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="91" x="6815" y="823.3701">«ConfigMap»</text><text fill="#4A148C" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="142" x="6789.5" y="839.667">Spark ConfigMaps</text><!--MD5=[8850baee3f0b00b90bb775b839746f1d]
+cluster Spark Service--><rect fill="url(#g19afanolz1s483)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#F57C00;stroke-width:2.0;" width="344" x="5564.5" y="465.375"/><rect fill="url(#g19afanolz1s483)" height="10" style="stroke:#F57C00;stroke-width:2.0;" width="15" x="5888.5" y="470.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="5886.5" y="472.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="5886.5" y="476.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="69" x="5702" y="491.3701">«Service»</text><text fill="#E65100" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="109" x="5682" y="507.667">Spark Service</text><!--MD5=[920d1f8946f37c488876446f5095e55f]
+cluster 🧠 Analytics & Monitoring Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="634" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1924" x="1407.5" y="327.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="240" x="2249.5" y="342.8701">&#129504; Analytics &amp; Monitoring Layer</text><!--MD5=[66867b83809d9bd6f91e3d7388e20f79]
+cluster 📊 Analytics Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="567" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="899" x="2408.5" y="370.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="133" x="2791.5" y="385.8701">&#128202; Analytics Layer</text><!--MD5=[80ca91c42a95c33e0a919f34f2aab783]
+cluster dbt Analytics Deployment--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="197" rx="7.5" ry="7.5" style="stroke:#388E3C;stroke-width:2.0;" width="621" x="2662.5" y="413.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#388E3C;stroke-width:2.0;" width="15" x="3263.5" y="418.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="3261.5" y="420.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#388E3C;stroke-width:2.0;" width="4" x="3261.5" y="424.875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="103" x="2921.5" y="439.8701">«Deployment»</text><text fill="#1B5E20" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="201" x="2872.5" y="456.167">dbt Analytics Deployment</text><!--MD5=[468f85af08d636f782e7823c9f964919]
+cluster dbt-pod--><rect fill="url(#g19afanolz1s482)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="573" x="2686.5" y="472.875"/><rect fill="url(#g19afanolz1s482)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="3239.5" y="477.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="3237.5" y="479.875"/><rect fill="url(#g19afanolz1s482)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="3237.5" y="483.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="62" x="2942" y="498.8701">dbt-pod</text><!--MD5=[087f2cca939156ec8d5af9427611c1dc]
+cluster dbt ConfigMaps--><rect fill="url(#g19afanolz1s484)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#7B1FA2;stroke-width:2.0;" width="570" x="2713.5" y="797.375"/><rect fill="url(#g19afanolz1s484)" height="10" style="stroke:#7B1FA2;stroke-width:2.0;" width="15" x="3263.5" y="802.375"/><rect fill="url(#g19afanolz1s484)" height="2" style="stroke:#7B1FA2;stroke-width:2.0;" width="4" x="3261.5" y="804.375"/><rect fill="url(#g19afanolz1s484)" height="2" style="stroke:#7B1FA2;stroke-width:2.0;" width="4" x="3261.5" y="808.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="91" x="2953" y="823.3701">«ConfigMap»</text><text fill="#4A148C" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="123" x="2937" y="839.667">dbt ConfigMaps</text><!--MD5=[2c4144417b312501ece4d13f9761a5a2]
+cluster dbt Docs Service--><rect fill="url(#g19afanolz1s483)" filter="url(#f19afanolz1s48)" height="113" rx="7.5" ry="7.5" style="stroke:#F57C00;stroke-width:2.0;" width="206" x="2432.5" y="465.375"/><rect fill="url(#g19afanolz1s483)" height="10" style="stroke:#F57C00;stroke-width:2.0;" width="15" x="2618.5" y="470.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="2616.5" y="472.375"/><rect fill="url(#g19afanolz1s483)" height="2" style="stroke:#F57C00;stroke-width:2.0;" width="4" x="2616.5" y="476.375"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="69" x="2501" y="491.3701">«Service»</text><text fill="#E65100" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="134" x="2468.5" y="507.667">dbt Docs Service</text><!--MD5=[9d3d10af5d43a3e0b537a5df8ffce8f1]
+cluster 📈 Monitoring Layer--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="496" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="953" x="1431.5" y="438.375"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="146" x="1835" y="453.3701">&#128200; Monitoring Layer</text><!--MD5=[2991569bdfb1e7e9b74b34c9baae2543]
+cluster Health Check Service--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="429" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="431" x="1929.5" y="481.375"/><rect fill="url(#g19afanolz1s481)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="2340.5" y="486.375"/><rect fill="url(#g19afanolz1s481)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="2338.5" y="488.375"/><rect fill="url(#g19afanolz1s481)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="2338.5" y="492.375"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="168" x="2061" y="507.3701">Health Check Service</text><!--MD5=[a89d63ca16539cbde18485c2be5ee4b5]
+cluster Performance Monitor Service--><rect fill="url(#g19afanolz1s481)" filter="url(#f19afanolz1s48)" height="429" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="450" x="1455.5" y="481.375"/><rect fill="url(#g19afanolz1s481)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="1885.5" y="486.375"/><rect fill="url(#g19afanolz1s481)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="1883.5" y="488.375"/><rect fill="url(#g19afanolz1s481)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="1883.5" y="492.375"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="231" x="1565" y="507.3701">Performance Monitor Service</text><!--MD5=[7c57b8e8f43eb82d130701795aaff59a]
+cluster External Access--><rect fill="url(#g19afanolz1s480)" filter="url(#f19afanolz1s48)" height="181" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1267" x="92.5" y="1031.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="126" x="663" y="1046.8701">External Access</text><!--MD5=[84b7be699e14de1f54ecb9fa14d3bfd5]
+cluster Port Forward Services--><rect fill="url(#g19afanolz1s480)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="750" x="116.5" y="1074.875"/><rect fill="url(#g19afanolz1s480)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="846.5" y="1079.875"/><rect fill="url(#g19afanolz1s480)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="844.5" y="1081.875"/><rect fill="url(#g19afanolz1s480)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="844.5" y="1085.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="177" x="403" y="1100.8701">Port Forward Services</text><!--MD5=[bf515721f38bb21b8607cbebcdc8e36e]
+cluster NodePort Services--><rect fill="url(#g19afanolz1s480)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="445" x="890.5" y="1074.875"/><rect fill="url(#g19afanolz1s480)" height="10" style="stroke:#37474F;stroke-width:1.5;" width="15" x="1315.5" y="1079.875"/><rect fill="url(#g19afanolz1s480)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="1313.5" y="1081.875"/><rect fill="url(#g19afanolz1s480)" height="2" style="stroke:#37474F;stroke-width:1.5;" width="4" x="1313.5" y="1085.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="147" x="1039.5" y="1100.8701">NodePort Services</text><!--MD5=[01f27693b3fb5670e9ed3b425f3e052b]
+cluster External Data Sources--><rect fill="url(#g19afanolz1s480)" filter="url(#f19afanolz1s48)" height="114" rx="7.5" ry="7.5" style="stroke:#37474F;stroke-width:1.5;" width="1012" x="7278.5" y="62.875"/><text fill="#263238" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="174" x="7697.5" y="77.8701">External Data Sources</text><!--MD5=[2de6c6f1e7ba62dac99a38b359449e02]
+entity MinIO--><ellipse cx="3422.5" cy="871.375" fill="#FEFECE" filter="url(#f19afanolz1s48)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="38" x="3403.5" y="901.3701">MinIO</text><path d="M3395.5,1098.375 L3395.5,1184.1719 A7.5,7.5 0 0 0 3403,1191.6719 L3598,1191.6719 A7.5,7.5 0 0 0 3605.5,1184.1719 L3605.5,1100.875 L3595.5,1090.875 L3435.5,1090.875 L3431.5,880.665 L3427.5,1090.875 L3403,1090.875 A7.5,7.5 0 0 0 3395.5,1098.375 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M3595.5,1090.875 L3595.5,1097.125 A3.75,3.75 0 0 0 3599.25,1100.875 L3605.5,1100.875 L3595.5,1090.875 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:2.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="166" x="3401.5" y="1107.9419">Storage Configuration:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="131" x="3401.5" y="1123.0747">- Access Key: admin</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="173" x="3401.5" y="1138.2075">- Secret Key: password123</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="189" x="3401.5" y="1153.3403">- Buckets: bronze, silver, gold</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="189" x="3401.5" y="1168.4731">- Persistence: EmptyDir (dev)</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="127" x="3401.5" y="1183.606">- S3 Compatible API</text><!--MD5=[f369b898e0e0a919161d855a20011e2b]
+entity minio_container--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="172" x="4464.5" y="839.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="4616.5" y="844.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4614.5" y="846.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4614.5" y="850.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="4479.5" y="872.8701">MinIO Container</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="132" x="4479.5" y="889.167">(minio/minio:latest)</text><!--MD5=[578d832bf8d0eebaa29c6906c10b63c2]
+entity minio_volume--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="128" x="4486.5" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="4594.5" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4592.5" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4592.5" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="4501.5" y="1142.8701">Data Volume</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="4501.5" y="1159.167">(/data)</text><!--MD5=[cd55d510cc70e295ef85db7b426ba1b5]
+entity minio_api_port--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="138" x="4246.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="4364.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4362.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4362.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="98" x="4261.5" y="881.3701">API Port: 9000</text><!--MD5=[fcabd6160e27ea074fb8237cca45414c]
+entity minio_console_port--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="174" x="4037.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="4191.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4189.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="4189.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="4052.5" y="881.3701">Console Port: 9001</text><!--MD5=[ac3234957f270c6a63311e6ecabd9e70]
+entity minio_external_api--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="174" x="3807.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="3961.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3959.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3959.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="3822.5" y="881.3701">External API: 30900</text><!--MD5=[95bf397223d3921e5a8573fa134be31a]
+entity minio_external_console--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="210" x="3562.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="3752.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3750.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3750.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="170" x="3577.5" y="881.3701">External Console: 30901</text><!--MD5=[59ceac3e1bb6f0ece56988f2042cffc2]
+entity Kafka--><ellipse cx="4820.5" cy="871.375" fill="#FEFECE" filter="url(#f19afanolz1s48)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="37" x="4802" y="901.3701">Kafka</text><path d="M4741,1105.875 L4741,1176.5391 A7.5,7.5 0 0 0 4748.5,1184.0391 L5102.5,1184.0391 A7.5,7.5 0 0 0 5110,1176.5391 L5110,1108.375 L5100,1098.375 L4824.5,1098.375 L4820.5,880.665 L4816.5,1098.375 L4748.5,1098.375 A7.5,7.5 0 0 0 4741,1105.875 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M5100,1098.375 L5100,1104.625 A3.75,3.75 0 0 0 5103.75,1108.375 L5110,1108.375 L5100,1098.375 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:2.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="152" x="4747" y="1115.4419">Kafka Configuration:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="348" x="4747" y="1130.5747">- Topics: 5 (acra-companies, singstat-economics, etc.)</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="145" x="4747" y="1145.7075">- Partitions: 3 per topic</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="139" x="4747" y="1160.8403">- Replication Factor: 1</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="122" x="4747" y="1175.9731">- Retention: 7 days</text><!--MD5=[ae0b48c37cbd64308d29cb07d3fb2b2d]
+entity zk_container--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="277" x="5127" y="839.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="5384" y="844.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5382" y="846.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5382" y="850.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="148" x="5142" y="872.8701">Zookeeper Container</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="237" x="5142" y="889.167">(confluentinc/cp-zookeeper:7.4.0)</text><!--MD5=[e4069c360016c89b624e9ff3fb1703d0]
+entity kafka_container--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="238" x="5166.5" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="5384.5" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5382.5" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5382.5" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="108" x="5181.5" y="1142.8701">Kafka Container</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="198" x="5181.5" y="1159.167">(confluentinc/cp-kafka:7.4.0)</text><!--MD5=[c0e6cc3b10d18a785f78e63c944f4e5e]
+entity kafka_port--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="163" x="4883" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="5026" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5024" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5024" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="4898" y="881.3701">Broker Port: 9092</text><path d="M8311,835.875 L8311,906.5391 A7.5,7.5 0 0 0 8318.5,914.0391 L8518.5,914.0391 A7.5,7.5 0 0 0 8526,906.5391 L8526,838.375 L8516,828.375 L8318.5,828.375 A7.5,7.5 0 0 0 8311,835.875 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M8516,828.375 L8516,834.625 A3.75,3.75 0 0 0 8519.75,838.375 L8526,838.375 L8516,828.375 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:1.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="175" x="8317" y="845.4419">Producer Configuration:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="168" x="8317" y="860.5747">- Batch Size: 1000 records</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="118" x="8317" y="875.7075">- API Timeout: 30s</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="124" x="8317" y="890.8403">- Retry Attempts: 3</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="194" x="8317" y="905.9731">- Scheduling: CronJob patterns</text><!--MD5=[4d4264440ec596e1fa611f7110c038f9]
+entity producers_container--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="358" x="8548.5" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8886.5" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8884.5" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8884.5" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="8563.5" y="540.8701">Producers Container</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="318" x="8563.5" y="557.167">(economic-observatory/data-producers:latest)</text><!--MD5=[f146b7da3d4525f4df3071114316fce5]
+entity scheduler_process--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="170" x="8343.5" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8493.5" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8491.5" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8491.5" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="130" x="8358.5" y="540.8701">Scheduler Process</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="8358.5" y="557.167">(scheduler.py)</text><!--MD5=[6595acb6e391bf099558ec8c8bb2abb0]
+entity acra_prod--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="145" x="7265" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7390" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7388" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7388" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105" x="7280" y="549.3701">ACRA Producer</text><!--MD5=[d807d70643eec7c7e36b3a357590957b]
+entity singstat_prod--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="164" x="7445.5" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7589.5" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7587.5" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7587.5" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="124" x="7460.5" y="549.3701">SingStat Producer</text><!--MD5=[9dbd06f93f8af3859b0b14211bfc4c36]
+entity ura_prod--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="136" x="7644.5" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7760.5" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7758.5" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7758.5" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96" x="7659.5" y="549.3701">URA Producer</text><!--MD5=[1386b728917d5fdad7275ed10616e6c1]
+entity gov_prod--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="221" x="7816" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8017" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8015" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8015" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="181" x="7831" y="549.3701">Gov Expenditure Producer</text><!--MD5=[a06e599bfb7f8813ceb5bb84626d5f63]
+entity rental_prod--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="236" x="8072.5" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8288.5" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8286.5" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8286.5" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="196" x="8087.5" y="549.3701">Commercial Rental Producer</text><!--MD5=[c998c0ee4107dd91267370a921db8afb]
+entity producers_config--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="175" x="8561" y="839.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8716" y="844.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8714" y="846.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8714" y="850.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="135" x="8576" y="872.8701">Environment Config</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="8576" y="889.167">(.env)</text><path d="M6246,828.375 L6246,914.1719 A7.5,7.5 0 0 0 6253.5,921.6719 L6541.5,921.6719 A7.5,7.5 0 0 0 6549,914.1719 L6549,830.875 L6539,820.875 L6253.5,820.875 A7.5,7.5 0 0 0 6246,828.375 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M6539,820.875 L6539,827.125 A3.75,3.75 0 0 0 6542.75,830.875 L6549,830.875 L6539,820.875 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:1.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="151" x="6252" y="837.9419">Spark Configuration:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="107" x="6252" y="853.0747">- Master: local[*]</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="104" x="6252" y="868.2075">- Memory: 2-4Gi</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="104" x="6252" y="883.3403">- CPU: 1-2 cores</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="282" x="6252" y="898.4731">- Packages: Delta Lake, Kafka, Hadoop AWS</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="257" x="6252" y="913.606">- Checkpointing: /tmp/spark-checkpoints</text><!--MD5=[729bf3f19a6f5d2fc02f7288a14f582d]
+entity spark_container--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="364" x="6748.5" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7092.5" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7090.5" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7090.5" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="6763.5" y="540.8701">Spark Container</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="324" x="6763.5" y="557.167">(economic-observatory/spark-streaming:latest)</text><!--MD5=[34f6c622a5be8147e107b045833b7be2]
+entity streaming_consumer--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="261" x="6452" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="6693" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6691" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6691" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="146" x="6467" y="540.8701">Streaming Consumer</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="221" x="6467" y="557.167">(spark_streaming_consumer.py)</text><!--MD5=[2a7fece58ed4a1faa4e8f6858426a673]
+entity etl_job--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="206" x="6165.5" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="6351.5" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6349.5" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6349.5" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="50" x="6180.5" y="540.8701">ETL Job</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="6180.5" y="557.167">(etl_bronze_to_silver.py)</text><!--MD5=[3a20a8950980281cb65c31b1a4da3703]
+entity etl_schedule--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="181" x="5949" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="6110" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6108" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6108" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="141" x="5964" y="549.3701">Schedule: 0 */1 * * *</text><!--MD5=[4d8dc57d194fd220818d3f497446c43c]
+entity spark_app_config--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="149" x="6812" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="6941" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6939" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6939" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109" x="6827" y="881.3701">spark-app-code</text><!--MD5=[19a3b71b25acdc22d8cd95a4783ec41b]
+entity spark_etl_config--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="140" x="6996.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7116.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7114.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7114.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="100" x="7011.5" y="881.3701">spark-etl-code</text><!--MD5=[71f9bb9f74b7cf716bd69944cca85247]
+entity spark_streaming_config--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="192" x="6584.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="6756.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6754.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="6754.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="152" x="6599.5" y="881.3701">spark-streaming-code</text><!--MD5=[2f8ddcd55274b44dc1b9531a991100e8]
+entity spark_ui_port--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="141" x="5751" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="5872" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5870" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5870" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101" x="5766" y="549.3701">Spark UI: 4040</text><!--MD5=[38f727900dcc5c35016f21910c59bafe]
+entity spark_metrics_port--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="135" x="5581" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="5696" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5694" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="5694" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="95" x="5596" y="549.3701">Metrics: 8080</text><path d="M2508.5,828.375 L2508.5,914.1719 A7.5,7.5 0 0 0 2516,921.6719 L2687,921.6719 A7.5,7.5 0 0 0 2694.5,914.1719 L2694.5,830.875 L2684.5,820.875 L2516,820.875 A7.5,7.5 0 0 0 2508.5,828.375 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M2684.5,820.875 L2684.5,827.125 A3.75,3.75 0 0 0 2688.25,830.875 L2694.5,830.875 L2684.5,820.875 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:1.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="133" x="2514.5" y="837.9419">dbt Configuration:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="88" x="2514.5" y="853.0747">- Target: prod</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="77" x="2514.5" y="868.2075">- Threads: 8</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="124" x="2514.5" y="883.3403">- Extensions: httpfs</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="143" x="2514.5" y="898.4731">- S3 Integration: MinIO</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="165" x="2514.5" y="913.606">- Models: Staging + Marts</text><!--MD5=[8979485fda244a8e81580ccb99c95442]
+entity dbt_container--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="166" x="3077.5" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="3223.5" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3221.5" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3221.5" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="3092.5" y="540.8701">dbt Container</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="126" x="3092.5" y="557.167">(dbt with DuckDB)</text><!--MD5=[79de543e0f1b506401d4ffcb7ecc9018]
+entity duckdb_file--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="339" x="2703" y="507.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="3022" y="512.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3020" y="514.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3020" y="518.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="2718" y="540.8701">DuckDB Database</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="299" x="2718" y="557.167">(/data/economic_intelligence_prod.duckdb)</text><!--MD5=[3dcbcd7aae3184419b07b0dff4382421]
+entity dbt_profiles--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="175" x="2884" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="3039" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3037" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3037" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="135" x="2899" y="881.3701">dbt-profiles-duckdb</text><!--MD5=[9f4a697f0a4f8f91a1aefd2d72db140f]
+entity dbt_project--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="173" x="3094" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="3247" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3245" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="3245" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="3109" y="881.3701">dbt-project-duckdb</text><!--MD5=[73711ea237ff01287d34fc13b8b2d6fe]
+entity dbt_models--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="119" x="2730" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="2829" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2827" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2827" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="79" x="2745" y="881.3701">dbt-models</text><!--MD5=[d3d126a8b66569441ddeec52afc2889a]
+entity dbt_docs_port--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="174" x="2448.5" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="2602.5" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2600.5" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2600.5" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="2463.5" y="549.3701">Documentation: 80</text><!--MD5=[699688ac58e3e7bb545581aeb2f8b71b]
+entity kafka_health--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="181" x="1946" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="2107" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2105" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2105" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="141" x="1961" y="549.3701">Kafka Health Monitor</text><!--MD5=[0f9fa00739ff54a9251b0a0fb8020f8b]
+entity minio_health--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="182" x="2162.5" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="2324.5" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2322.5" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2322.5" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="2177.5" y="549.3701">MinIO Health Monitor</text><!--MD5=[22657f2b8d3d5aa0d48833e919e5ba6f]
+entity data_freshness--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="205" x="1945" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="2130" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2128" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="2128" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="165" x="1960" y="881.3701">Data Freshness Monitor</text><!--MD5=[4f1bc379307c05e3c9f82de7ec9052a8]
+entity resource_monitor--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="211" x="1472" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1663" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1661" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1661" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="171" x="1487" y="549.3701">Resource Usage Monitor</text><!--MD5=[2b99026595b03901754475995dae4413]
+entity processing_metrics--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="171" x="1718" y="516.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1869" y="521.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1867" y="523.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1867" y="527.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="131" x="1733" y="549.3701">Processing Metrics</text><!--MD5=[05e4c7b1c9c4d5a448c85208322ddf0c]
+entity quality_tracker--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="46.2969" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="186" x="1484.5" y="848.375"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1650.5" y="853.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1648.5" y="855.375"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1648.5" y="859.375"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="146" x="1499.5" y="881.3701">Quality Score Tracker</text><!--MD5=[7957ae4378bd34191776b0a2b002bccd]
+entity external_minio_console--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="153" x="321" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="454" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="452" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="452" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="336" y="1142.8701">MinIO Console</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="336" y="1159.167">(localhost:9001)</text><!--MD5=[baed32b771da646d83a442e777489eb2]
+entity external_minio_api--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="153" x="509" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="642" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="640" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="640" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="524" y="1142.8701">MinIO API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="524" y="1159.167">(localhost:9000)</text><!--MD5=[e8e8b92ddebbc98ba9c8a3051808e0ef]
+entity external_spark_ui--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="153" x="133" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="266" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="264" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="264" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56" x="148" y="1142.8701">Spark UI</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="148" y="1159.167">(localhost:4040)</text><!--MD5=[6bbd48b5450bcd7d8122437cbd173560]
+entity external_dbt_docs--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="153" x="697" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="830" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="828" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="828" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="712" y="1142.8701">dbt Docs</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="712" y="1159.167">(localhost:8080)</text><!--MD5=[d8b3f725b8f3a3f30d8008e37abdb12d]
+entity nodeport_minio_api--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="180" x="906.5" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1066.5" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1064.5" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1064.5" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="921.5" y="1142.8701">MinIO External API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="140" x="921.5" y="1159.167">(minikube-ip:30900)</text><!--MD5=[d73772342e6f30c016eabeaecad01212]
+entity nodeport_minio_console--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="198" x="1121.5" y="1109.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1299.5" y="1114.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1297.5" y="1116.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1297.5" y="1120.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158" x="1136.5" y="1142.8701">MinIO External Console</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="140" x="1136.5" y="1159.167">(minikube-ip:30901)</text><!--MD5=[f91742786d48e22a085364e63a673989]
+entity external_acra--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="130" x="7294.5" y="97.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7404.5" y="102.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7402.5" y="104.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7402.5" y="108.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="7309.5" y="130.8701">ACRA API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="7309.5" y="147.167">(data.gov.sg)</text><!--MD5=[d7c8b8114d3cac54e04389daea6c03a0]
+entity external_singstat--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="155" x="7460" y="97.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7595" y="102.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7593" y="104.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7593" y="108.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="7475" y="130.8701">SingStat API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="7475" y="147.167">(singstat.gov.sg)</text><!--MD5=[0755bae4816858c991ee164d1d54847f]
+entity external_ura--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="122" x="7650.5" y="97.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="7752.5" y="102.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7750.5" y="104.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="7750.5" y="108.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="7665.5" y="130.8701">URA API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="7665.5" y="147.167">(ura.gov.sg)</text><!--MD5=[9d002bded667453779e22aeaec92d6e9]
+entity external_gov--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="238" x="7807.5" y="97.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8025.5" y="102.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8023.5" y="104.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8023.5" y="108.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="198" x="7822.5" y="130.8701">Government Expenditure API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="7822.5" y="147.167">(data.gov.sg)</text><!--MD5=[a9dc609772ea5706ec8e79da389f9f81]
+entity external_rental--><rect fill="#FEFECE" filter="url(#f19afanolz1s48)" height="62.5938" rx="7.5" ry="7.5" style="stroke:#A80036;stroke-width:1.5;" width="194" x="8080.5" y="97.875"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="8254.5" y="102.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8252.5" y="104.875"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="8252.5" y="108.875"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154" x="8095.5" y="130.8701">Commercial Rental API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="8095.5" y="147.167">(data.gov.sg)</text><!--MD5=[daec36188da2f9afc2a147ee815d7249]
+entity Spark--><ellipse cx="25.5" cy="871.375" fill="#FEFECE" filter="url(#f19afanolz1s48)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="39" x="6" y="901.3701">Spark</text><path d="M9197,835.875 L9197,906.5391 A7.5,7.5 0 0 0 9204.5,914.0391 L9460.5,914.0391 A7.5,7.5 0 0 0 9468,906.5391 L9468,838.375 L9458,828.375 L9204.5,828.375 A7.5,7.5 0 0 0 9197,835.875 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M9458,828.375 L9458,834.625 A3.75,3.75 0 0 0 9461.75,838.375 L9468,838.375 L9458,828.375 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:1.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="122" x="9203" y="845.4419">Resource Limits:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="241" x="9203" y="860.5747">- Requests: 2Gi memory, 1000m CPU</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="219" x="9203" y="875.7075">- Limits: 4Gi memory, 2000m CPU</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="244" x="9203" y="890.8403">- Liveness Probe: spark process check</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="250" x="9203" y="905.9731">- Readiness Probe: Spark UI availability</text><path d="M9503,835.875 L9503,906.5391 A7.5,7.5 0 0 0 9510.5,914.0391 L9770.5,914.0391 A7.5,7.5 0 0 0 9778,906.5391 L9778,838.375 L9768,828.375 L9510.5,828.375 A7.5,7.5 0 0 0 9503,835.875 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M9768,828.375 L9768,834.625 A3.75,3.75 0 0 0 9771.75,838.375 L9778,838.375 L9768,828.375 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:1.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="122" x="9509" y="845.4419">Resource Limits:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="250" x="9509" y="860.5747">- Requests: 256Mi memory, 125m CPU</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="228" x="9509" y="875.7075">- Limits: 512Mi memory, 250m CPU</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="254" x="9509" y="890.8403">- Liveness Probe: Python process check</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="151" x="9509" y="905.9731">- Restart Policy: Always</text><path d="M9194,1105.875 L9194,1176.5391 A7.5,7.5 0 0 0 9201.5,1184.0391 L9485.5,1184.0391 A7.5,7.5 0 0 0 9493,1176.5391 L9493,1108.375 L9483,1098.375 L9201.5,1098.375 A7.5,7.5 0 0 0 9194,1105.875 " fill="url(#g19afanolz1s486)" filter="url(#f19afanolz1s48)" style="stroke:#F57F17;stroke-width:2.0;"/><path d="M9483,1098.375 L9483,1104.625 A3.75,3.75 0 0 0 9486.75,1108.375 L9493,1108.375 L9483,1098.375 " fill="url(#g19afanolz1s486)" style="stroke:#F57F17;stroke-width:1.0;"/><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="122" x="9200" y="1115.4419">Resource Limits:</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="250" x="9200" y="1130.5747">- Requests: 512Mi memory, 250m CPU</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="211" x="9200" y="1145.7075">- Limits: 1Gi memory, 500m CPU</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="225" x="9200" y="1160.8403">- Volume: EmptyDir (development)</text><text fill="#F57F17" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="278" x="9200" y="1175.9731">- Persistence: Should use PVC in production</text><!--MD5=[b3ebde3d0a445702699d3ebff2642c9e]
+link producers_container to GMN52--><path d="M8552.67,570.995 C8552.67,647.225 8552.67,834.875 8552.67,834.875 C8552.67,834.875 8541.76,834.875 8526.16,834.875 " fill="none" id="producers_container-GMN52" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[5f9bca5a2afc6986a492f7c7992ddcf6]
+link spark_container to GMN70--><path d="M6762.5,571.015 C6762.5,645.355 6762.5,824.875 6762.5,824.875 C6762.5,824.875 6649.41,824.875 6549.12,824.875 " fill="none" id="spark_container-GMN70" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[5f86d18cc46593dbdaa0e64d5565892f]
+link dbt_container to GMN85--><path d="M3087.4,571.075 C3087.4,646.015 3087.4,827.875 3087.4,827.875 C3087.4,827.875 2835.7,827.875 2694.61,827.875 " fill="none" id="dbt_container-GMN85" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[8238a6335e228af701675401b2d2e09c]
+link minio_container to minio_volume--><path d="M4550.5,902.875 C4550.5,902.875 4550.5,1104.655 4550.5,1104.655 " fill="none" id="minio_container-to-minio_volume" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="4550.5,1109.655,4554.5,1100.655,4550.5,1104.655,4546.5,1100.655,4550.5,1109.655" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="49" x="4551.5" y="995.9419">mounts</text><!--MD5=[40ee54e188fa1552311c459231b7fbac]
+link MinIO to MinIO--><path d="M3422.5,862.295 C3422.5,851.195 3422.5,833.875 3422.5,833.875 C3422.5,833.875 3506,833.875 3506,833.875 C3506,833.875 3506,912.875 3506,912.875 C3506,912.875 3440.5,912.875 3440.5,912.875 C3440.5,912.875 3440.5,876.495 3440.5,876.495 " fill="none" id="MinIO-to-MinIO" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3440.5,871.495,3436.5,880.495,3440.5,876.495,3444.5,880.495,3440.5,871.495" style="stroke:#2C3E50;stroke-width:2.0;"/><!--MD5=[fa83a69f340a44daff6df268f8ec4931]
+link zk_container to kafka_container--><path d="M5285.25,902.875 C5285.25,902.875 5285.25,1104.655 5285.25,1104.655 " fill="none" id="zk_container-to-kafka_container" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="5285.25,1109.655,5289.25,1100.655,5285.25,1104.655,5281.25,1100.655,5285.25,1109.655" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="75" x="5276.5" y="995.9419">coordinates</text><!--MD5=[3fdce1b2244def624c6cc5dfdb715847]
+link producers_container to kafka_container--><path d="M8556.83,571.015 C8556.83,696.435 8556.83,1151.875 8556.83,1151.875 C8556.83,1151.875 5409.83,1151.875 5409.83,1151.875 " fill="none" id="producers_container-to-kafka_container" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="5404.83,1151.875,5413.83,1155.875,5409.83,1151.875,5413.83,1147.875,5404.83,1151.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="77" x="8807.5" y="875.9419">publishes to</text><!--MD5=[0305dc3e47507235e7c0285a0324deae]
+link streaming_consumer to kafka_container--><path d="M6566.75,571.175 C6566.75,694.035 6566.75,1130.875 6566.75,1130.875 C6566.75,1130.875 5409.6,1130.875 5409.6,1130.875 " fill="none" id="streaming_consumer-to-kafka_container" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="5404.6,1130.875,5413.6,1134.875,5409.6,1130.875,5413.6,1126.875,5404.6,1130.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="100" x="5803.5" y="875.9419">consumes from</text><!--MD5=[5c7482bb4317b575ee059a3f62b931c1]
+link streaming_consumer to minio_container--><path d="M6500.5,570.985 C6500.5,622.995 6500.5,720.875 6500.5,720.875 C6500.5,720.875 4593.5,720.875 4593.5,720.875 C4593.5,720.875 4593.5,834.825 4593.5,834.825 " fill="none" id="streaming_consumer-to-minio_container" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="4593.5,839.825,4597.5,830.825,4593.5,834.825,4589.5,830.825,4593.5,839.825" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="126" x="5053.5" y="639.9419">writes to Delta Lake</text><!--MD5=[b823fc78350cc8e558720fd9cfdf5884]
+link etl_job to minio_container--><path d="M6165.22,565.875 C5794.18,565.875 4550.5,565.875 4550.5,565.875 C4550.5,565.875 4550.5,834.835 4550.5,834.835 " fill="none" id="etl_job-to-minio_container" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="4550.5,839.835,4554.5,830.835,4550.5,834.835,4546.5,830.835,4550.5,839.835" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="149" x="4706.5" y="639.9419">reads/writes Delta Lake</text><!--MD5=[08b2b3cc79fb9dec0fd5289b1e3b0ad3]
+link dbt_container to minio_container--><path d="M3243.74,568.875 C3537.42,568.875 4507.5,568.875 4507.5,568.875 C4507.5,568.875 4507.5,834.855 4507.5,834.855 " fill="none" id="dbt_container-to-minio_container" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="4507.5,839.855,4511.5,830.855,4507.5,834.855,4503.5,830.855,4507.5,839.855" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="153" x="3843.5" y="639.9419">reads Silver, writes Gold</text><!--MD5=[428bfcf6b0b172457a8b55e4f614ba43]
+link producers_container to producers_config--><path d="M8648.5,570.905 C8648.5,570.905 8648.5,834.565 8648.5,834.565 " fill="none" id="producers_container-to-producers_config" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="8648.5,839.565,8652.5,830.565,8648.5,834.565,8644.5,830.565,8648.5,839.565" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="78" x="8685.5" y="639.9419">reads config</text><!--MD5=[ed7579e32e4317a6f685b5c7bdc34125]
+link spark_container to spark_app_config--><path d="M6886.5,570.905 C6886.5,570.905 6886.5,843.255 6886.5,843.255 " fill="none" id="spark_container-to-spark_app_config" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="6886.5,848.255,6890.5,839.255,6886.5,843.255,6882.5,839.255,6886.5,848.255" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="84" x="6896.5" y="639.9419">mounts code</text><!--MD5=[0e8e4239bb8f31330de5cfc772b260b4]
+link spark_container to spark_etl_config--><path d="M7073.83,570.905 C7073.83,570.905 7073.83,843.255 7073.83,843.255 " fill="none" id="spark_container-to-spark_etl_config" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="7073.83,848.255,7077.83,839.255,7073.83,843.255,7069.83,839.255,7073.83,848.255" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="110" x="7040.5" y="639.9419">mounts ETL code</text><!--MD5=[9d8043a46a93c341f527c5ad25054f66]
+link dbt_container to dbt_profiles--><path d="M3090.7,570.955 C3090.7,653.955 3090.7,871.875 3090.7,871.875 C3090.7,871.875 3064.07,871.875 3064.07,871.875 " fill="none" id="dbt_container-to-dbt_profiles" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3059.07,871.875,3068.07,875.875,3064.07,871.875,3068.07,867.875,3059.07,871.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="86" x="3003.5" y="639.9419">reads profiles</text><!--MD5=[708254189f8263d1fc4ea50e06f32d34]
+link dbt_container to dbt_project--><path d="M3168.75,570.905 C3168.75,570.905 3168.75,843.255 3168.75,843.255 " fill="none" id="dbt_container-to-dbt_project" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3168.75,848.255,3172.75,839.255,3168.75,843.255,3164.75,839.255,3168.75,848.255" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="126" x="3162.5" y="639.9419">reads project config</text><!--MD5=[3053aeffbadfc8e8a1e78dd441334694]
+link dbt_container to dbt_models--><path d="M3084.1,571.075 C3084.1,634.485 3084.1,770.875 3084.1,770.875 C3084.1,770.875 2789.5,770.875 2789.5,770.875 C2789.5,770.875 2789.5,843.315 2789.5,843.315 " fill="none" id="dbt_container-to-dbt_models" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="2789.5,848.315,2793.5,839.315,2789.5,843.315,2785.5,839.315,2789.5,848.315" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="87" x="2816.5" y="639.9419">reads models</text><!--MD5=[8f34845a2c7b34c7a1ceddafc6f93981]
+link external_acra to acra_prod--><path d="M7352.25,161.205 C7352.25,161.205 7352.25,511.285 7352.25,511.285 " fill="none" id="external_acra-to-acra_prod" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="7352.25,516.285,7356.25,507.285,7352.25,511.285,7348.25,507.285,7352.25,516.285" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="7349.5" y="205.9419">HTTP API calls</text><!--MD5=[0da2cdb640b17d82306d9f5ff6ecc1ca]
+link external_singstat to singstat_prod--><path d="M7534.75,161.205 C7534.75,161.205 7534.75,511.285 7534.75,511.285 " fill="none" id="external_singstat-to-singstat_prod" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="7534.75,516.285,7538.75,507.285,7534.75,511.285,7530.75,507.285,7534.75,516.285" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="7533.5" y="205.9419">HTTP API calls</text><!--MD5=[19b3e407c62fbcffb56e25cf39fe0ca5]
+link external_ura to ura_prod--><path d="M7711.5,161.205 C7711.5,161.205 7711.5,511.285 7711.5,511.285 " fill="none" id="external_ura-to-ura_prod" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="7711.5,516.285,7715.5,507.285,7711.5,511.285,7707.5,507.285,7711.5,516.285" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="7712.5" y="205.9419">HTTP API calls</text><!--MD5=[529b2471b942bf590ca6b4d7705a4078]
+link external_gov to gov_prod--><path d="M7926.5,161.205 C7926.5,161.205 7926.5,511.285 7926.5,511.285 " fill="none" id="external_gov-to-gov_prod" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="7926.5,516.285,7930.5,507.285,7926.5,511.285,7922.5,507.285,7926.5,516.285" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="7927.5" y="205.9419">HTTP API calls</text><!--MD5=[96372fd279b5c5e77491eb2e1c772d71]
+link external_rental to rental_prod--><path d="M8177.5,161.205 C8177.5,161.205 8177.5,511.285 8177.5,511.285 " fill="none" id="external_rental-to-rental_prod" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="8177.5,516.285,8181.5,507.285,8177.5,511.285,8173.5,507.285,8177.5,516.285" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="88" x="8184.5" y="205.9419">HTTP API calls</text><!--MD5=[4b0f36523dbf8f403da4bb81ee22918d]
+link MinIO to external_minio_console--><path d="M3404.5,871.465 C3404.5,875.045 3404.5,989.875 3404.5,989.875 C3404.5,989.875 397.5,989.875 397.5,989.875 C397.5,989.875 397.5,1104.615 397.5,1104.615 " fill="none" id="MinIO-to-external_minio_console" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="397.5,1109.615,401.5,1100.615,397.5,1104.615,393.5,1100.615,397.5,1109.615" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="114" x="620.5" y="995.9419">port-forward 9001</text><!--MD5=[3ec7d9486317188bfb881793bac8468f]
+link MinIO to external_minio_api--><path d="M3413.5,880.455 C3413.5,913.285 3413.5,1023.875 3413.5,1023.875 C3413.5,1023.875 585.5,1023.875 585.5,1023.875 C585.5,1023.875 585.5,1104.575 585.5,1104.575 " fill="none" id="MinIO-to-external_minio_api" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="585.5,1109.575,589.5,1100.575,585.5,1104.575,581.5,1100.575,585.5,1109.575" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="114" x="999.5" y="995.9419">port-forward 9000</text><!--MD5=[071c4aefd157ec29fd188288cc941ed9]
+link Spark to external_spark_ui--><path d="M25.5,880.375 C25.5,927.315 25.5,1141.875 25.5,1141.875 C25.5,1141.875 127.8,1141.875 127.8,1141.875 " fill="none" id="Spark-to-external_spark_ui" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="132.8,1141.875,123.8,1137.875,127.8,1141.875,123.8,1145.875,132.8,1141.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="114" x="26.5" y="995.9419">port-forward 4040</text><!--MD5=[13467ae006b6c0a7485b6ea159aace27]
+link dbt_container to external_dbt_docs--><path d="M3080.8,571.115 C3080.8,594.005 3080.8,620.875 3080.8,620.875 C3080.8,620.875 773.5,620.875 773.5,620.875 C773.5,620.875 773.5,1104.595 773.5,1104.595 " fill="none" id="dbt_container-to-external_dbt_docs" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="773.5,1109.595,777.5,1100.595,773.5,1104.595,769.5,1100.595,773.5,1109.595" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="114" x="9046.5" y="875.9419">port-forward 8080</text><!--MD5=[0c9efd9279f6d37c0bfca7e13e517367]
+link MinIO to nodeport_minio_api--><path d="M3422.5,880.625 C3422.5,918.255 3422.5,1057.875 3422.5,1057.875 C3422.5,1057.875 996.5,1057.875 996.5,1057.875 C996.5,1057.875 996.5,1104.805 996.5,1104.805 " fill="none" id="MinIO-to-nodeport_minio_api" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="996.5,1109.805,1000.5,1100.805,996.5,1104.805,992.5,1100.805,996.5,1109.805" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="104" x="1568.5" y="995.9419">NodePort 30900</text><!--MD5=[d15aedafb96745ea0a49e9c486321846]
+link MinIO to nodeport_minio_console--><path d="M3413.42,871.875 C3390.34,871.875 3331.25,871.875 3331.25,871.875 C3331.25,871.875 3331.25,1141.875 3331.25,1141.875 C3331.25,1141.875 1324.83,1141.875 1324.83,1141.875 " fill="none" id="MinIO-to-nodeport_minio_console" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="1319.83,1141.875,1328.83,1145.875,1324.83,1141.875,1328.83,1137.875,1319.83,1141.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="104" x="2285.5" y="995.9419">NodePort 30901</text><!--MD5=[f9877bfe714835dd357b04f96c2dd98b]
+link spark_container to GMN138--><path d="M7035.17,571.205 C7035.17,610.125 7035.17,670.875 7035.17,670.875 C7035.17,670.875 9332.5,670.875 9332.5,670.875 C9332.5,670.875 9332.5,769.445 9332.5,828.365 " fill="none" id="spark_container-GMN138" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[9ebda5a9121c992bdcc1fedc882c9586]
+link producers_container to GMN141--><path d="M8906.52,539.875 C9172.36,539.875 9640.5,539.875 9640.5,539.875 C9640.5,539.875 9640.5,738.185 9640.5,828.035 " fill="none" id="producers_container-GMN141" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[eb1e0da7c6648681f8dfd860fcff2a7b]
+link minio_container to GMN144--><path d="M4625.5,903.325 C4625.5,927.245 4625.5,955.875 4625.5,955.875 C4625.5,955.875 9332.5,955.875 9332.5,955.875 C9332.5,955.875 9332.5,1043.555 9332.5,1098.355 " fill="none" id="minio_container-GMN144" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[4ada8243fcd29733d759180fb5defa24]
+link kafka_health to minio_health--><!--MD5=[227db9d11465fae091a26c137e4a5838]
+link kafka_health to data_freshness--><!--MD5=[2a0972ee0792862b6c18286983f02a21]
+link resource_monitor to processing_metrics--><!--MD5=[b0afaa715da781af3c902475d3b0aa36]
+link resource_monitor to quality_tracker--><!--MD5=[b7b32e72d69c2daf77219310d1bacfb7]
+@startuml Kubernetes_Deployment_Architecture
+
+!define RECTANGLE class
+!define COMPONENT component
+!define NODE node
+!define PACKAGE package
+
+' Enhanced visual styling
+skinparam componentStyle uml2
+skinparam backgroundColor #F8F9FA
+skinparam shadowing true
+skinparam roundCorner 15
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam arrowThickness 2
+skinparam arrowColor #2C3E50
+
+' Beautiful color scheme with gradients
+skinparam rectangle<<Namespace>> {
+  BackgroundColor #E3F2FD-#BBDEFB
+  BorderColor #1976D2
+  FontColor #0D47A1
+  FontStyle bold
+  BorderThickness 3
+}
+skinparam component<<Deployment>> {
+  BackgroundColor #E8F5E8-#C8E6C9
+  BorderColor #388E3C
+  FontColor #1B5E20
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<Service>> {
+  BackgroundColor #FFF3E0-#FFE0B2
+  BorderColor #F57C00
+  FontColor #E65100
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<ConfigMap>> {
+  BackgroundColor #F3E5F5-#E1BEE7
+  BorderColor #7B1FA2
+  FontColor #4A148C
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<CronJob>> {
+  BackgroundColor #FCE4EC-#F8BBD9
+  BorderColor #C2185B
+  FontColor #880E4F
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<PVC>> {
+  BackgroundColor #E0F2F1-#B2DFDB
+  BorderColor #00695C
+  FontColor #004D40
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Enhanced package styling
+skinparam package {
+  BackgroundColor #FFFFFF-#F5F5F5
+  BorderColor #37474F
+  FontColor #263238
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Enhanced note styling
+skinparam note {
+  BackgroundColor #FFFDE7-#FFF9C4
+  BorderColor #F57F17
+  FontColor #F57F17
+  FontStyle italic
+  BorderThickness 2
+}
+
+!define DIRECTION top to bottom direction
+
+' Beautiful title with enhanced styling
+title <size:20><color:#1976D2><b>🚀 Economic Intelligence Platform</b></color></size>\n<size:16><color:#37474F><i>Kubernetes Deployment Architecture</i></color></size>\n<size:12><color:#666666>Modern Data Lakehouse on Kubernetes</color></size>
+
+rectangle "Minikube Cluster" {
+  
+  rectangle "economic-observatory namespace" <<Namespace>> {
+    
+    ' Top Row - Storage and Message Broker
+    package "🏗️ Infrastructure Layer" {
+      
+      package "💾 Storage Layer" {
+        component "MinIO Deployment" <<Deployment>> {
+          component "minio-pod" {
+            component "MinIO Container\n(minio/minio:latest)" as minio_container
+            component "Data Volume\n(/data)" as minio_volume
+          }
+        }
+        
+        component "MinIO Service" <<Service>> {
+          component "API Port: 9000" as minio_api_port
+          component "Console Port: 9001" as minio_console_port
+        }
+        
+        component "MinIO NodePort Service" <<Service>> {
+          component "External API: 30900" as minio_external_api
+          component "External Console: 30901" as minio_external_console
+        }
+        
+        note bottom of MinIO
+          **Storage Configuration:**
+          - Access Key: admin
+          - Secret Key: password123
+          - Buckets: bronze, silver, gold
+          - Persistence: EmptyDir (dev)
+          - S3 Compatible API
+        end note
+      }
+      
+      package "📨 Message Broker Layer" {
+        component "Zookeeper Deployment" <<Deployment>> {
+          component "zookeeper-pod" {
+            component "Zookeeper Container\n(confluentinc/cp-zookeeper:7.4.0)" as zk_container
+          }
+        }
+        
+        component "Kafka Deployment" <<Deployment>> {
+          component "kafka-pod" {
+            component "Kafka Container\n(confluentinc/cp-kafka:7.4.0)" as kafka_container
+          }
+        }
+        
+        component "Kafka Service" <<Service>> {
+          component "Broker Port: 9092" as kafka_port
+        }
+        
+        note bottom of Kafka
+          **Kafka Configuration:**
+          - Topics: 5 (acra-companies, singstat-economics, etc.)
+          - Partitions: 3 per topic
+          - Replication Factor: 1
+          - Retention: 7 days
+        end note
+      }
+    }
+    
+    ' Middle Row - Data Processing
+    package "⚙️ Processing Layer" {
+      
+      package "📥 Data Ingestion Layer" {
+        component "Data Producers Deployment" <<Deployment>> {
+          component "producers-pod" {
+            component "Producers Container\n(economic-observatory/data-producers:latest)" as producers_container
+            component "Scheduler Process\n(scheduler.py)" as scheduler_process
+            component "ACRA Producer" as acra_prod
+            component "SingStat Producer" as singstat_prod
+            component "URA Producer" as ura_prod
+            component "Gov Expenditure Producer" as gov_prod
+            component "Commercial Rental Producer" as rental_prod
+          }
+        }
+        
+        component "Producers ConfigMap" <<ConfigMap>> {
+          component "Environment Config\n(.env)" as producers_config
+        }
+        
+        note bottom of producers_container
+          **Producer Configuration:**
+          - Batch Size: 1000 records
+          - API Timeout: 30s
+          - Retry Attempts: 3
+          - Scheduling: CronJob patterns
+        end note
+      }
+      
+      package "🌊 Stream Processing Layer" {
+        component "Spark Streaming Deployment" <<Deployment>> {
+          component "spark-streaming-pod" {
+            component "Spark Container\n(economic-observatory/spark-streaming:latest)" as spark_container
+            component "Streaming Consumer\n(spark_streaming_consumer.py)" as streaming_consumer
+          }
+        }
+        
+        component "Spark ETL CronJob" <<CronJob>> {
+          component "ETL Job\n(etl_bronze_to_silver.py)" as etl_job
+          component "Schedule: 0 */1 * * *" as etl_schedule
+        }
+        
+        component "Spark ConfigMaps" <<ConfigMap>> {
+          component "spark-app-code" as spark_app_config
+          component "spark-etl-code" as spark_etl_config
+          component "spark-streaming-code" as spark_streaming_config
+        }
+        
+        component "Spark Service" <<Service>> {
+          component "Spark UI: 4040" as spark_ui_port
+          component "Metrics: 8080" as spark_metrics_port
+        }
+        
+        note bottom of spark_container
+          **Spark Configuration:**
+          - Master: local[*]
+          - Memory: 2-4Gi
+          - CPU: 1-2 cores
+          - Packages: Delta Lake, Kafka, Hadoop AWS
+          - Checkpointing: /tmp/spark-checkpoints
+        end note
+      }
+    }
+    
+    ' Bottom Row - Analytics and Monitoring
+    package "🧠 Analytics & Monitoring Layer" {
+      
+      package "📊 Analytics Layer" {
+        component "dbt Analytics Deployment" <<Deployment>> {
+          component "dbt-pod" {
+            component "dbt Container\n(dbt with DuckDB)" as dbt_container
+            component "DuckDB Database\n(/data/economic_intelligence_prod.duckdb)" as duckdb_file
+          }
+        }
+        
+        component "dbt ConfigMaps" <<ConfigMap>> {
+          component "dbt-profiles-duckdb" as dbt_profiles
+          component "dbt-project-duckdb" as dbt_project
+          component "dbt-models" as dbt_models
+        }
+        
+        component "dbt Docs Service" <<Service>> {
+          component "Documentation: 80" as dbt_docs_port
+        }
+        
+        note bottom of dbt_container
+          **dbt Configuration:**
+          - Target: prod
+          - Threads: 8
+          - Extensions: httpfs
+          - S3 Integration: MinIO
+          - Models: Staging + Marts
+        end note
+      }
+      
+      package "📈 Monitoring Layer" {
+        component "Health Check Service" {
+          component "Kafka Health Monitor" as kafka_health
+          component "MinIO Health Monitor" as minio_health
+          component "Data Freshness Monitor" as data_freshness
+        }
+        
+        component "Performance Monitor Service" {
+          component "Resource Usage Monitor" as resource_monitor
+          component "Processing Metrics" as processing_metrics
+          component "Quality Score Tracker" as quality_tracker
+        }
+      }
+    }
+  }
+  
+  package "External Access" {
+    component "Port Forward Services" {
+      component "MinIO Console\n(localhost:9001)" as external_minio_console
+      component "MinIO API\n(localhost:9000)" as external_minio_api
+      component "Spark UI\n(localhost:4040)" as external_spark_ui
+      component "dbt Docs\n(localhost:8080)" as external_dbt_docs
+    }
+    
+    component "NodePort Services" {
+      component "MinIO External API\n(minikube-ip:30900)" as nodeport_minio_api
+      component "MinIO External Console\n(minikube-ip:30901)" as nodeport_minio_console
+    }
+  }
+}
+
+package "External Data Sources" {
+  component "ACRA API\n(data.gov.sg)" as external_acra
+  component "SingStat API\n(singstat.gov.sg)" as external_singstat
+  component "URA API\n(ura.gov.sg)" as external_ura
+  component "Government Expenditure API\n(data.gov.sg)" as external_gov
+  component "Commercial Rental API\n(data.gov.sg)" as external_rental
+}
+
+' Internal connections within Kubernetes
+minio_container - -> minio_volume : mounts
+MinIO - -> MinIO : internal
+zk_container - -> kafka_container : coordinates
+producers_container - -> kafka_container : publishes to
+streaming_consumer - -> kafka_container : consumes from
+streaming_consumer - -> minio_container : writes to Delta Lake
+etl_job - -> minio_container : reads/writes Delta Lake
+dbt_container - -> minio_container : reads Silver, writes Gold
+producers_container - -> producers_config : reads config
+spark_container - -> spark_app_config : mounts code
+spark_container - -> spark_etl_config : mounts ETL code
+dbt_container - -> dbt_profiles : reads profiles
+dbt_container - -> dbt_project : reads project config
+dbt_container - -> dbt_models : reads models
+
+' External connections
+external_acra - -> acra_prod : HTTP API calls
+external_singstat - -> singstat_prod : HTTP API calls
+external_ura - -> ura_prod : HTTP API calls
+external_gov - -> gov_prod : HTTP API calls
+external_rental - -> rental_prod : HTTP API calls
+
+' External access
+MinIO - -> external_minio_console : port-forward 9001
+MinIO - -> external_minio_api : port-forward 9000
+Spark - -> external_spark_ui : port-forward 4040
+dbt_container - -> external_dbt_docs : port-forward 8080
+MinIO - -> nodeport_minio_api : NodePort 30900
+MinIO - -> nodeport_minio_console : NodePort 30901
+
+' Resource specifications
+note bottom of spark_container
+  **Resource Limits:**
+  - Requests: 2Gi memory, 1000m CPU
+  - Limits: 4Gi memory, 2000m CPU
+  - Liveness Probe: spark process check
+  - Readiness Probe: Spark UI availability
+end note
+
+note bottom of producers_container
+  **Resource Limits:**
+  - Requests: 256Mi memory, 125m CPU
+  - Limits: 512Mi memory, 250m CPU
+  - Liveness Probe: Python process check
+  - Restart Policy: Always
+end note
+
+note bottom of minio_container
+  **Resource Limits:**
+  - Requests: 512Mi memory, 250m CPU
+  - Limits: 1Gi memory, 500m CPU
+  - Volume: EmptyDir (development)
+  - Persistence: Should use PVC in production
+end note
+
+@enduml
+
+@startuml Kubernetes_Deployment_Architecture
+
+
+skinparam componentStyle uml2
+skinparam backgroundColor #F8F9FA
+skinparam shadowing true
+skinparam roundCorner 15
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam arrowThickness 2
+skinparam arrowColor #2C3E50
+
+skinparam rectangle<<Namespace>> {
+  BackgroundColor #E3F2FD-#BBDEFB
+  BorderColor #1976D2
+  FontColor #0D47A1
+  FontStyle bold
+  BorderThickness 3
+}
+skinparam component<<Deployment>> {
+  BackgroundColor #E8F5E8-#C8E6C9
+  BorderColor #388E3C
+  FontColor #1B5E20
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<Service>> {
+  BackgroundColor #FFF3E0-#FFE0B2
+  BorderColor #F57C00
+  FontColor #E65100
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<ConfigMap>> {
+  BackgroundColor #F3E5F5-#E1BEE7
+  BorderColor #7B1FA2
+  FontColor #4A148C
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<CronJob>> {
+  BackgroundColor #FCE4EC-#F8BBD9
+  BorderColor #C2185B
+  FontColor #880E4F
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<PVC>> {
+  BackgroundColor #E0F2F1-#B2DFDB
+  BorderColor #00695C
+  FontColor #004D40
+  FontStyle bold
+  BorderThickness 2
+}
+
+skinparam package {
+  BackgroundColor #FFFFFF-#F5F5F5
+  BorderColor #37474F
+  FontColor #263238
+  FontStyle bold
+  BorderThickness 2
+}
+
+skinparam note {
+  BackgroundColor #FFFDE7-#FFF9C4
+  BorderColor #F57F17
+  FontColor #F57F17
+  FontStyle italic
+  BorderThickness 2
+}
+
+
+title <size:20><color:#1976D2><b>🚀 Economic Intelligence Platform</b></color></size>\n<size:16><color:#37474F><i>Kubernetes Deployment Architecture</i></color></size>\n<size:12><color:#666666>Modern Data Lakehouse on Kubernetes</color></size>
+
+rectangle "Minikube Cluster" {
+  
+  rectangle "economic-observatory namespace" <<Namespace>> {
+    
+    package "🏗️ Infrastructure Layer" {
+      
+      package "💾 Storage Layer" {
+        component "MinIO Deployment" <<Deployment>> {
+          component "minio-pod" {
+            component "MinIO Container\n(minio/minio:latest)" as minio_container
+            component "Data Volume\n(/data)" as minio_volume
+          }
+        }
+        
+        component "MinIO Service" <<Service>> {
+          component "API Port: 9000" as minio_api_port
+          component "Console Port: 9001" as minio_console_port
+        }
+        
+        component "MinIO NodePort Service" <<Service>> {
+          component "External API: 30900" as minio_external_api
+          component "External Console: 30901" as minio_external_console
+        }
+        
+        note bottom of MinIO
+          **Storage Configuration:**
+          - Access Key: admin
+          - Secret Key: password123
+          - Buckets: bronze, silver, gold
+          - Persistence: EmptyDir (dev)
+          - S3 Compatible API
+        end note
+      }
+      
+      package "📨 Message Broker Layer" {
+        component "Zookeeper Deployment" <<Deployment>> {
+          component "zookeeper-pod" {
+            component "Zookeeper Container\n(confluentinc/cp-zookeeper:7.4.0)" as zk_container
+          }
+        }
+        
+        component "Kafka Deployment" <<Deployment>> {
+          component "kafka-pod" {
+            component "Kafka Container\n(confluentinc/cp-kafka:7.4.0)" as kafka_container
+          }
+        }
+        
+        component "Kafka Service" <<Service>> {
+          component "Broker Port: 9092" as kafka_port
+        }
+        
+        note bottom of Kafka
+          **Kafka Configuration:**
+          - Topics: 5 (acra-companies, singstat-economics, etc.)
+          - Partitions: 3 per topic
+          - Replication Factor: 1
+          - Retention: 7 days
+        end note
+      }
+    }
+    
+    package "⚙️ Processing Layer" {
+      
+      package "📥 Data Ingestion Layer" {
+        component "Data Producers Deployment" <<Deployment>> {
+          component "producers-pod" {
+            component "Producers Container\n(economic-observatory/data-producers:latest)" as producers_container
+            component "Scheduler Process\n(scheduler.py)" as scheduler_process
+            component "ACRA Producer" as acra_prod
+            component "SingStat Producer" as singstat_prod
+            component "URA Producer" as ura_prod
+            component "Gov Expenditure Producer" as gov_prod
+            component "Commercial Rental Producer" as rental_prod
+          }
+        }
+        
+        component "Producers ConfigMap" <<ConfigMap>> {
+          component "Environment Config\n(.env)" as producers_config
+        }
+        
+        note bottom of producers_container
+          **Producer Configuration:**
+          - Batch Size: 1000 records
+          - API Timeout: 30s
+          - Retry Attempts: 3
+          - Scheduling: CronJob patterns
+        end note
+      }
+      
+      package "🌊 Stream Processing Layer" {
+        component "Spark Streaming Deployment" <<Deployment>> {
+          component "spark-streaming-pod" {
+            component "Spark Container\n(economic-observatory/spark-streaming:latest)" as spark_container
+            component "Streaming Consumer\n(spark_streaming_consumer.py)" as streaming_consumer
+          }
+        }
+        
+        component "Spark ETL CronJob" <<CronJob>> {
+          component "ETL Job\n(etl_bronze_to_silver.py)" as etl_job
+          component "Schedule: 0 */1 * * *" as etl_schedule
+        }
+        
+        component "Spark ConfigMaps" <<ConfigMap>> {
+          component "spark-app-code" as spark_app_config
+          component "spark-etl-code" as spark_etl_config
+          component "spark-streaming-code" as spark_streaming_config
+        }
+        
+        component "Spark Service" <<Service>> {
+          component "Spark UI: 4040" as spark_ui_port
+          component "Metrics: 8080" as spark_metrics_port
+        }
+        
+        note bottom of spark_container
+          **Spark Configuration:**
+          - Master: local[*]
+          - Memory: 2-4Gi
+          - CPU: 1-2 cores
+          - Packages: Delta Lake, Kafka, Hadoop AWS
+          - Checkpointing: /tmp/spark-checkpoints
+        end note
+      }
+    }
+    
+    package "🧠 Analytics & Monitoring Layer" {
+      
+      package "📊 Analytics Layer" {
+        component "dbt Analytics Deployment" <<Deployment>> {
+          component "dbt-pod" {
+            component "dbt Container\n(dbt with DuckDB)" as dbt_container
+            component "DuckDB Database\n(/data/economic_intelligence_prod.duckdb)" as duckdb_file
+          }
+        }
+        
+        component "dbt ConfigMaps" <<ConfigMap>> {
+          component "dbt-profiles-duckdb" as dbt_profiles
+          component "dbt-project-duckdb" as dbt_project
+          component "dbt-models" as dbt_models
+        }
+        
+        component "dbt Docs Service" <<Service>> {
+          component "Documentation: 80" as dbt_docs_port
+        }
+        
+        note bottom of dbt_container
+          **dbt Configuration:**
+          - Target: prod
+          - Threads: 8
+          - Extensions: httpfs
+          - S3 Integration: MinIO
+          - Models: Staging + Marts
+        end note
+      }
+      
+      package "📈 Monitoring Layer" {
+        component "Health Check Service" {
+          component "Kafka Health Monitor" as kafka_health
+          component "MinIO Health Monitor" as minio_health
+          component "Data Freshness Monitor" as data_freshness
+        }
+        
+        component "Performance Monitor Service" {
+          component "Resource Usage Monitor" as resource_monitor
+          component "Processing Metrics" as processing_metrics
+          component "Quality Score Tracker" as quality_tracker
+        }
+      }
+    }
+  }
+  
+  package "External Access" {
+    component "Port Forward Services" {
+      component "MinIO Console\n(localhost:9001)" as external_minio_console
+      component "MinIO API\n(localhost:9000)" as external_minio_api
+      component "Spark UI\n(localhost:4040)" as external_spark_ui
+      component "dbt Docs\n(localhost:8080)" as external_dbt_docs
+    }
+    
+    component "NodePort Services" {
+      component "MinIO External API\n(minikube-ip:30900)" as nodeport_minio_api
+      component "MinIO External Console\n(minikube-ip:30901)" as nodeport_minio_console
+    }
+  }
+}
+
+package "External Data Sources" {
+  component "ACRA API\n(data.gov.sg)" as external_acra
+  component "SingStat API\n(singstat.gov.sg)" as external_singstat
+  component "URA API\n(ura.gov.sg)" as external_ura
+  component "Government Expenditure API\n(data.gov.sg)" as external_gov
+  component "Commercial Rental API\n(data.gov.sg)" as external_rental
+}
+
+minio_container - -> minio_volume : mounts
+MinIO - -> MinIO : internal
+zk_container - -> kafka_container : coordinates
+producers_container - -> kafka_container : publishes to
+streaming_consumer - -> kafka_container : consumes from
+streaming_consumer - -> minio_container : writes to Delta Lake
+etl_job - -> minio_container : reads/writes Delta Lake
+dbt_container - -> minio_container : reads Silver, writes Gold
+producers_container - -> producers_config : reads config
+spark_container - -> spark_app_config : mounts code
+spark_container - -> spark_etl_config : mounts ETL code
+dbt_container - -> dbt_profiles : reads profiles
+dbt_container - -> dbt_project : reads project config
+dbt_container - -> dbt_models : reads models
+
+external_acra - -> acra_prod : HTTP API calls
+external_singstat - -> singstat_prod : HTTP API calls
+external_ura - -> ura_prod : HTTP API calls
+external_gov - -> gov_prod : HTTP API calls
+external_rental - -> rental_prod : HTTP API calls
+
+MinIO - -> external_minio_console : port-forward 9001
+MinIO - -> external_minio_api : port-forward 9000
+Spark - -> external_spark_ui : port-forward 4040
+dbt_container - -> external_dbt_docs : port-forward 8080
+MinIO - -> nodeport_minio_api : NodePort 30900
+MinIO - -> nodeport_minio_console : NodePort 30901
+
+note bottom of spark_container
+  **Resource Limits:**
+  - Requests: 2Gi memory, 1000m CPU
+  - Limits: 4Gi memory, 2000m CPU
+  - Liveness Probe: spark process check
+  - Readiness Probe: Spark UI availability
+end note
+
+note bottom of producers_container
+  **Resource Limits:**
+  - Requests: 256Mi memory, 125m CPU
+  - Limits: 512Mi memory, 250m CPU
+  - Liveness Probe: Python process check
+  - Restart Policy: Always
+end note
+
+note bottom of minio_container
+  **Resource Limits:**
+  - Requests: 512Mi memory, 250m CPU
+  - Limits: 1Gi memory, 500m CPU
+  - Volume: EmptyDir (development)
+  - Persistence: Should use PVC in production
+end note
+
+@enduml
+
+PlantUML version 1.2021.00(Sun Jan 10 18:25:05 SGT 2021)
+(MIT source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

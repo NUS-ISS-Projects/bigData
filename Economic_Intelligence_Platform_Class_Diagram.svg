@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1264px" preserveAspectRatio="none" style="width:3721px;height:1264px;background:#F8F9FA;" version="1.1" viewBox="0 0 3721 1264" width="3721px" zoomAndPan="magnify"><defs><linearGradient id="g1f8seg9tfzexb0" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#E3F2FD"/><stop offset="100%" stop-color="#BBDEFB"/></linearGradient><filter height="300%" id="f1f8seg9tfzexb" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter><linearGradient id="g1f8seg9tfzexb1" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#F5F5F5"/></linearGradient><linearGradient id="g1f8seg9tfzexb2" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#FFF3E0"/><stop offset="100%" stop-color="#FFE0B2"/></linearGradient></defs><g><text fill="#1976D2" font-family="sans-serif" font-size="20" font-weight="bold" lengthAdjust="spacing" textLength="375" x="1666.5" y="18.5645">&#127959;️ Economic Intelligence Platform</text><text fill="#37474F" font-family="sans-serif" font-size="16" font-style="italic" lengthAdjust="spacing" textLength="210" x="1749" y="38.1328">Detailed Class Relationships</text><text fill="#666666" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="226" x="1741" y="53.0449">Object-Oriented Architecture Design</text><!--MD5=[1405aaca338bfdc109e621fd641e9bf5]
+cluster 📊 Data Foundation Layer--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="969" style="stroke:#1976D2;stroke-width:3.0;" width="1518" x="7" y="62.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="190" x="671" y="77.8701">&#128202; Data Foundation Layer</text><!--MD5=[891ba387cf0ad7e121c75b038da549b6]
+cluster 🗃️ Data Models--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="227" style="stroke:#1976D2;stroke-width:3.0;" width="222" x="1279" y="780.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="109" x="1335.5" y="795.8701">&#128451;️ Data Models</text><!--MD5=[a4b42336ec53ad92a46d2eca512ab110]
+cluster 🏭 Data Producers--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="567" style="stroke:#1976D2;stroke-width:3.0;" width="1374" x="31" y="105.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="135" x="650.5" y="120.8701">&#127981; Data Producers</text><!--MD5=[7eb9fdbfedb0e51f02e847f41556d576]
+cluster ⚙️ Data Processing Layer--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="329" style="stroke:#1976D2;stroke-width:3.0;" width="955" x="1549" y="402.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="195" x="1929" y="417.8701">⚙️ Data Processing Layer</text><!--MD5=[c177821c64f97bbc4c62ade8c62f90b2]
+cluster 🌊 Stream Processing--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="262" style="stroke:#1976D2;stroke-width:3.0;" width="571" x="1573" y="445.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="162" x="1777.5" y="460.8701">&#127754; Stream Processing</text><!--MD5=[25ad58bf05bc903693d0d4ae1902356b]
+cluster 🔍 Data Access--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="239" style="stroke:#1976D2;stroke-width:3.0;" width="312" x="2168" y="457.375"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="110" x="2269" y="472.3701">&#128269; Data Access</text><!--MD5=[58f5aaba415c76b1e1b7b0ed06814d55]
+cluster 🧠 Analytics & Intelligence Layer--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="1155" style="stroke:#1976D2;stroke-width:3.0;" width="1181" x="2528" y="97.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="247" x="2995" y="112.8701">&#129504; Analytics &amp; Intelligence Layer</text><!--MD5=[d0dbc7569a5ee2e61611c6a6737e1edb]
+cluster 🤖 Analytics Engine--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="771.5" style="stroke:#1976D2;stroke-width:3.0;" width="678" x="3007" y="457.375"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="142" x="3275" y="472.3701">&#129302; Analytics Engine</text><!--MD5=[b2fd4a923ca49348a54c9631197ff7f7]
+cluster 📊 Visualization--><rect fill="url(#g1f8seg9tfzexb0)" filter="url(#f1f8seg9tfzexb)" height="526" style="stroke:#1976D2;stroke-width:3.0;" width="350" x="2552" y="140.875"/><text fill="#0D47A1" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="112" x="2671" y="155.8701">&#128202; Visualization</text><!--MD5=[16912633719579821b4c0e2b34337ebb]
+class DataRecord--><rect codeLine="72" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="176.0469" id="DataRecord" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="189" x="1295.5" y="815.875"/><ellipse cx="1348.75" cy="831.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M1351.7188,837.5156 Q1351.1406,837.8125 1350.5,837.9531 Q1349.8594,838.1094 1349.1563,838.1094 Q1346.6563,838.1094 1345.3281,836.4688 Q1344.0156,834.8125 1344.0156,831.6875 Q1344.0156,828.5625 1345.3281,826.9063 Q1346.6563,825.25 1349.1563,825.25 Q1349.8594,825.25 1350.5,825.4063 Q1351.1563,825.5625 1351.7188,825.8594 L1351.7188,828.5781 Q1351.0938,828 1350.5,827.7344 Q1349.9063,827.4531 1349.2813,827.4531 Q1347.9375,827.4531 1347.25,828.5313 Q1346.5625,829.5938 1346.5625,831.6875 Q1346.5625,833.7813 1347.25,834.8594 Q1347.9375,835.9219 1349.2813,835.9219 Q1349.9063,835.9219 1350.5,835.6563 Q1351.0938,835.375 1351.7188,834.7969 L1351.7188,837.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="74" x="1369.25" y="835.6831">DataRecord</text><line style="stroke:#37474F;stroke-width:1.5;" x1="1296.5" x2="1483.5" y1="847.875" y2="847.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="59" x="1301.5" y="861.1572">+source: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="111" x="1301.5" y="872.7979">+timestamp: datetime</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="76" x="1301.5" y="884.4385">+data_type: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="124" x="1301.5" y="896.0791">+raw_data: Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="155" x="1301.5" y="907.7197">+processed_data: Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="119" x="1301.5" y="919.3604">+record_id: Optional[str]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="147" x="1301.5" y="931.001">+quality_score: Optional[float]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="155" x="1301.5" y="942.6416">+validation_errors: Optional[list]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="158" x="1301.5" y="954.2822">+processing_notes: Optional[str]</text><line style="stroke:#37474F;stroke-width:1.0;" x1="1296.5" x2="1483.5" y1="960.6406" y2="960.6406"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="119" x="1301.5" y="973.9229">+validate_quality(): float</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="177" x="1301.5" y="985.5635">+to_kafka_message(): Dict[str, Any]</text><!--MD5=[5c8c9fc4ab2ec38463877909a79b5d21]
+class BaseProducer--><rect codeLine="89" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="199.3281" id="BaseProducer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="251" x="638.5" y="140.875"/><ellipse cx="717.25" cy="156.875" fill="#A9DCDF" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M717.3594,152.2188 L716.2031,157.2969 L718.5313,157.2969 L717.3594,152.2188 Z M715.875,149.9844 L718.8594,149.9844 L722.2188,162.375 L719.7656,162.375 L719,159.3125 L715.7188,159.3125 L714.9688,162.375 L712.5313,162.375 L715.875,149.9844 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="85" x="737.75" y="160.6831">BaseProducer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="639.5" x2="888.5" y1="172.875" y2="172.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="139" x="644.5" y="186.1572">#kafka_config: Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="50" x="644.5" y="197.7979">#topic: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="92" x="644.5" y="209.4385">#source_name: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="129" x="644.5" y="221.0791">#producer: KafkaProducer</text><line style="stroke:#37474F;stroke-width:1.0;" x1="639.5" x2="888.5" y1="227.4375" y2="227.4375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="210" x="644.5" y="240.7197">+__init__(kafka_config, topic, source_name)</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="153" x="644.5" y="252.3604">#_validate_configuration(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="105" x="644.5" y="264.001">#_setup_kafka(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="239" x="644.5" y="275.6416">+fetch_data(url, params, headers): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="156" x="644.5" y="287.2822">+send_to_kafka(data, key): bool</text><text fill="#455A64" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacing" textLength="106" x="644.5" y="298.9229">+extract_data(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacing" textLength="202" x="644.5" y="310.5635">+transform_data(raw_data): DataRecord</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="112" x="644.5" y="322.2041">+run_extraction(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="66" x="644.5" y="333.8447">+close(): void</text><!--MD5=[d43619c3b0f08c03afdf189e24223846]
+class ACRAProducer--><rect codeLine="106" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="141.125" id="ACRAProducer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="320" x="1069" y="515.875"/><ellipse cx="1179.75" cy="531.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M1182.7188,537.5156 Q1182.1406,537.8125 1181.5,537.9531 Q1180.8594,538.1094 1180.1563,538.1094 Q1177.6563,538.1094 1176.3281,536.4688 Q1175.0156,534.8125 1175.0156,531.6875 Q1175.0156,528.5625 1176.3281,526.9063 Q1177.6563,525.25 1180.1563,525.25 Q1180.8594,525.25 1181.5,525.4063 Q1182.1563,525.5625 1182.7188,525.8594 L1182.7188,528.5781 Q1182.0938,528 1181.5,527.7344 Q1180.9063,527.4531 1180.2813,527.4531 Q1178.9375,527.4531 1178.25,528.5313 Q1177.5625,529.5938 1177.5625,531.6875 Q1177.5625,533.7813 1178.25,534.8594 Q1178.9375,535.9219 1180.2813,535.9219 Q1180.9063,535.9219 1181.5,535.6563 Q1182.0938,535.375 1182.7188,534.7969 L1182.7188,537.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="90" x="1200.25" y="535.6831">ACRAProducer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="1070" x2="1388" y1="547.875" y2="547.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="63" x="1075" y="561.1572">-base_url: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="78" x="1075" y="572.7979">-resource_id: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="85" x="1075" y="584.4385">-csv_file_path: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="1070" x2="1388" y1="590.7969" y2="590.7969"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="104" x="1075" y="604.0791">+extract_data(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="244" x="1075" y="615.7197">+extract_csv_data(batch_size, max_records): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="266" x="1075" y="627.3604">+transform_data(raw_data, source_type): DataRecord</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="308" x="1075" y="639.001">+run_hybrid_extraction(csv_batch_size, csv_max_records): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="256" x="1075" y="650.6416">-_process_csv_batch(batch, start_record_num): tuple</text><!--MD5=[a91d6266e568008544f6bdedbdc02d6c]
+class SingStatProducer--><rect codeLine="118" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="94.5625" id="SingStatProducer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="213" x="46.5" y="538.875"/><ellipse cx="93.25" cy="554.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M96.2188,560.5156 Q95.6406,560.8125 95,560.9531 Q94.3594,561.1094 93.6563,561.1094 Q91.1563,561.1094 89.8281,559.4688 Q88.5156,557.8125 88.5156,554.6875 Q88.5156,551.5625 89.8281,549.9063 Q91.1563,548.25 93.6563,548.25 Q94.3594,548.25 95,548.4063 Q95.6563,548.5625 96.2188,548.8594 L96.2188,551.5781 Q95.5938,551 95,550.7344 Q94.4063,550.4531 93.7813,550.4531 Q92.4375,550.4531 91.75,551.5313 Q91.0625,552.5938 91.0625,554.6875 Q91.0625,556.7813 91.75,557.8594 Q92.4375,558.9219 93.7813,558.9219 Q94.4063,558.9219 95,558.6563 Q95.5938,558.375 96.2188,557.7969 L96.2188,560.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="111" x="113.75" y="558.6831">SingStatProducer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="47.5" x2="258.5" y1="570.875" y2="570.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="84" x="52.5" y="584.1572">-api_endpoint: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="94" x="52.5" y="595.7979">-indicators: List[str]</text><line style="stroke:#37474F;stroke-width:1.0;" x1="47.5" x2="258.5" y1="602.1563" y2="602.1563"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="104" x="52.5" y="615.4385">+extract_data(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="201" x="52.5" y="627.0791">+transform_data(raw_data): DataRecord</text><!--MD5=[c1263535794310f46a84ce901f88417d]
+class URAProducer--><rect codeLine="126" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="94.5625" id="URAProducer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="213" x="294.5" y="538.875"/><ellipse cx="355.75" cy="554.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M358.7188,560.5156 Q358.1406,560.8125 357.5,560.9531 Q356.8594,561.1094 356.1563,561.1094 Q353.6563,561.1094 352.3281,559.4688 Q351.0156,557.8125 351.0156,554.6875 Q351.0156,551.5625 352.3281,549.9063 Q353.6563,548.25 356.1563,548.25 Q356.8594,548.25 357.5,548.4063 Q358.1563,548.5625 358.7188,548.8594 L358.7188,551.5781 Q358.0938,551 357.5,550.7344 Q356.9063,550.4531 356.2813,550.4531 Q354.9375,550.4531 354.25,551.5313 Q353.5625,552.5938 353.5625,554.6875 Q353.5625,556.7813 354.25,557.8594 Q354.9375,558.9219 356.2813,558.9219 Q356.9063,558.9219 357.5,558.6563 Q358.0938,558.375 358.7188,557.7969 L358.7188,560.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="82" x="376.25" y="558.6831">URAProducer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="295.5" x2="506.5" y1="570.875" y2="570.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="112" x="300.5" y="584.1572">-property_endpoint: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="98" x="300.5" y="595.7979">-rental_endpoint: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="295.5" x2="506.5" y1="602.1563" y2="602.1563"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="104" x="300.5" y="615.4385">+extract_data(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="201" x="300.5" y="627.0791">+transform_data(raw_data): DataRecord</text><!--MD5=[a9e7049d46fe742f3b85c038ee6cadd6]
+class GovernmentExpenditureProducer--><rect codeLine="134" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="82.9219" id="GovernmentExpenditureProducer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="243" x="542.5" y="544.875"/><ellipse cx="557.5" cy="560.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M560.4688,566.5156 Q559.8906,566.8125 559.25,566.9531 Q558.6094,567.1094 557.9063,567.1094 Q555.4063,567.1094 554.0781,565.4688 Q552.7656,563.8125 552.7656,560.6875 Q552.7656,557.5625 554.0781,555.9063 Q555.4063,554.25 557.9063,554.25 Q558.6094,554.25 559.25,554.4063 Q559.9063,554.5625 560.4688,554.8594 L560.4688,557.5781 Q559.8438,557 559.25,556.7344 Q558.6563,556.4531 558.0313,556.4531 Q556.6875,556.4531 556,557.5313 Q555.3125,558.5938 555.3125,560.6875 Q555.3125,562.7813 556,563.8594 Q556.6875,564.9219 558.0313,564.9219 Q558.6563,564.9219 559.25,564.6563 Q559.8438,564.375 560.4688,563.7969 L560.4688,566.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="211" x="571.5" y="564.6831">GovernmentExpenditureProducer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="543.5" x2="784.5" y1="576.875" y2="576.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="128" x="548.5" y="590.1572">-expenditure_endpoint: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="543.5" x2="784.5" y1="596.5156" y2="596.5156"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="104" x="548.5" y="609.7979">+extract_data(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="201" x="548.5" y="621.4385">+transform_data(raw_data): DataRecord</text><!--MD5=[b2964b2f32116b6c2e4d89654ca187d7]
+class CommercialRentalProducer--><rect codeLine="141" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="82.9219" id="CommercialRentalProducer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="213" x="820.5" y="544.875"/><ellipse cx="839.1" cy="560.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M842.0688,566.5156 Q841.4906,566.8125 840.85,566.9531 Q840.2094,567.1094 839.5063,567.1094 Q837.0063,567.1094 835.6781,565.4688 Q834.3656,563.8125 834.3656,560.6875 Q834.3656,557.5625 835.6781,555.9063 Q837.0063,554.25 839.5063,554.25 Q840.2094,554.25 840.85,554.4063 Q841.5063,554.5625 842.0688,554.8594 L842.0688,557.5781 Q841.4438,557 840.85,556.7344 Q840.2563,556.4531 839.6313,556.4531 Q838.2875,556.4531 837.6,557.5313 Q836.9125,558.5938 836.9125,560.6875 Q836.9125,562.7813 837.6,563.8594 Q838.2875,564.9219 839.6313,564.9219 Q840.2563,564.9219 840.85,564.6563 Q841.4438,564.375 842.0688,563.7969 L842.0688,566.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="173" x="853.9" y="564.6831">CommercialRentalProducer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="821.5" x2="1032.5" y1="576.875" y2="576.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="117" x="826.5" y="590.1572">-rental_api_endpoint: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="821.5" x2="1032.5" y1="596.5156" y2="596.5156"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="104" x="826.5" y="609.7979">+extract_data(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="201" x="826.5" y="621.4385">+transform_data(raw_data): DataRecord</text><!--MD5=[0891d45a165d9b39774995fec7d49f8b]
+class SparkStreamingConsumer--><rect codeLine="154" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="210.9688" id="SparkStreamingConsumer" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="259" x="1589.5" y="480.875"/><ellipse cx="1632.4" cy="496.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M1635.3688,502.5156 Q1634.7906,502.8125 1634.15,502.9531 Q1633.5094,503.1094 1632.8063,503.1094 Q1630.3063,503.1094 1628.9781,501.4688 Q1627.6656,499.8125 1627.6656,496.6875 Q1627.6656,493.5625 1628.9781,491.9063 Q1630.3063,490.25 1632.8063,490.25 Q1633.5094,490.25 1634.15,490.4063 Q1634.8063,490.5625 1635.3688,490.8594 L1635.3688,493.5781 Q1634.7438,493 1634.15,492.7344 Q1633.5563,492.4531 1632.9313,492.4531 Q1631.5875,492.4531 1630.9,493.5313 Q1630.2125,494.5938 1630.2125,496.6875 Q1630.2125,498.7813 1630.9,499.8594 Q1631.5875,500.9219 1632.9313,500.9219 Q1633.5563,500.9219 1634.15,500.6563 Q1634.7438,500.375 1635.3688,499.7969 L1635.3688,502.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="165" x="1652.6" y="500.6831">SparkStreamingConsumer</text><line style="stroke:#37474F;stroke-width:1.5;" x1="1590.5" x2="1847.5" y1="512.875" y2="512.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="101" x="1595.5" y="526.1572">-spark: SparkSession</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="142" x="1595.5" y="537.7979">-kafka_bootstrap_servers: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="96" x="1595.5" y="549.4385">-minio_endpoint: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="74" x="1595.5" y="561.0791">-delta_path: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="1590.5" x2="1847.5" y1="567.4375" y2="567.4375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="76" x="1595.5" y="580.7197">+__init__(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="190" x="1595.5" y="592.3604">-_create_spark_session(): SparkSession</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="203" x="1595.5" y="604.001">+create_kafka_stream(topic): DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="145" x="1595.5" y="615.6416">+process_acra_stream(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="162" x="1595.5" y="627.2822">+process_singstat_stream(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="140" x="1595.5" y="638.9229">+process_ura_stream(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="213" x="1595.5" y="650.5635">+process_commercial_rental_stream(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="247" x="1595.5" y="662.2041">+process_government_expenditure_stream(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="125" x="1595.5" y="673.8447">+start_all_streams(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="155" x="1595.5" y="685.4854">+test_kafka_connectivity(): bool</text><!--MD5=[3dca4e4d107dd9da4bdd02fd40132275]
+class BronzeToSilverETL--><rect codeLine="172" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="210.9688" id="BronzeToSilverETL" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="244" x="1884" y="480.875"/><ellipse cx="1941.75" cy="496.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M1944.7188,502.5156 Q1944.1406,502.8125 1943.5,502.9531 Q1942.8594,503.1094 1942.1563,503.1094 Q1939.6563,503.1094 1938.3281,501.4688 Q1937.0156,499.8125 1937.0156,496.6875 Q1937.0156,493.5625 1938.3281,491.9063 Q1939.6563,490.25 1942.1563,490.25 Q1942.8594,490.25 1943.5,490.4063 Q1944.1563,490.5625 1944.7188,490.8594 L1944.7188,493.5781 Q1944.0938,493 1943.5,492.7344 Q1942.9063,492.4531 1942.2813,492.4531 Q1940.9375,492.4531 1940.25,493.5313 Q1939.5625,494.5938 1939.5625,496.6875 Q1939.5625,498.7813 1940.25,499.8594 Q1940.9375,500.9219 1942.2813,500.9219 Q1942.9063,500.9219 1943.5,500.6563 Q1944.0938,500.375 1944.7188,499.7969 L1944.7188,502.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="120" x="1962.25" y="500.6831">BronzeToSilverETL</text><line style="stroke:#37474F;stroke-width:1.5;" x1="1885" x2="2127" y1="512.875" y2="512.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="101" x="1890" y="526.1572">-spark: SparkSession</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="83" x="1890" y="537.7979">-bronze_path: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="75" x="1890" y="549.4385">-silver_path: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="1885" x2="2127" y1="555.7969" y2="555.7969"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="76" x="1890" y="569.0791">+__init__(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="190" x="1890" y="580.7197">-_create_spark_session(): SparkSession</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="224" x="1890" y="592.3604">+read_bronze_table(table_name): DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="232" x="1890" y="604.001">+write_silver_table(df, table_name, mode): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="174" x="1890" y="615.6416">+transform_acra_companies(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="190" x="1890" y="627.2822">+transform_singstat_economics(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="166" x="1890" y="638.9229">+transform_ura_geospatial(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="216" x="1890" y="650.5635">+transform_commercial_rental_index(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="219" x="1890" y="662.2041">+transform_government_expenditure(): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="159" x="1890" y="673.8447">+run_etl_parallel(): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="75" x="1890" y="685.4854">+run_etl(): void</text><!--MD5=[b00c076f12b86a4bc77eba1ccfd32735]
+class DeltaLakeQueryTool--><rect codeLine="192" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="187.6875" id="DeltaLakeQueryTool" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="279" x="2184.5" y="492.375"/><ellipse cx="2254.75" cy="508.375" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M2257.7188,514.0156 Q2257.1406,514.3125 2256.5,514.4531 Q2255.8594,514.6094 2255.1563,514.6094 Q2252.6563,514.6094 2251.3281,512.9688 Q2250.0156,511.3125 2250.0156,508.1875 Q2250.0156,505.0625 2251.3281,503.4063 Q2252.6563,501.75 2255.1563,501.75 Q2255.8594,501.75 2256.5,501.9063 Q2257.1563,502.0625 2257.7188,502.3594 L2257.7188,505.0781 Q2257.0938,504.5 2256.5,504.2344 Q2255.9063,503.9531 2255.2813,503.9531 Q2253.9375,503.9531 2253.25,505.0313 Q2252.5625,506.0938 2252.5625,508.1875 Q2252.5625,510.2813 2253.25,511.3594 Q2253.9375,512.4219 2255.2813,512.4219 Q2255.9063,512.4219 2256.5,512.1563 Q2257.0938,511.875 2257.7188,511.2969 L2257.7188,514.0156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="130" x="2275.25" y="512.1831">DeltaLakeQueryTool</text><line style="stroke:#37474F;stroke-width:1.5;" x1="2185.5" x2="2462.5" y1="524.375" y2="524.375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="107" x="2190.5" y="537.6572">-s3_client: boto3.client</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="55" x="2190.5" y="549.2979">-bucket: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="60" x="2190.5" y="560.9385">-dataset: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="51" x="2190.5" y="572.5791">-prefix: str</text><line style="stroke:#37474F;stroke-width:1.0;" x1="2185.5" x2="2462.5" y1="578.9375" y2="578.9375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="178" x="2190.5" y="592.2197">+__init__(endpoint_url, dataset): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="186" x="2190.5" y="603.8604">+load_data(max_files): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="201" x="2190.5" y="615.501">+get_summary(max_files): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="267" x="2190.5" y="627.1416">+search_entities(search_term, column): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="169" x="2190.5" y="638.7822">+filter_data(filters): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="199" x="2190.5" y="650.4229">+get_recent_data(hours): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="168" x="2190.5" y="662.0635">+export_to_csv(df, filename): bool</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="185" x="2190.5" y="673.7041">+run_custom_query(query_func): Any</text><!--MD5=[49d903a61227b8dd162d5db22bf613b5]
+class LLMConfig--><rect codeLine="214" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="117.8438" id="LLMConfig" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="128" x="3315" y="1094.875"/><ellipse cx="3343.05" cy="1110.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M3346.0188,1116.5156 Q3345.4406,1116.8125 3344.8,1116.9531 Q3344.1594,1117.1094 3343.4563,1117.1094 Q3340.9563,1117.1094 3339.6281,1115.4688 Q3338.3156,1113.8125 3338.3156,1110.6875 Q3338.3156,1107.5625 3339.6281,1105.9063 Q3340.9563,1104.25 3343.4563,1104.25 Q3344.1594,1104.25 3344.8,1104.4063 Q3345.4563,1104.5625 3346.0188,1104.8594 L3346.0188,1107.5781 Q3345.3938,1107 3344.8,1106.7344 Q3344.2063,1106.4531 3343.5813,1106.4531 Q3342.2375,1106.4531 3341.55,1107.5313 Q3340.8625,1108.5938 3340.8625,1110.6875 Q3340.8625,1112.7813 3341.55,1113.8594 Q3342.2375,1114.9219 3343.5813,1114.9219 Q3344.2063,1114.9219 3344.8,1114.6563 Q3345.3938,1114.375 3346.0188,1113.7969 L3346.0188,1116.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="67" x="3359.95" y="1114.6831">LLMConfig</text><line style="stroke:#37474F;stroke-width:2.0;" x1="3316" x2="3442" y1="1126.875" y2="1126.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="116" x="3321" y="1140.1572">+provider: LLMProvider</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="72" x="3321" y="1151.7979">+enabled: bool</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="63" x="3321" y="1163.4385">+api_key: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="90" x="3321" y="1175.0791">+model_name: str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="85" x="3321" y="1186.7197">+max_tokens: int</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="98" x="3321" y="1198.3604">+temperature: float</text><line style="stroke:#37474F;stroke-width:2.0;" x1="3316" x2="3442" y1="1204.7188" y2="1204.7188"/><!--MD5=[7e2f33508f2d072b1c1dc596ee5ecb22]
+class LLMProvider--><rect codeLine="223" fill="url(#g1f8seg9tfzexb2)" filter="url(#f1f8seg9tfzexb)" height="94.5625" id="LLMProvider" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="110" x="3478" y="1106.375"/><ellipse cx="3493" cy="1122.375" fill="#EB937F" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M3497.1094,1128.375 L3489.3906,1128.375 L3489.3906,1115.9844 L3497.1094,1115.9844 L3497.1094,1118.1406 L3491.8438,1118.1406 L3491.8438,1120.8125 L3496.6094,1120.8125 L3496.6094,1122.9688 L3491.8438,1122.9688 L3491.8438,1126.2188 L3497.1094,1126.2188 L3497.1094,1128.375 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="78" x="3507" y="1126.1831">LLMProvider</text><line style="stroke:#37474F;stroke-width:2.0;" x1="3479" x2="3587" y1="1138.375" y2="1138.375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="40" x="3484" y="1151.6572">OPENAI</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="61" x="3484" y="1163.2979">ANTHROPIC</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="35" x="3484" y="1174.9385">LOCAL</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="32" x="3484" y="1186.5791">MOCK</text><line style="stroke:#37474F;stroke-width:2.0;" x1="3479" x2="3587" y1="1192.9375" y2="1192.9375"/><!--MD5=[c1e95541cc94e691c249f2dce6168342]
+class LLMClient--><rect codeLine="230" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="129.4844" id="LLMClient" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="170" x="3361" y="839.375"/><ellipse cx="3410.25" cy="855.375" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M3413.2188,861.0156 Q3412.6406,861.3125 3412,861.4531 Q3411.3594,861.6094 3410.6563,861.6094 Q3408.1563,861.6094 3406.8281,859.9688 Q3405.5156,858.3125 3405.5156,855.1875 Q3405.5156,852.0625 3406.8281,850.4063 Q3408.1563,848.75 3410.6563,848.75 Q3411.3594,848.75 3412,848.9063 Q3412.6563,849.0625 3413.2188,849.3594 L3413.2188,852.0781 Q3412.5938,851.5 3412,851.2344 Q3411.4063,850.9531 3410.7813,850.9531 Q3409.4375,850.9531 3408.75,852.0313 Q3408.0625,853.0938 3408.0625,855.1875 Q3408.0625,857.2813 3408.75,858.3594 Q3409.4375,859.4219 3410.7813,859.4219 Q3411.4063,859.4219 3412,859.1563 Q3412.5938,858.875 3413.2188,858.2969 L3413.2188,861.0156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="63" x="3430.75" y="859.1831">LLMClient</text><line style="stroke:#37474F;stroke-width:1.5;" x1="3362" x2="3530" y1="871.375" y2="871.375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="112" x="3367" y="884.6572">-provider: LLMProvider</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="92" x="3367" y="896.2979">-config: LLMConfig</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="59" x="3367" y="907.9385">-_client: Any</text><line style="stroke:#37474F;stroke-width:1.0;" x1="3362" x2="3530" y1="914.2969" y2="914.2969"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="151" x="3367" y="927.5791">+__init__(provider, config): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="103" x="3367" y="939.2197">-_create_client(): Any</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="158" x="3367" y="950.8604">+generate_analysis(prompt): str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="96" x="3367" y="962.501">+is_available(): bool</text><!--MD5=[ead320fb30b3c93939cfa1c2499b3102]
+class ComprehensiveLLMAnalysisEngine--><rect codeLine="241" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="176.0469" id="ComprehensiveLLMAnalysisEngine" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="295" x="3023.5" y="498.375"/><ellipse cx="3057.4" cy="514.375" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M3060.3688,520.0156 Q3059.7906,520.3125 3059.15,520.4531 Q3058.5094,520.6094 3057.8063,520.6094 Q3055.3063,520.6094 3053.9781,518.9688 Q3052.6656,517.3125 3052.6656,514.1875 Q3052.6656,511.0625 3053.9781,509.4063 Q3055.3063,507.75 3057.8063,507.75 Q3058.5094,507.75 3059.15,507.9063 Q3059.8063,508.0625 3060.3688,508.3594 L3060.3688,511.0781 Q3059.7438,510.5 3059.15,510.2344 Q3058.5563,509.9531 3057.9313,509.9531 Q3056.5875,509.9531 3055.9,511.0313 Q3055.2125,512.0938 3055.2125,514.1875 Q3055.2125,516.2813 3055.9,517.3594 Q3056.5875,518.4219 3057.9313,518.4219 Q3058.5563,518.4219 3059.15,518.1563 Q3059.7438,517.875 3060.3688,517.2969 L3060.3688,520.0156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="221" x="3075.6" y="518.1831">ComprehensiveLLMAnalysisEngine</text><line style="stroke:#37474F;stroke-width:1.5;" x1="3024.5" x2="3317.5" y1="530.375" y2="530.375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="191" x="3029.5" y="543.6572">-data_connector: SilverLayerConnector</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="151" x="3029.5" y="555.2979">-llm_client: Optional[LLMClient]</text><line style="stroke:#37474F;stroke-width:1.0;" x1="3024.5" x2="3317.5" y1="561.6563" y2="561.6563"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="186" x="3029.5" y="574.9385">+__init__(data_config, llm_config): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="283" x="3029.5" y="586.5791">+analyze_business_formation_trends(limit): AnalysisResult</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="250" x="3029.5" y="598.2197">+analyze_economic_indicators(limit): AnalysisResult</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="254" x="3029.5" y="609.8604">+analyze_cross_sector_correlations(): AnalysisResult</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="197" x="3029.5" y="621.501">+detect_anomalies(): List[Dict[str, Any]]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="245" x="3029.5" y="633.1416">+generate_comprehensive_report(): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="242" x="3029.5" y="644.7822">-_calculate_business_metrics(data): Dict[str, float]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="247" x="3029.5" y="656.4229">-_calculate_economic_metrics(data): Dict[str, float]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="242" x="3029.5" y="668.0635">-_extract_structured_insights(analysis_text): Tuple</text><!--MD5=[0822ca84198684ff9b96d807f4ea71f6]
+class EnhancedEconomicIntelligencePlatform--><rect codeLine="256" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="187.6875" id="EnhancedEconomicIntelligencePlatform" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="315" x="3353.5" y="492.375"/><ellipse cx="3381.55" cy="508.375" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M3384.5188,514.0156 Q3383.9406,514.3125 3383.3,514.4531 Q3382.6594,514.6094 3381.9563,514.6094 Q3379.4563,514.6094 3378.1281,512.9688 Q3376.8156,511.3125 3376.8156,508.1875 Q3376.8156,505.0625 3378.1281,503.4063 Q3379.4563,501.75 3381.9563,501.75 Q3382.6594,501.75 3383.3,501.9063 Q3383.9563,502.0625 3384.5188,502.3594 L3384.5188,505.0781 Q3383.8938,504.5 3383.3,504.2344 Q3382.7063,503.9531 3382.0813,503.9531 Q3380.7375,503.9531 3380.05,505.0313 Q3379.3625,506.0938 3379.3625,508.1875 Q3379.3625,510.2813 3380.05,511.3594 Q3380.7375,512.4219 3382.0813,512.4219 Q3382.7063,512.4219 3383.3,512.1563 Q3383.8938,511.875 3384.5188,511.2969 L3384.5188,514.0156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="254" x="3398.45" y="512.1831">EnhancedEconomicIntelligencePlatform</text><line style="stroke:#37474F;stroke-width:1.5;" x1="3354.5" x2="3667.5" y1="524.375" y2="524.375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="191" x="3359.5" y="537.6572">-data_connector: SilverLayerConnector</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="151" x="3359.5" y="549.2979">-llm_client: Optional[LLMClient]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="209" x="3359.5" y="560.9385">-analyzer: EnhancedLLMEconomicAnalyzer</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="232" x="3359.5" y="572.5791">-anomaly_detector: EnhancedAnomalyDetector</text><line style="stroke:#37474F;stroke-width:1.0;" x1="3354.5" x2="3667.5" y1="578.9375" y2="578.9375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="186" x="3359.5" y="592.2197">+__init__(data_config, llm_config): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="303" x="3359.5" y="603.8604">+generate_comprehensive_intelligence_report(): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="219" x="3359.5" y="615.501">-_check_data_sources_status(): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="214" x="3359.5" y="627.1416">-_generate_executive_summary(report): str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="275" x="3359.5" y="638.7822">-_generate_strategic_recommendations(report): List[str]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="219" x="3359.5" y="650.4229">-_generate_risk_assessment(report): List[str]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="188" x="3359.5" y="662.0635">+save_report(report, output_path): str</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="66" x="3359.5" y="673.7041">+close(): void</text><!--MD5=[97adaea1567ab8b6f85465a4f6a63528]
+class SilverLayerConnector--><rect codeLine="272" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="152.7656" id="SilverLayerConnector" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="237" x="3023.5" y="827.375"/><ellipse cx="3069.25" cy="843.375" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M3072.2188,849.0156 Q3071.6406,849.3125 3071,849.4531 Q3070.3594,849.6094 3069.6563,849.6094 Q3067.1563,849.6094 3065.8281,847.9688 Q3064.5156,846.3125 3064.5156,843.1875 Q3064.5156,840.0625 3065.8281,838.4063 Q3067.1563,836.75 3069.6563,836.75 Q3070.3594,836.75 3071,836.9063 Q3071.6563,837.0625 3072.2188,837.3594 L3072.2188,840.0781 Q3071.5938,839.5 3071,839.2344 Q3070.4063,838.9531 3069.7813,838.9531 Q3068.4375,838.9531 3067.75,840.0313 Q3067.0625,841.0938 3067.0625,843.1875 Q3067.0625,845.2813 3067.75,846.3594 Q3068.4375,847.4219 3069.7813,847.4219 Q3070.4063,847.4219 3071,847.1563 Q3071.5938,846.875 3072.2188,846.2969 L3072.2188,849.0156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="137" x="3089.75" y="847.1831">SilverLayerConnector</text><line style="stroke:#37474F;stroke-width:1.5;" x1="3024.5" x2="3259.5" y1="859.375" y2="859.375"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="129" x="3029.5" y="872.6572">-config: DataSourceConfig</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="107" x="3029.5" y="884.2979">-s3_client: boto3.client</text><line style="stroke:#37474F;stroke-width:1.0;" x1="3024.5" x2="3259.5" y1="890.6563" y2="890.6563"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="105" x="3029.5" y="903.9385">+__init__(config): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="219" x="3029.5" y="915.5791">+load_acra_data(limit, filters): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="211" x="3029.5" y="927.2197">+load_economic_data(limit): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="225" x="3029.5" y="938.8604">+load_government_data(limit): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="207" x="3029.5" y="950.501">+load_property_data(limit): pd.DataFrame</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="222" x="3029.5" y="962.1416">+get_cross_source_summary(): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="116" x="3029.5" y="973.7822">-_setup_s3_client(): void</text><!--MD5=[6599ea8058d9b1fa173e5a097fc1b468]
+class InteractiveChartGenerator--><rect codeLine="287" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="129.4844" id="InteractiveChartGenerator" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="318" x="2568" y="521.875"/><ellipse cx="2638.75" cy="537.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M2641.7188,543.5156 Q2641.1406,543.8125 2640.5,543.9531 Q2639.8594,544.1094 2639.1563,544.1094 Q2636.6563,544.1094 2635.3281,542.4688 Q2634.0156,540.8125 2634.0156,537.6875 Q2634.0156,534.5625 2635.3281,532.9063 Q2636.6563,531.25 2639.1563,531.25 Q2639.8594,531.25 2640.5,531.4063 Q2641.1563,531.5625 2641.7188,531.8594 L2641.7188,534.5781 Q2641.0938,534 2640.5,533.7344 Q2639.9063,533.4531 2639.2813,533.4531 Q2637.9375,533.4531 2637.25,534.5313 Q2636.5625,535.5938 2636.5625,537.6875 Q2636.5625,539.7813 2637.25,540.8594 Q2637.9375,541.9219 2639.2813,541.9219 Q2639.9063,541.9219 2640.5,541.6563 Q2641.0938,541.375 2641.7188,540.7969 L2641.7188,543.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="168" x="2659.25" y="541.6831">InteractiveChartGenerator</text><line style="stroke:#37474F;stroke-width:1.5;" x1="2569" x2="2885" y1="553.875" y2="553.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="191" x="2574" y="567.1572">-data_connector: SilverLayerConnector</text><line style="stroke:#37474F;stroke-width:1.0;" x1="2569" x2="2885" y1="573.5156" y2="573.5156"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="151" x="2574" y="586.7979">+__init__(data_connector): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="263" x="2574" y="598.4385">+create_business_formation_chart(data): plotly.Figure</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="266" x="2574" y="610.0791">+create_economic_indicators_chart(data): plotly.Figure</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="237" x="2574" y="621.7197">+create_geospatial_heatmap(data): plotly.Figure</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="261" x="2574" y="633.3604">+create_anomaly_detection_chart(data): plotly.Figure</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="306" x="2574" y="645.001">+create_dashboard_charts(report_data): Dict[str, plotly.Figure]</text><!--MD5=[771abc7840add63627bd40fb69f3ee0f]
+class EnhancedVisualIntelligencePlatform--><rect codeLine="298" fill="url(#g1f8seg9tfzexb1)" filter="url(#f1f8seg9tfzexb)" height="129.4844" id="EnhancedVisualIntelligencePlatform" rx="6" ry="6" style="stroke:#37474F;stroke-width:2.0;" width="309" x="2575.5" y="175.875"/><ellipse cx="2610.75" cy="191.875" fill="#ADD1B2" rx="11" ry="11" style="stroke:#37474F;stroke-width:1.0;"/><path d="M2613.7188,197.5156 Q2613.1406,197.8125 2612.5,197.9531 Q2611.8594,198.1094 2611.1563,198.1094 Q2608.6563,198.1094 2607.3281,196.4688 Q2606.0156,194.8125 2606.0156,191.6875 Q2606.0156,188.5625 2607.3281,186.9063 Q2608.6563,185.25 2611.1563,185.25 Q2611.8594,185.25 2612.5,185.4063 Q2613.1563,185.5625 2613.7188,185.8594 L2613.7188,188.5781 Q2613.0938,188 2612.5,187.7344 Q2611.9063,187.4531 2611.2813,187.4531 Q2609.9375,187.4531 2609.25,188.5313 Q2608.5625,189.5938 2608.5625,191.6875 Q2608.5625,193.7813 2609.25,194.8594 Q2609.9375,195.9219 2611.2813,195.9219 Q2611.9063,195.9219 2612.5,195.6563 Q2613.0938,195.375 2613.7188,194.7969 L2613.7188,197.5156 Z " fill="#000000"/><text fill="#263238" font-family="sans-serif" font-size="11" font-weight="bold" lengthAdjust="spacing" textLength="232" x="2629.25" y="195.6831">EnhancedVisualIntelligencePlatform</text><line style="stroke:#37474F;stroke-width:1.5;" x1="2576.5" x2="2883.5" y1="207.875" y2="207.875"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="191" x="2581.5" y="221.1572">-data_connector: SilverLayerConnector</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="218" x="2581.5" y="232.7979">-chart_generator: InteractiveChartGenerator</text><line style="stroke:#37474F;stroke-width:1.0;" x1="2576.5" x2="2883.5" y1="239.1563" y2="239.1563"/><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="151" x="2581.5" y="252.4385">+__init__(data_connector): void</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="266" x="2581.5" y="264.0791">+generate_comprehensive_dashboard(): Dict[str, Any]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="297" x="2581.5" y="275.7197">+create_executive_summary_charts(): Dict[str, plotly.Figure]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="279" x="2581.5" y="287.3604">+create_detailed_analysis_charts(): Dict[str, plotly.Figure]</text><text fill="#455A64" font-family="sans-serif" font-size="10" lengthAdjust="spacing" textLength="239" x="2581.5" y="299.001">+export_charts_to_html(charts, output_path): str</text><!--MD5=[4368c4ea805f04a3327e2a36eb02b764]
+reverse link BaseProducer to ACRAProducer--><path codeLine="312" d="M866.5,360.125 C866.5,360.125 866.5,527.875 866.5,527.875 C866.5,527.875 971.84,527.875 1068.95,527.875 " fill="none" id="BaseProducer-backto-ACRAProducer" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="none" points="859.5,360.125,866.5,340.125,873.5,360.125,859.5,360.125" style="stroke:#2C3E50;stroke-width:2.0;"/><!--MD5=[703d0dbd91c6eecb121ba8a29c3d43b9]
+reverse link BaseProducer to SingStatProducer--><path codeLine="313" d="M618.14,207.875 C618.14,207.875 153,207.875 153,207.875 C153,207.875 153,437.165 153,538.825 " fill="none" id="BaseProducer-backto-SingStatProducer" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="none" points="618.14,200.875,638.14,207.875,618.14,214.875,618.14,200.875" style="stroke:#2C3E50;stroke-width:2.0;"/><!--MD5=[fdc07c51a5bf88067d2ad4f9af259ea4]
+reverse link BaseProducer to URAProducer--><path codeLine="314" d="M618.31,273.875 C618.31,273.875 401,273.875 401,273.875 C401,273.875 401,451.035 401,538.575 " fill="none" id="BaseProducer-backto-URAProducer" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="none" points="618.31,266.875,638.31,273.875,618.31,280.875,618.31,266.875" style="stroke:#2C3E50;stroke-width:2.0;"/><!--MD5=[0b431a10ac1e4c0b51ab821475a71da2]
+reverse link BaseProducer to GovernmentExpenditureProducer--><path codeLine="315" d="M712,359.985 C712,359.985 712,544.625 712,544.625 " fill="none" id="BaseProducer-backto-GovernmentExpenditureProducer" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="none" points="705,359.985,712,339.985,719,359.985,705,359.985" style="stroke:#2C3E50;stroke-width:2.0;"/><!--MD5=[9e26a10039efddf1986f15266649509c]
+reverse link BaseProducer to CommercialRentalProducer--><path codeLine="316" d="M843.5,359.985 C843.5,359.985 843.5,544.625 843.5,544.625 " fill="none" id="BaseProducer-backto-CommercialRentalProducer" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="none" points="836.5,359.985,843.5,339.985,850.5,359.985,836.5,359.985" style="stroke:#2C3E50;stroke-width:2.0;"/><!--MD5=[0ceec65eb27593969b72629b146db1c4]
+reverse link BaseProducer to DataRecord--><path codeLine="319" d="M902.87,322.875 C902.87,322.875 1420.83,322.875 1420.83,322.875 C1420.83,322.875 1420.83,653.105 1420.83,815.635 " fill="none" id="BaseProducer-backto-DataRecord" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="889.87,322.875,895.87,326.875,901.87,322.875,895.87,318.875,889.87,322.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="48" x="1460" y="590.9419">creates</text><!--MD5=[4b73cc9c6b332bc8ab2727e0089ef475]
+reverse link ACRAProducer to DataRecord--><path codeLine="320" d="M1342.25,670.235 C1342.25,670.235 1342.25,815.645 1342.25,815.645 " fill="none" id="ACRAProducer-backto-DataRecord" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="1342.25,657.235,1338.25,663.235,1342.25,669.235,1346.25,663.235,1342.25,657.235" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="48" x="1310" y="760.9419">creates</text><!--MD5=[579f3434441c4ba86f0a2944f302393e]
+reverse link LLMClient to LLMConfig--><path codeLine="321" d="M3402,981.585 C3402,981.585 3402,1094.575 3402,1094.575 " fill="none" id="LLMClient-backto-LLMConfig" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3402,968.585,3398,974.585,3402,980.585,3406,974.585,3402,968.585" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="3400" y="1060.9419">uses</text><!--MD5=[ce5cedfe643855192b2c5b1d6504c40b]
+reverse link LLMClient to LLMProvider--><path codeLine="322" d="M3504.5,981.585 C3504.5,981.585 3504.5,1106.025 3504.5,1106.025 " fill="none" id="LLMClient-backto-LLMProvider" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3504.5,968.585,3500.5,974.585,3504.5,980.585,3508.5,974.585,3504.5,968.585" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="3493" y="1060.9419">uses</text><!--MD5=[3a6e065f8a0ffa53e827e9cbe4f7916c]
+reverse link ComprehensiveLLMAnalysisEngine to LLMClient--><path codeLine="323" d="M3287.75,687.395 C3287.75,687.395 3287.75,903.875 3287.75,903.875 C3287.75,903.875 3323.4,903.875 3360.85,903.875 " fill="none" id="ComprehensiveLLMAnalysisEngine-backto-LLMClient" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3287.75,674.395,3283.75,680.395,3287.75,686.395,3291.75,680.395,3287.75,674.395" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="3318" y="760.9419">uses</text><!--MD5=[736f5c5038885acc127af6cf22e4a73d]
+reverse link ComprehensiveLLMAnalysisEngine to SilverLayerConnector--><path codeLine="324" d="M3142,687.395 C3142,687.395 3142,827.295 3142,827.295 " fill="none" id="ComprehensiveLLMAnalysisEngine-backto-SilverLayerConnector" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3142,674.395,3138,680.395,3142,686.395,3146,680.395,3142,674.395" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="3157" y="760.9419">uses</text><!--MD5=[b769a1a787d034242bd8c7423329cbd4]
+reverse link EnhancedEconomicIntelligencePlatform to SilverLayerConnector--><path codeLine="325" d="M3357.25,693.655 C3357.25,693.655 3357.25,833.875 3357.25,833.875 C3357.25,833.875 3310.54,833.875 3260.64,833.875 " fill="none" id="EnhancedEconomicIntelligencePlatform-backto-SilverLayerConnector" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3357.25,680.655,3353.25,686.655,3357.25,692.655,3361.25,686.655,3357.25,680.655" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="3401" y="760.9419">uses</text><!--MD5=[ab9a6c74c46c4df092e9c00531d4d787]
+reverse link EnhancedEconomicIntelligencePlatform to LLMClient--><path codeLine="326" d="M3446,693.775 C3446,693.775 3446,839.005 3446,839.005 " fill="none" id="EnhancedEconomicIntelligencePlatform-backto-LLMClient" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="3446,680.775,3442,686.775,3446,692.775,3450,686.775,3446,680.775" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="3479" y="760.9419">uses</text><!--MD5=[8e059f8d1a9c95c4737119a077ce40b8]
+reverse link InteractiveChartGenerator to SilverLayerConnector--><path codeLine="327" d="M2727,664.005 C2727,664.005 2727,903.875 2727,903.875 C2727,903.875 2900.71,903.875 3023.36,903.875 " fill="none" id="InteractiveChartGenerator-backto-SilverLayerConnector" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="2727,651.005,2723,657.005,2727,663.005,2731,657.005,2727,651.005" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="2823" y="760.9419">uses</text><!--MD5=[d0e4f799c8ca4e8119709bb2023cc50b]
+reverse link EnhancedVisualIntelligencePlatform to InteractiveChartGenerator--><path codeLine="328" d="M2730,318.045 C2730,318.045 2730,521.725 2730,521.725 " fill="none" id="EnhancedVisualIntelligencePlatform-backto-InteractiveChartGenerator" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="2730,305.045,2726,311.045,2730,317.045,2734,311.045,2730,305.045" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="2729" y="382.9419">uses</text><!--MD5=[c34373db18ffb0d1927fd633c8ff92ea]
+reverse link EnhancedVisualIntelligencePlatform to SilverLayerConnector--><path codeLine="329" d="M2897.56,240.875 C2897.56,240.875 2954.75,240.875 2954.75,240.875 C2954.75,240.875 2954.75,865.875 2954.75,865.875 C2954.75,865.875 2986.25,865.875 3023.41,865.875 " fill="none" id="EnhancedVisualIntelligencePlatform-backto-SilverLayerConnector" style="stroke:#2C3E50;stroke-width:2.0;"/><polygon fill="#2C3E50" points="2884.56,240.875,2890.56,244.875,2896.56,240.875,2890.56,236.875,2884.56,240.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="30" x="2957" y="590.9419">uses</text><!--MD5=[a486c2977784737f0fa5ce6043d86b78]
+link SparkStreamingConsumer to DataRecord--><path codeLine="332" d="M1589.34,674.875 C1521.61,674.875 1452.67,674.875 1452.67,674.875 C1452.67,674.875 1452.67,810.665 1452.67,810.665 " fill="none" id="SparkStreamingConsumer-to-DataRecord" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#2C3E50" points="1452.67,815.665,1456.67,806.665,1452.67,810.665,1448.67,806.665,1452.67,815.665" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="65" x="1610" y="760.9419">processes</text><!--MD5=[66d1cbce9e05b4c85510adfb3dd53103]
+link BronzeToSilverETL to DataRecord--><path codeLine="333" d="M2006,692.065 C2006,754.675 2006,821.875 2006,821.875 C2006,821.875 1489.56,821.875 1489.56,821.875 " fill="none" id="BronzeToSilverETL-to-DataRecord" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#2C3E50" points="1484.56,821.875,1493.56,825.875,1489.56,821.875,1493.56,817.875,1484.56,821.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="70" x="1862" y="760.9419">transforms</text><!--MD5=[503aeb0f16a7e53870aa57ced64e56b0]
+link DeltaLakeQueryTool to SilverLayerConnector--><path codeLine="334" d="M2324,680.505 C2324,786.125 2324,942.875 2324,942.875 C2324,942.875 3018.49,942.875 3018.49,942.875 " fill="none" id="DeltaLakeQueryTool-to-SilverLayerConnector" style="stroke:#2C3E50;stroke-width:2.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#2C3E50" points="3023.49,942.875,3014.49,938.875,3018.49,942.875,3014.49,946.875,3023.49,942.875" style="stroke:#2C3E50;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="47" x="2529" y="760.9419">queries</text><!--MD5=[89f31556436c55f0bd7b93c2ef6ca424]
+@startuml Economic_Intelligence_Platform_Class_Diagram
+
+!define ABSTRACT abstract
+!define INTERFACE interface
+
+' Enhanced visual styling for beautiful appearance
+skinparam classAttributeIconSize 0
+skinparam classFontSize 11
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam shadowing true
+skinparam roundCorner 12
+skinparam backgroundColor #F8F9FA
+skinparam arrowThickness 2
+skinparam arrowColor #2C3E50
+
+' Beautiful class styling with gradients
+skinparam class {
+  BackgroundColor #FFFFFF-#F5F5F5
+  BorderColor #37474F
+  FontColor #263238
+  FontStyle bold
+  BorderThickness 2
+  AttributeFontColor #455A64
+  AttributeFontSize 10
+}
+
+' Enhanced abstract class styling
+skinparam class<<abstract>> {
+  BackgroundColor #E8EAF6-#C5CAE9
+  BorderColor #3F51B5
+  FontColor #1A237E
+  FontStyle bold italic
+  BorderThickness 3
+}
+
+' Beautiful enum styling
+skinparam enum {
+  BackgroundColor #FFF3E0-#FFE0B2
+  BorderColor #FF9800
+  FontColor #E65100
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Enhanced package styling with gradients
+skinparam package {
+  BackgroundColor #E3F2FD-#BBDEFB
+  BorderColor #1976D2
+  FontColor #0D47A1
+  FontStyle bold
+  BorderThickness 3
+}
+
+' Beautiful note styling
+skinparam note {
+  BackgroundColor #FFFDE7-#FFF9C4
+  BorderColor #F57F17
+  FontColor #F57F17
+  FontStyle italic
+  BorderThickness 2
+}
+
+!define DIRECTION top to bottom direction
+
+' Beautiful title with enhanced styling
+title <size:20><color:#1976D2><b>🏗️ Economic Intelligence Platform</b></color></size>\n<size:16><color:#37474F><i>Detailed Class Relationships</i></color></size>\n<size:12><color:#666666>Object-Oriented Architecture Design</color></size>
+
+' Top Row - Core Data Models and Producers
+package "📊 Data Foundation Layer" {
+  
+  package "🗃️ Data Models" {
+    class DataRecord {
+      +source: str
+      +timestamp: datetime
+      +data_type: str
+      +raw_data: Dict[str, Any]
+      +processed_data: Dict[str, Any]
+      +record_id: Optional[str]
+      +quality_score: Optional[float]
+      +validation_errors: Optional[list]
+      +processing_notes: Optional[str]
+      - -
+      +validate_quality(): float
+      +to_kafka_message(): Dict[str, Any]
+    }
+  }
+
+  package "🏭 Data Producers" {
+    ABSTRACT class BaseProducer {
+      #kafka_config: Dict[str, Any]
+      #topic: str
+      #source_name: str
+      #producer: KafkaProducer
+      - -
+      +__init__(kafka_config, topic, source_name)
+      #_validate_configuration(): void
+      #_setup_kafka(): void
+      +fetch_data(url, params, headers): Dict[str, Any]
+      +send_to_kafka(data, key): bool
+      {abstract} +extract_data(): void
+      {abstract} +transform_data(raw_data): DataRecord
+      +run_extraction(): void
+      +close(): void
+    }
+    
+    class ACRAProducer {
+      -base_url: str
+      -resource_id: str
+      -csv_file_path: str
+      - -
+      +extract_data(): void
+      +extract_csv_data(batch_size, max_records): void
+      +transform_data(raw_data, source_type): DataRecord
+      +run_hybrid_extraction(csv_batch_size, csv_max_records): void
+      -_process_csv_batch(batch, start_record_num): tuple
+    }
+    
+    class SingStatProducer {
+      -api_endpoint: str
+      -indicators: List[str]
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class URAProducer {
+      -property_endpoint: str
+      -rental_endpoint: str
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class GovernmentExpenditureProducer {
+      -expenditure_endpoint: str
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class CommercialRentalProducer {
+      -rental_api_endpoint: str
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+  }
+}
+
+' Middle Row - Processing Layer
+package "⚙️ Data Processing Layer" {
+  
+  package "🌊 Stream Processing" {
+    class SparkStreamingConsumer {
+      -spark: SparkSession
+      -kafka_bootstrap_servers: str
+      -minio_endpoint: str
+      -delta_path: str
+      - -
+      +__init__(): void
+      -_create_spark_session(): SparkSession
+      +create_kafka_stream(topic): DataFrame
+      +process_acra_stream(): void
+      +process_singstat_stream(): void
+      +process_ura_stream(): void
+      +process_commercial_rental_stream(): void
+      +process_government_expenditure_stream(): void
+      +start_all_streams(): void
+      +test_kafka_connectivity(): bool
+    }
+    
+    class BronzeToSilverETL {
+      -spark: SparkSession
+      -bronze_path: str
+      -silver_path: str
+      - -
+      +__init__(): void
+      -_create_spark_session(): SparkSession
+      +read_bronze_table(table_name): DataFrame
+      +write_silver_table(df, table_name, mode): void
+      +transform_acra_companies(): void
+      +transform_singstat_economics(): void
+      +transform_ura_geospatial(): void
+      +transform_commercial_rental_index(): void
+      +transform_government_expenditure(): void
+      +run_etl_parallel(): Dict[str, Any]
+      +run_etl(): void
+    }
+  }
+
+  package "🔍 Data Access" {
+    class DeltaLakeQueryTool {
+      -s3_client: boto3.client
+      -bucket: str
+      -dataset: str
+      -prefix: str
+      - -
+      +__init__(endpoint_url, dataset): void
+      +load_data(max_files): pd.DataFrame
+      +get_summary(max_files): Dict[str, Any]
+      +search_entities(search_term, column): pd.DataFrame
+      +filter_data(filters): pd.DataFrame
+      +get_recent_data(hours): pd.DataFrame
+      +export_to_csv(df, filename): bool
+      +run_custom_query(query_func): Any
+    }
+  }
+}
+
+' Bottom Row - Analytics and Intelligence Layer
+package "🧠 Analytics & Intelligence Layer" {
+  
+  package "🤖 Analytics Engine" {
+    class LLMConfig {
+      +provider: LLMProvider
+      +enabled: bool
+      +api_key: str
+      +model_name: str
+      +max_tokens: int
+      +temperature: float
+    }
+    
+    enum LLMProvider {
+      OPENAI
+      ANTHROPIC
+      LOCAL
+      MOCK
+    }
+    
+    class LLMClient {
+      -provider: LLMProvider
+      -config: LLMConfig
+      -_client: Any
+      - -
+      +__init__(provider, config): void
+      -_create_client(): Any
+      +generate_analysis(prompt): str
+      +is_available(): bool
+    }
+    
+    class ComprehensiveLLMAnalysisEngine {
+      -data_connector: SilverLayerConnector
+      -llm_client: Optional[LLMClient]
+      - -
+      +__init__(data_config, llm_config): void
+      +analyze_business_formation_trends(limit): AnalysisResult
+      +analyze_economic_indicators(limit): AnalysisResult
+      +analyze_cross_sector_correlations(): AnalysisResult
+      +detect_anomalies(): List[Dict[str, Any]]
+      +generate_comprehensive_report(): Dict[str, Any]
+      -_calculate_business_metrics(data): Dict[str, float]
+      -_calculate_economic_metrics(data): Dict[str, float]
+      -_extract_structured_insights(analysis_text): Tuple
+    }
+    
+    class EnhancedEconomicIntelligencePlatform {
+      -data_connector: SilverLayerConnector
+      -llm_client: Optional[LLMClient]
+      -analyzer: EnhancedLLMEconomicAnalyzer
+      -anomaly_detector: EnhancedAnomalyDetector
+      - -
+      +__init__(data_config, llm_config): void
+      +generate_comprehensive_intelligence_report(): Dict[str, Any]
+      -_check_data_sources_status(): Dict[str, Any]
+      -_generate_executive_summary(report): str
+      -_generate_strategic_recommendations(report): List[str]
+      -_generate_risk_assessment(report): List[str]
+      +save_report(report, output_path): str
+      +close(): void
+    }
+    
+    class SilverLayerConnector {
+      -config: DataSourceConfig
+      -s3_client: boto3.client
+      - -
+      +__init__(config): void
+      +load_acra_data(limit, filters): pd.DataFrame
+      +load_economic_data(limit): pd.DataFrame
+      +load_government_data(limit): pd.DataFrame
+      +load_property_data(limit): pd.DataFrame
+      +get_cross_source_summary(): Dict[str, Any]
+      -_setup_s3_client(): void
+    }
+  }
+
+  package "📊 Visualization" {
+    class InteractiveChartGenerator {
+      -data_connector: SilverLayerConnector
+      - -
+      +__init__(data_connector): void
+      +create_business_formation_chart(data): plotly.Figure
+      +create_economic_indicators_chart(data): plotly.Figure
+      +create_geospatial_heatmap(data): plotly.Figure
+      +create_anomaly_detection_chart(data): plotly.Figure
+      +create_dashboard_charts(report_data): Dict[str, plotly.Figure]
+    }
+    
+    class EnhancedVisualIntelligencePlatform {
+      -data_connector: SilverLayerConnector
+      -chart_generator: InteractiveChartGenerator
+      - -
+      +__init__(data_connector): void
+      +generate_comprehensive_dashboard(): Dict[str, Any]
+      +create_executive_summary_charts(): Dict[str, plotly.Figure]
+      +create_detailed_analysis_charts(): Dict[str, plotly.Figure]
+      +export_charts_to_html(charts, output_path): str
+    }
+  }
+}
+
+' Inheritance relationships
+BaseProducer <|- - ACRAProducer
+BaseProducer <|- - SingStatProducer
+BaseProducer <|- - URAProducer
+BaseProducer <|- - GovernmentExpenditureProducer
+BaseProducer <|- - CommercialRentalProducer
+
+' Composition relationships
+BaseProducer *- - DataRecord : creates
+ACRAProducer *- - DataRecord : creates
+LLMClient *- - LLMConfig : uses
+LLMClient *- - LLMProvider : uses
+ComprehensiveLLMAnalysisEngine *- - LLMClient : uses
+ComprehensiveLLMAnalysisEngine *- - SilverLayerConnector : uses
+EnhancedEconomicIntelligencePlatform *- - SilverLayerConnector : uses
+EnhancedEconomicIntelligencePlatform *- - LLMClient : uses
+InteractiveChartGenerator *- - SilverLayerConnector : uses
+EnhancedVisualIntelligencePlatform *- - InteractiveChartGenerator : uses
+EnhancedVisualIntelligencePlatform *- - SilverLayerConnector : uses
+
+' Dependencies
+SparkStreamingConsumer ..> DataRecord : processes
+BronzeToSilverETL ..> DataRecord : transforms
+DeltaLakeQueryTool ..> SilverLayerConnector : queries
+
+@enduml
+
+@startuml Economic_Intelligence_Platform_Class_Diagram
+
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 11
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam shadowing true
+skinparam roundCorner 12
+skinparam backgroundColor #F8F9FA
+skinparam arrowThickness 2
+skinparam arrowColor #2C3E50
+
+skinparam class {
+  BackgroundColor #FFFFFF-#F5F5F5
+  BorderColor #37474F
+  FontColor #263238
+  FontStyle bold
+  BorderThickness 2
+  AttributeFontColor #455A64
+  AttributeFontSize 10
+}
+
+skinparam class<<abstract>> {
+  BackgroundColor #E8EAF6-#C5CAE9
+  BorderColor #3F51B5
+  FontColor #1A237E
+  FontStyle bold italic
+  BorderThickness 3
+}
+
+skinparam enum {
+  BackgroundColor #FFF3E0-#FFE0B2
+  BorderColor #FF9800
+  FontColor #E65100
+  FontStyle bold
+  BorderThickness 2
+}
+
+skinparam package {
+  BackgroundColor #E3F2FD-#BBDEFB
+  BorderColor #1976D2
+  FontColor #0D47A1
+  FontStyle bold
+  BorderThickness 3
+}
+
+skinparam note {
+  BackgroundColor #FFFDE7-#FFF9C4
+  BorderColor #F57F17
+  FontColor #F57F17
+  FontStyle italic
+  BorderThickness 2
+}
+
+
+title <size:20><color:#1976D2><b>🏗️ Economic Intelligence Platform</b></color></size>\n<size:16><color:#37474F><i>Detailed Class Relationships</i></color></size>\n<size:12><color:#666666>Object-Oriented Architecture Design</color></size>
+
+package "📊 Data Foundation Layer" {
+  
+  package "🗃️ Data Models" {
+    class DataRecord {
+      +source: str
+      +timestamp: datetime
+      +data_type: str
+      +raw_data: Dict[str, Any]
+      +processed_data: Dict[str, Any]
+      +record_id: Optional[str]
+      +quality_score: Optional[float]
+      +validation_errors: Optional[list]
+      +processing_notes: Optional[str]
+      - -
+      +validate_quality(): float
+      +to_kafka_message(): Dict[str, Any]
+    }
+  }
+
+  package "🏭 Data Producers" {
+    abstract class BaseProducer {
+      #kafka_config: Dict[str, Any]
+      #topic: str
+      #source_name: str
+      #producer: KafkaProducer
+      - -
+      +__init__(kafka_config, topic, source_name)
+      #_validate_configuration(): void
+      #_setup_kafka(): void
+      +fetch_data(url, params, headers): Dict[str, Any]
+      +send_to_kafka(data, key): bool
+      {abstract} +extract_data(): void
+      {abstract} +transform_data(raw_data): DataRecord
+      +run_extraction(): void
+      +close(): void
+    }
+    
+    class ACRAProducer {
+      -base_url: str
+      -resource_id: str
+      -csv_file_path: str
+      - -
+      +extract_data(): void
+      +extract_csv_data(batch_size, max_records): void
+      +transform_data(raw_data, source_type): DataRecord
+      +run_hybrid_extraction(csv_batch_size, csv_max_records): void
+      -_process_csv_batch(batch, start_record_num): tuple
+    }
+    
+    class SingStatProducer {
+      -api_endpoint: str
+      -indicators: List[str]
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class URAProducer {
+      -property_endpoint: str
+      -rental_endpoint: str
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class GovernmentExpenditureProducer {
+      -expenditure_endpoint: str
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+    
+    class CommercialRentalProducer {
+      -rental_api_endpoint: str
+      - -
+      +extract_data(): void
+      +transform_data(raw_data): DataRecord
+    }
+  }
+}
+
+package "⚙️ Data Processing Layer" {
+  
+  package "🌊 Stream Processing" {
+    class SparkStreamingConsumer {
+      -spark: SparkSession
+      -kafka_bootstrap_servers: str
+      -minio_endpoint: str
+      -delta_path: str
+      - -
+      +__init__(): void
+      -_create_spark_session(): SparkSession
+      +create_kafka_stream(topic): DataFrame
+      +process_acra_stream(): void
+      +process_singstat_stream(): void
+      +process_ura_stream(): void
+      +process_commercial_rental_stream(): void
+      +process_government_expenditure_stream(): void
+      +start_all_streams(): void
+      +test_kafka_connectivity(): bool
+    }
+    
+    class BronzeToSilverETL {
+      -spark: SparkSession
+      -bronze_path: str
+      -silver_path: str
+      - -
+      +__init__(): void
+      -_create_spark_session(): SparkSession
+      +read_bronze_table(table_name): DataFrame
+      +write_silver_table(df, table_name, mode): void
+      +transform_acra_companies(): void
+      +transform_singstat_economics(): void
+      +transform_ura_geospatial(): void
+      +transform_commercial_rental_index(): void
+      +transform_government_expenditure(): void
+      +run_etl_parallel(): Dict[str, Any]
+      +run_etl(): void
+    }
+  }
+
+  package "🔍 Data Access" {
+    class DeltaLakeQueryTool {
+      -s3_client: boto3.client
+      -bucket: str
+      -dataset: str
+      -prefix: str
+      - -
+      +__init__(endpoint_url, dataset): void
+      +load_data(max_files): pd.DataFrame
+      +get_summary(max_files): Dict[str, Any]
+      +search_entities(search_term, column): pd.DataFrame
+      +filter_data(filters): pd.DataFrame
+      +get_recent_data(hours): pd.DataFrame
+      +export_to_csv(df, filename): bool
+      +run_custom_query(query_func): Any
+    }
+  }
+}
+
+package "🧠 Analytics & Intelligence Layer" {
+  
+  package "🤖 Analytics Engine" {
+    class LLMConfig {
+      +provider: LLMProvider
+      +enabled: bool
+      +api_key: str
+      +model_name: str
+      +max_tokens: int
+      +temperature: float
+    }
+    
+    enum LLMProvider {
+      OPENAI
+      ANTHROPIC
+      LOCAL
+      MOCK
+    }
+    
+    class LLMClient {
+      -provider: LLMProvider
+      -config: LLMConfig
+      -_client: Any
+      - -
+      +__init__(provider, config): void
+      -_create_client(): Any
+      +generate_analysis(prompt): str
+      +is_available(): bool
+    }
+    
+    class ComprehensiveLLMAnalysisEngine {
+      -data_connector: SilverLayerConnector
+      -llm_client: Optional[LLMClient]
+      - -
+      +__init__(data_config, llm_config): void
+      +analyze_business_formation_trends(limit): AnalysisResult
+      +analyze_economic_indicators(limit): AnalysisResult
+      +analyze_cross_sector_correlations(): AnalysisResult
+      +detect_anomalies(): List[Dict[str, Any]]
+      +generate_comprehensive_report(): Dict[str, Any]
+      -_calculate_business_metrics(data): Dict[str, float]
+      -_calculate_economic_metrics(data): Dict[str, float]
+      -_extract_structured_insights(analysis_text): Tuple
+    }
+    
+    class EnhancedEconomicIntelligencePlatform {
+      -data_connector: SilverLayerConnector
+      -llm_client: Optional[LLMClient]
+      -analyzer: EnhancedLLMEconomicAnalyzer
+      -anomaly_detector: EnhancedAnomalyDetector
+      - -
+      +__init__(data_config, llm_config): void
+      +generate_comprehensive_intelligence_report(): Dict[str, Any]
+      -_check_data_sources_status(): Dict[str, Any]
+      -_generate_executive_summary(report): str
+      -_generate_strategic_recommendations(report): List[str]
+      -_generate_risk_assessment(report): List[str]
+      +save_report(report, output_path): str
+      +close(): void
+    }
+    
+    class SilverLayerConnector {
+      -config: DataSourceConfig
+      -s3_client: boto3.client
+      - -
+      +__init__(config): void
+      +load_acra_data(limit, filters): pd.DataFrame
+      +load_economic_data(limit): pd.DataFrame
+      +load_government_data(limit): pd.DataFrame
+      +load_property_data(limit): pd.DataFrame
+      +get_cross_source_summary(): Dict[str, Any]
+      -_setup_s3_client(): void
+    }
+  }
+
+  package "📊 Visualization" {
+    class InteractiveChartGenerator {
+      -data_connector: SilverLayerConnector
+      - -
+      +__init__(data_connector): void
+      +create_business_formation_chart(data): plotly.Figure
+      +create_economic_indicators_chart(data): plotly.Figure
+      +create_geospatial_heatmap(data): plotly.Figure
+      +create_anomaly_detection_chart(data): plotly.Figure
+      +create_dashboard_charts(report_data): Dict[str, plotly.Figure]
+    }
+    
+    class EnhancedVisualIntelligencePlatform {
+      -data_connector: SilverLayerConnector
+      -chart_generator: InteractiveChartGenerator
+      - -
+      +__init__(data_connector): void
+      +generate_comprehensive_dashboard(): Dict[str, Any]
+      +create_executive_summary_charts(): Dict[str, plotly.Figure]
+      +create_detailed_analysis_charts(): Dict[str, plotly.Figure]
+      +export_charts_to_html(charts, output_path): str
+    }
+  }
+}
+
+BaseProducer <|- - ACRAProducer
+BaseProducer <|- - SingStatProducer
+BaseProducer <|- - URAProducer
+BaseProducer <|- - GovernmentExpenditureProducer
+BaseProducer <|- - CommercialRentalProducer
+
+BaseProducer *- - DataRecord : creates
+ACRAProducer *- - DataRecord : creates
+LLMClient *- - LLMConfig : uses
+LLMClient *- - LLMProvider : uses
+ComprehensiveLLMAnalysisEngine *- - LLMClient : uses
+ComprehensiveLLMAnalysisEngine *- - SilverLayerConnector : uses
+EnhancedEconomicIntelligencePlatform *- - SilverLayerConnector : uses
+EnhancedEconomicIntelligencePlatform *- - LLMClient : uses
+InteractiveChartGenerator *- - SilverLayerConnector : uses
+EnhancedVisualIntelligencePlatform *- - InteractiveChartGenerator : uses
+EnhancedVisualIntelligencePlatform *- - SilverLayerConnector : uses
+
+SparkStreamingConsumer ..> DataRecord : processes
+BronzeToSilverETL ..> DataRecord : transforms
+DeltaLakeQueryTool ..> SilverLayerConnector : queries
+
+@enduml
+
+PlantUML version 1.2021.00(Sun Jan 10 18:25:05 SGT 2021)
+(MIT source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

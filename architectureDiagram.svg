@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1837px" preserveAspectRatio="none" style="width:1625px;height:1837px;" version="1.1" viewBox="0 0 1625 1837" width="1625px" zoomAndPan="magnify"><defs><filter height="300%" id="fqppvanfh5z0j" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[01f27693b3fb5670e9ed3b425f3e052b]
+cluster External Data Sources--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="132,6,312,6,319,28.2969,1209,28.2969,1209,120,132,120,132,6" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="132" x2="319" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="174" x="136" y="20.9951">External Data Sources</text><!--MD5=[8877f814ac9a04c6bf743f2439781742]
+cluster Kubernetes Cluster (Podman Desktop)--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="166,179,176,169,1608,169,1608,1820.5,1598,1830.5,166,1830.5,166,179" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="1598" x2="1608" y1="179" y2="169"/><line style="stroke:#000000;stroke-width:1.5;" x1="166" x2="1598" y1="179" y2="179"/><line style="stroke:#000000;stroke-width:1.5;" x1="1598" x2="1598" y1="179" y2="1830.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="43" x="861.5" y="194.9951">«K8s»</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="305" x="730.5" y="211.292">Kubernetes Cluster (Podman Desktop)</text><!--MD5=[394cfd163cef626a32f77e59688f14e7]
+cluster A. Ingestion--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="190,233,290,233,297,255.2969,1137,255.2969,1137,516,190,516,190,233" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="190" x2="297" y1="255.2969" y2="255.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="94" x="194" y="247.9951">A. Ingestion</text><!--MD5=[2e5a3d3009757c2339f40e553b0ed60f]
+cluster kafka--><polygon fill="#000000" filter="url(#fqppvanfh5z0j)" points="214,404,224,394,1113,394,1113,482,1103,492,214,492,214,404" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="1103" x2="1113" y1="404" y2="394"/><line style="stroke:#000000;stroke-width:1.5;" x1="214" x2="1103" y1="404" y2="404"/><line style="stroke:#000000;stroke-width:1.5;" x1="1103" x2="1103" y1="404" y2="492"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="88" x="615.5" y="419.9951">«Streaming»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="108" x="605.5" y="436.292">Apache Kafka</text><!--MD5=[027cc088f237911606609adbaea6d6e2]
+cluster B. Storage (Data Lakehouse)--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="798,784.5,1029,784.5,1036,806.7969,1584,806.7969,1584,995.5,798,995.5,798,784.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="798" x2="1036" y1="806.7969" y2="806.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="225" x="802" y="799.4951">B. Storage (Data Lakehouse)</text><!--MD5=[d49fb10f39d2c3cde86cd4cb3dd5a539]
+cluster minio--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="989,845.5,999,835.5,1552,835.5,1552,953.5,1542,963.5,989,963.5,989,845.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="1542" x2="1552" y1="845.5" y2="835.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="989" x2="1542" y1="845.5" y2="845.5"/><line style="stroke:#000000;stroke-width:1.5;" x1="1542" x2="1542" y1="845.5" y2="963.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="184" x="1174.5" y="861.4951">MinIO (S3 Object Store)</text><!--MD5=[75d052c83f56b4bd1a542aebc89de435]
+cluster C. Processing & Transformation--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="190,549,449,549,456,571.2969,774,571.2969,774,974.5,190,974.5,190,549" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="190" x2="456" y1="571.2969" y2="571.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="253" x="194" y="563.9951">C. Processing &amp; Transformation</text><!--MD5=[f6f56b63c1a065d0d5d1f39799923dfc]
+cluster dbt--><rect fill="#16928D" filter="url(#fqppvanfh5z0j)" height="358.5" style="stroke:#16928D;stroke-width:1.5;" width="178" x="214" y="592"/><rect fill="#16928D" height="10" style="stroke:#16928D;stroke-width:1.5;" width="15" x="372" y="597"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="370" y="599"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="370" y="603"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="106" x="250" y="617.9951">«AnalyticsEng»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="102" x="252" y="634.292">dbt Analytics</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="118" x="244" y="650.5889">(Silver to Gold)</text><!--MD5=[86c6cc60dbc93b2709131c30be3b5906]
+cluster D. Analytics & Intelligence--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="296,1044.5,508,1044.5,515,1066.7969,944,1066.7969,944,1643.5,296,1643.5,296,1044.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="296" x2="515" y1="1066.7969" y2="1066.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="206" x="300" y="1059.4951">D. Analytics &amp; Intelligence</text><!--MD5=[6694431385d29538dc336ffd709383a2]
+cluster E. Visualization & Serving--><polygon fill="#FFFFFF" filter="url(#fqppvanfh5z0j)" points="311,1692.5,518,1692.5,525,1714.7969,1091,1714.7969,1091,1806.5,311,1806.5,311,1692.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="311" x2="525" y1="1714.7969" y2="1714.7969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="201" x="315" y="1707.4951">E. Visualization &amp; Serving</text><!--MD5=[419b8efe2eb76fdc5689aac8b015d5a4]
+entity source_acra--><path d="M157.3244,50.0795 C160.4093,45.2402 165.0028,44.2591 168.4556,49.6804 C173.0932,43.7599 176.9397,43.6367 180.8554,50.3869 C184.3294,44.8935 188.7929,44.0413 193.0256,49.5475 C196.8347,42.8023 200.7228,43.1502 205.7028,48.2996 C210.4727,43.0615 214.6277,41.5884 218.8618,48.8631 C221.8115,43.2646 226.9063,41.7205 231.2253,47.3562 C235.3867,40.6823 240.6994,41.0076 244.1338,48.0408 C247.9487,43.1708 253.1917,43.2882 256.017,49.1378 C259.1006,43.2213 264.6245,43.0948 267.9776,48.862 C271.1921,43.1654 276.6648,43.5848 279.9026,48.8366 C284.0099,43.1664 290.5537,42.5635 293.6696,49.887 C297.8214,44.759 302.1564,43.7112 306.1617,50.0466 C312.2223,52.8505 312.7828,57.1514 308.0873,61.7284 C315.5179,62.4991 316.4854,67.3793 312.7171,72.8232 C317.0111,78.8023 315.6576,84.8275 307.4863,85.7704 C311.394,90.5756 309.7173,95.1269 304.119,97.1091 C300.517,101.5874 296.6405,102.207 293.769,96.3758 C288.9006,102.9125 284.3893,103.3711 279.6635,96.2287 C276.1526,102.3789 272.392,102.1431 268.2958,96.808 C265.3364,103.0458 260.3611,103.0068 256.4612,97.7788 C252.4311,103.7825 248.6125,104.1715 244.2288,98.1383 C239.094,104.5685 234.5311,104.743 230.5628,97.0125 C227.0289,102.1707 222.7214,102.7937 219.2525,96.9456 C215.9065,102.2623 210.3973,103.0276 207.0727,96.9228 C202.0937,103.1024 197.9498,102.2006 193.3001,96.5398 C190.2152,101.9811 186.726,102.0098 182.6225,97.6494 C177.8829,103.9505 173.477,101.6824 170.1165,96.1873 C166.159,102.9801 160.2436,102.32 156.3902,96.0776 C149.7419,93.6583 150.2811,88.02 155.0654,84.3132 C150.0702,81.0309 149.067,77.6567 154.5849,73.8897 C149.1299,69.5899 150.8516,64.8188 156.2349,62.0264 C151.7271,58.597 150.6849,52.4922 157.3244,50.0795 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="163" y="68.9951">ACRA API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="163" y="85.292">(Business Registry)</text><!--MD5=[7b63cfd89dec0c56e5fe8e3543b9303f]
+entity source_gov--><path d="M356.2906,51.8207 C359.2927,43.9568 364.742,42.5841 370.4891,49.1126 C375.2368,42.6548 382.875,42.7651 385.7169,51.0776 C389.6108,42.9653 396.8644,43.5962 400.8081,51.0292 C404.6288,43.2178 411.5745,40.0864 418.14,48.005 C422.5711,41.8754 427.5552,40.2893 432.239,47.7427 C436.6184,40.3748 443.8045,41.6804 447.2384,48.7266 C452.2063,41.0969 457.8009,40.9963 462.1558,49.3005 C467.1037,42.4219 472.5638,41.1947 477.9561,48.8163 C482.8923,41.763 488.3431,40.7819 493.2955,48.8 C498.9669,41.2146 503.7454,42.9547 508.1683,50.0637 C512.7037,42.9305 518.914,42.7461 522.9091,50.5952 C525.658,43.0393 532.4044,42.7815 536.9245,48.7612 C543.146,40.1808 549.6174,42.261 554.0511,50.5738 C558.6483,44.451 563.4055,44.6285 567.2313,51.3645 C581.8045,53.7221 582.5838,66.1202 573.9568,75.062 C583.8812,84.2165 579.2976,93.487 568.0044,96.8429 C564.6701,103.8254 558.6095,106.5019 552.8945,99.3962 C548.9648,107.9466 541.5371,106.8801 536.936,100.0949 C532.2468,106.6099 526.4404,106.4711 521.8656,99.9624 C518.841,106.5937 514.7771,109.1251 508.7467,103.071 C504.2213,110.5899 497.6303,111.7233 491.5864,104.886 C488.3732,111.6573 482.5834,111.3445 478.1595,106.2568 C474.6016,115.0911 466.6008,114.5858 461.9691,107.3379 C456.0814,114.1015 449.6705,113.19 446.7894,104.403 C441.3553,111.8098 436.6139,111.2855 432.3982,103.2663 C427.3921,110.5609 421.3312,110.2069 416.0878,103.5435 C410.9977,109.3128 403.9057,107.2136 401.6874,100.2863 C396.3811,106.6588 390.9846,105.4902 387.2683,98.5625 C383.2076,106.0447 376.1399,106.444 371.8044,98.8442 C366.1026,106.4296 359.2997,105.2375 356.5196,96.1635 C343.2049,91.2441 340.4636,82.7162 351.284,72.4647 C344.3393,64.0133 346.3574,56.1788 356.2906,51.8207 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="198" x="362" y="68.9951">Government Expenditure API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="362" y="85.292">(data.gov.sg)</text><!--MD5=[cb86b92e31c3cc2e98c7512fc08b231d]
+entity source_singstat--><path d="M619.3904,49.1718 C624.1351,44.2227 628.1878,44.6319 632.1251,50.1537 C634.6127,44.4229 639.1791,43.9766 642.5422,49.331 C646.9426,44.4999 650.9091,43.8847 654.7629,49.9444 C657.5219,44.0488 662.2744,45.0552 665.5684,49.3787 C669.7913,42.381 673.94,43.3159 678.2832,49.2606 C681.2638,44.0281 685.6853,44.3426 688.9719,48.9275 C692.3282,43.0108 697.9581,43.6398 700.7602,49.483 C702.9102,42.5232 709.2579,43.0001 713.2158,47.5218 C717.1955,42.4507 721.4798,42.5763 724.8956,48.1411 C729.0737,44.2417 732.6445,43.9504 735.2079,49.8418 C738.4576,42.7173 744.2537,43.683 748.0049,49.3397 C752.318,44.249 755.9632,43.187 759.8534,49.769 C762.8242,45.1659 767.2179,45.4079 770.0538,49.92 C774.1822,44.773 777.9755,43.6071 782.4674,49.5117 C789.6753,51.2564 791.4158,56.3665 786.4325,61.9862 C793.3388,62.0428 795.9661,66.5638 792.2271,72.4921 C797.2947,78.6695 796.0567,82.7203 788.2026,84.6043 C791.9745,91.2342 790.1971,94.8964 782.6028,95.8833 C780.4715,101.0674 775.579,102.0692 771.6755,97.9691 C768.9455,104.7601 763.465,104.7556 759.6559,99.0032 C755.9314,104.4977 751.0986,103.7526 747.5842,98.7614 C744.6121,104.1834 740.5372,104.388 736.6591,99.7446 C733.2868,106.4681 727.4957,105.9805 723.9529,99.914 C721.8709,105.2213 716.9301,105.1566 713.7624,101.0949 C711.4483,107.0128 705.5181,109.2513 701.2523,103.1215 C696.56,108.7372 692.3173,109.5564 688.3606,102.3801 C684.4567,105.605 680.421,105.4022 678.7304,99.9295 C675.0565,104.9712 670.1796,105.5326 667.2336,99.1941 C664.1216,105.9323 658.1326,105.0437 654.8395,99.3751 C649.9826,105.6765 645.6861,104.4639 642.0385,98.1482 C638.8846,103.0933 633.9378,103.5943 631.2319,97.7015 C627.5887,103.1506 622.7156,102.031 620.0152,96.7187 C613.9938,95.9664 611.4363,91.4991 614.1854,85.9837 C605.9938,83.9271 605.0854,78.7857 609.7775,72.5132 C605.7776,66.957 607.8674,62.8353 613.8721,60.7663 C609.4365,54.7429 612.8839,49.9875 619.3904,49.1718 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82" x="625.5" y="68.9951">SingStat API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="149" x="625.5" y="85.292">(Economic Indicators)</text><!--MD5=[2f3b35020688f279a586fc90e74bf551]
+entity source_ura--><path d="M832.5809,50.5022 C836.8228,44.6628 840.5851,43.9054 844.7979,50.5307 C848.4764,44.2117 852.2904,45.186 856.2542,50.2433 C859.5403,45.0034 863.6699,44.6298 867.0956,50.102 C869.8289,44.3251 874.2788,45.4328 877.4868,49.6064 C879.894,43.7878 885.0383,43.6652 888.4337,48.6004 C891.0699,41.9166 896.391,41.88 900.2216,47.4517 C903.4796,42.8418 908.297,43.0646 910.7052,48.352 C915.1786,43.2004 919.4719,43.7867 922.7469,49.6609 C925.6101,44.1114 929.9636,44.4517 933.1421,49.3471 C937.0187,44.1476 940.8154,44.3691 944.9167,49.0803 C947.8589,44.064 951.6332,44.9495 954.4539,49.2053 C958.3303,44.0542 963.3956,43.1493 966.7839,49.7187 C972.4351,52.6761 974.2033,58.6011 968.113,62.7556 C973.3289,66.4965 973.6068,70.5658 968.0123,74.2117 C972.3901,77.4002 973.122,82.0858 967.8882,85.1653 C972.8873,89.5457 971.5458,94.0545 965.6311,96.2031 C963.7562,101.2035 959.3286,102.9175 955.3625,98.4779 C951.2822,103.9281 947.0783,104.382 943.3848,98.0836 C940.199,102.6621 936.8339,103.239 933.0809,98.7265 C930.8319,104.5439 926.6624,105.7747 922.0852,101.1869 C918.65,106.9422 914.2894,106.508 910.5344,101.5311 C908.4309,106.4066 903.7374,105.9933 901.0553,102.1608 C896.5486,107.2257 892.971,107.0008 890.0667,100.6221 C886.3241,106.4451 882.0233,104.8274 878.955,99.9235 C875.0014,105.0457 870.0474,104.5557 867.4933,98.4897 C863.978,104.6972 858.0599,103.3601 855.1809,97.8227 C852.027,102.5504 847.5217,102.662 844.1948,98.0257 C839.761,102.9273 836.6085,101.2808 834.0859,96.1079 C826.9107,93.5537 827.2738,89.2 831.8044,84.3705 C825.2937,80.701 825.4063,77.1536 831.1648,72.8056 C826.676,70.0651 826.5465,65.3063 831.0747,62.4871 C826.1024,57.6632 826.0033,53.8746 832.5809,50.5022 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="54" x="839.5" y="68.9951">URA API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="839.5" y="85.292">(Property Market)</text><!--MD5=[a3277f46e8b5a40143d726f712ee4942]
+entity source_rental--><path d="M1018.3052,50.4883 C1022.4795,45.4653 1026.878,44.6668 1030.5369,51.0416 C1033.7044,45.8609 1037.5001,45.5127 1041.0253,50.6791 C1044.1089,43.3522 1050.6047,43.2346 1054.2681,50.1395 C1057.9464,44.5944 1061.4191,45.2107 1065.5012,49.6868 C1069.8565,43.8944 1074.7082,43.4324 1079.1155,49.6276 C1081.6166,44.026 1086.8065,43.553 1090.7434,47.9593 C1093.9494,43.3439 1098.6677,42.6246 1101.3354,48.5027 C1105.1111,43.2897 1110.9173,43.4743 1113.5395,49.7301 C1117.6078,44.8307 1121.1461,44.5672 1125.1908,49.7574 C1128.099,43.0898 1133.5529,42.2042 1138.0185,48.177 C1142.4129,43.2888 1146.5769,42.5219 1149.9905,49.1929 C1153.0362,43.6413 1158.4987,45.0381 1161.0821,49.6952 C1165.2786,42.5575 1171.7756,44.3733 1174.6861,50.9691 C1177.2555,45.9567 1182.2332,45.2419 1185.1775,50.5894 C1191.8371,52.7345 1191.5387,58.3966 1186.6968,62.0645 C1193.0181,65.3586 1193.068,69.8459 1187.2646,73.7301 C1191.9848,77.2007 1192.2088,80.6117 1187.6117,84.3858 C1193.0624,88.0172 1192.8768,93.911 1186.9576,96.9505 C1183.0967,103.2268 1178.9253,104.9374 1173.4142,98.7426 C1169.5291,104.2474 1165.0766,103.8275 1162.1583,97.7991 C1159.4492,103.9831 1153.7278,105.0704 1149.5827,99.3111 C1146.7359,104.5142 1142.8317,106.1625 1138.6873,100.6276 C1135.4411,105.9468 1130.1881,106.4229 1126.8221,100.757 C1124.3407,107.1807 1118.6382,107.9144 1114.4434,102.5573 C1111.5681,108.531 1107.6912,109.4846 1103.274,104.0696 C1098.7369,109.8133 1092.6136,109.0688 1089.3375,102.6274 C1085.5034,107.4871 1081.9911,106.4914 1078.8795,101.8335 C1074.746,107.5601 1068.6209,107.9773 1065.6612,100.6453 C1061.7919,106.5598 1056.54,105.4382 1053.4931,99.7805 C1049.6052,104.0859 1043.7289,104.336 1041.6233,97.8246 C1037.222,104.1024 1033.2006,102.3303 1029.4538,97.1307 C1025.2062,102.1153 1021.1152,102.6667 1017.6281,96.336 C1010.982,94.524 1008.0309,90.2345 1013.1278,84.1026 C1007.6696,83.5151 1005.2882,79.0805 1007.9899,74.2415 C1002.9021,67.5463 1004.7715,61.5161 1013.7151,60.7952 C1010.0088,55.276 1012.2872,51.677 1018.3052,50.4883 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154" x="1024" y="68.9951">Commercial Rental API</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="90" x="1024" y="85.292">(data.gov.sg)</text><!--MD5=[2e5ced1404f6d78354306abfabdf2181]
+entity producers--><rect fill="#CFE2F3" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#6098D1;stroke-width:1.5;" width="201" x="599.5" y="268"/><rect fill="#CFE2F3" height="10" style="stroke:#6098D1;stroke-width:1.5;" width="15" x="780.5" y="273"/><rect fill="#CFE2F3" height="2" style="stroke:#6098D1;stroke-width:1.5;" width="4" x="778.5" y="275"/><rect fill="#CFE2F3" height="2" style="stroke:#6098D1;stroke-width:1.5;" width="4" x="778.5" y="279"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="44" x="673" y="300.9951">«ELT»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="161" x="614.5" y="317.292">Multi-Source Producers</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="102" x="614.5" y="333.5889">(K8s CronJobs)</text><!--MD5=[37353376d404bb19b457d6b13a767b1d]
+entity topic_acra--><path d="M235,450 L355,450 C360,450 360,463.1484 360,463.1484 C360,463.1484 360,476.2969 355,476.2969 L235,476.2969 C230,476.2969 230,463.1484 230,463.1484 C230,463.1484 230,450 235,450 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M355,450 C350,450 350,463.1484 350,463.1484 C350,476.2969 355,476.2969 355,476.2969 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110" x="235" y="467.9951">acra-companies</text><!--MD5=[78c8f26f7bb78ec9b74be9c13d0b1f17]
+entity topic_gov--><path d="M400,450 L582,450 C587,450 587,463.1484 587,463.1484 C587,463.1484 587,476.2969 582,476.2969 L400,476.2969 C395,476.2969 395,463.1484 395,463.1484 C395,463.1484 395,450 400,450 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M582,450 C577,450 577,463.1484 577,463.1484 C577,476.2969 582,476.2969 582,476.2969 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="172" x="400" y="467.9951">government-expenditure</text><!--MD5=[8e67ef451662ff82c01b1b53a4637478]
+entity topic_singstat--><path d="M627,450 L773,450 C778,450 778,463.1484 778,463.1484 C778,463.1484 778,476.2969 773,476.2969 L627,476.2969 C622,476.2969 622,463.1484 622,463.1484 C622,463.1484 622,450 627,450 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M773,450 C768,450 768,463.1484 768,463.1484 C768,476.2969 773,476.2969 773,476.2969 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="136" x="627" y="467.9951">singstat-economics</text><!--MD5=[eadba2788fd8ebd9efad338867ed0a78]
+entity topic_ura--><path d="M818.5,450 L913.5,450 C918.5,450 918.5,463.1484 918.5,463.1484 C918.5,463.1484 918.5,476.2969 913.5,476.2969 L818.5,476.2969 C813.5,476.2969 813.5,463.1484 813.5,463.1484 C813.5,463.1484 813.5,450 818.5,450 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M913.5,450 C908.5,450 908.5,463.1484 908.5,463.1484 C908.5,476.2969 913.5,476.2969 913.5,476.2969 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="818.5" y="467.9951">ura-property</text><!--MD5=[a026f963f2039fa2ab855b14c5e05913]
+entity topic_rental--><path d="M958.5,450 L1091.5,450 C1096.5,450 1096.5,463.1484 1096.5,463.1484 C1096.5,463.1484 1096.5,476.2969 1091.5,476.2969 L958.5,476.2969 C953.5,476.2969 953.5,463.1484 953.5,463.1484 C953.5,463.1484 953.5,450 958.5,450 " fill="#FEFECE" filter="url(#fqppvanfh5z0j)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M1091.5,450 C1086.5,450 1086.5,463.1484 1086.5,463.1484 C1086.5,476.2969 1091.5,476.2969 1091.5,476.2969 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="958.5" y="467.9951">commercial-rental</text><path d="M814.5,891.5 L814.5,931.7656 L961.5,931.7656 L961.5,901.5 L951.5,891.5 L814.5,891.5 " fill="#FBFB77" filter="url(#fqppvanfh5z0j)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M951.5,891.5 L951.5,901.5 L961.5,901.5 L951.5,891.5 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="105" x="820.5" y="908.5669">Data is stored in</text><text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="79" x="820.5" y="923.6997">Delta Lake</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="43" x="903.5" y="923.6997">format</text><!--MD5=[bd931e061b824d732c7ae762aee0f850]
+entity bronze--><polygon fill="#FEFECE" filter="url(#fqppvanfh5z0j)" points="1212.5,883.5,1258.5,883.5,1265.5,904.5,1335.5,904.5,1335.5,939.0938,1212.5,939.0938,1212.5,883.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="1212.5" x2="1265.5" y1="904.5" y2="904.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="1222.5" y="924.4951">Bronze (Raw)</text><!--MD5=[3a411b86a873593be283e0fa83c479dc]
+entity silver--><polygon fill="#FEFECE" filter="url(#fqppvanfh5z0j)" points="1032.5,883.5,1078.5,883.5,1085.5,904.5,1177.5,904.5,1177.5,939.0938,1032.5,939.0938,1032.5,883.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="1032.5" x2="1085.5" y1="904.5" y2="904.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="1042.5" y="924.4951">Silver (Cleansed)</text><!--MD5=[25a17c3c1d35f1000f56aa8deb4bd7c4]
+entity gold--><polygon fill="#FEFECE" filter="url(#fqppvanfh5z0j)" points="1370.5,883.5,1416.5,883.5,1423.5,904.5,1527.5,904.5,1527.5,939.0938,1370.5,939.0938,1370.5,883.5" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="1370.5" x2="1423.5" y1="904.5" y2="904.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127" x="1380.5" y="924.4951">Gold (Aggregated)</text><!--MD5=[8088739a7732b96b7860e755b6810455]
+entity spark_streaming--><rect fill="#E67E22" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#E67E22;stroke-width:1.5;" width="153" x="604.5" y="642.5"/><rect fill="#E67E22" height="10" style="stroke:#E67E22;stroke-width:1.5;" width="15" x="737.5" y="647.5"/><rect fill="#E67E22" height="2" style="stroke:#E67E22;stroke-width:1.5;" width="4" x="735.5" y="649.5"/><rect fill="#E67E22" height="2" style="stroke:#E67E22;stroke-width:1.5;" width="4" x="735.5" y="653.5"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="66" x="643" y="675.4951">«Engine»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="619.5" y="691.792">Spark Streaming</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="104" x="619.5" y="708.0889">(Real-time ETL)</text><!--MD5=[7d231ded58546e4efbbe13074e7dd95b]
+entity spark_etl--><rect fill="#E67E22" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#E67E22;stroke-width:1.5;" width="158" x="411" y="642.5"/><rect fill="#E67E22" height="10" style="stroke:#E67E22;stroke-width:1.5;" width="15" x="549" y="647.5"/><rect fill="#E67E22" height="2" style="stroke:#E67E22;stroke-width:1.5;" width="4" x="547" y="649.5"/><rect fill="#E67E22" height="2" style="stroke:#E67E22;stroke-width:1.5;" width="4" x="547" y="653.5"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="66" x="452" y="675.4951">«Engine»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="426" y="691.792">Spark ETL</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="118" x="426" y="708.0889">(Bronze to Silver)</text><!--MD5=[1d1ccae3e2e045ceb1880f3b65fca750]
+entity dbt_staging--><rect fill="#FEFECE" filter="url(#fqppvanfh5z0j)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="146" x="230" y="659"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="356" y="664"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="354" y="666"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="354" y="670"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="245" y="691.9951">Staging Models</text><!--MD5=[48bf2db1da3a3f7f7b91b8fb2f9292d9]
+entity dbt_marts--><rect fill="#FEFECE" filter="url(#fqppvanfh5z0j)" height="46.2969" style="stroke:#A80036;stroke-width:1.5;" width="132" x="242" y="888.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="354" y="893.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="352" y="895.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="352" y="899.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="92" x="257" y="921.4951">Marts Models</text><!--MD5=[ab3972c19d636aa1427b7f5f24096532]
+entity llm_engine--><rect fill="#16928D" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#16928D;stroke-width:1.5;" width="201" x="312.5" y="1235.5"/><rect fill="#16928D" height="10" style="stroke:#16928D;stroke-width:1.5;" width="15" x="493.5" y="1240.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="491.5" y="1242.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="491.5" y="1246.5"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="106" x="355" y="1268.4951">«AnalyticsEng»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="137" x="327.5" y="1284.792">LLM Analysis Engine</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="161" x="327.5" y="1301.0889">(Economic Intelligence)</text><!--MD5=[ab8c57bdd852c4a07e27a969a42352e4]
+entity enhanced_intel--><rect fill="#16928D" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#16928D;stroke-width:1.5;" width="265" x="489.5" y="1391.5"/><rect fill="#16928D" height="10" style="stroke:#16928D;stroke-width:1.5;" width="15" x="734.5" y="1396.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="732.5" y="1398.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="732.5" y="1402.5"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="106" x="564" y="1424.4951">«AnalyticsEng»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="225" x="504.5" y="1440.792">Enhanced Economic Intelligence</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154" x="504.5" y="1457.0889">(Multi-source Analysis)</text><!--MD5=[7f95ecaa9d6c836e76c7a1c737da4a89]
+entity visual_intel--><rect fill="#16928D" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#16928D;stroke-width:1.5;" width="223" x="510.5" y="1548.5"/><rect fill="#16928D" height="10" style="stroke:#16928D;stroke-width:1.5;" width="15" x="713.5" y="1553.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="711.5" y="1555.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="711.5" y="1559.5"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="106" x="564" y="1581.4951">«AnalyticsEng»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="183" x="525.5" y="1597.792">Visual Intelligence Platform</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="128" x="525.5" y="1614.0889">(Chart Generation)</text><!--MD5=[0285dc7f50e022161b1357e183651717]
+entity anomaly_detection--><rect fill="#16928D" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#16928D;stroke-width:1.5;" width="194" x="734" y="1235.5"/><rect fill="#16928D" height="10" style="stroke:#16928D;stroke-width:1.5;" width="15" x="908" y="1240.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="906" y="1242.5"/><rect fill="#16928D" height="2" style="stroke:#16928D;stroke-width:1.5;" width="4" x="906" y="1246.5"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="106" x="773" y="1268.4951">«AnalyticsEng»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="130" x="749" y="1284.792">Anomaly Detection</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154" x="749" y="1301.0889">(LLM-Enhanced Alerts)</text><!--MD5=[d6d1fe7878dcef36e1fa11c9e5f35bb7]
+entity data_connector--><rect fill="#CFE2F3" filter="url(#fqppvanfh5z0j)" height="78.8906" style="stroke:#6098D1;stroke-width:1.5;" width="189" x="559.5" y="1079.5"/><rect fill="#CFE2F3" height="10" style="stroke:#6098D1;stroke-width:1.5;" width="15" x="728.5" y="1084.5"/><rect fill="#CFE2F3" height="2" style="stroke:#6098D1;stroke-width:1.5;" width="4" x="726.5" y="1086.5"/><rect fill="#CFE2F3" height="2" style="stroke:#6098D1;stroke-width:1.5;" width="4" x="726.5" y="1090.5"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="44" x="627" y="1112.4951">«ELT»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="149" x="574.5" y="1128.792">Silver Data Connector</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="136" x="574.5" y="1145.0889">(Data Access Layer)</text><!--MD5=[4b4aa12fd50f56bd13a7a0170aaccc36]
+entity dashboard--><rect fill="#FEFECE" filter="url(#fqppvanfh5z0j)" height="62.5938" style="stroke:#A80036;stroke-width:1.5;" width="199" x="704.5" y="1727.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="883.5" y="1732.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="881.5" y="1734.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="881.5" y="1738.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="159" x="719.5" y="1760.4951">Interactive Dashboards</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="719.5" y="1776.792">(Streamlit)</text><!--MD5=[f082735e4f21844be6c3a163c70e52ba]
+entity rest_api--><rect fill="#FEFECE" filter="url(#fqppvanfh5z0j)" height="62.5938" style="stroke:#A80036;stroke-width:1.5;" width="136" x="939" y="1727.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="1055" y="1732.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1053" y="1734.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="1053" y="1738.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70" x="954" y="1760.4951">REST APIs</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96" x="954" y="1776.792">(Data Access)</text><!--MD5=[23f96f25dcc844370b4a829e331fe14b]
+entity dbt_docs--><rect fill="#FEFECE" filter="url(#fqppvanfh5z0j)" height="62.5938" style="stroke:#A80036;stroke-width:1.5;" width="138" x="531" y="1727.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="649" y="1732.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="647" y="1734.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="647" y="1738.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="546" y="1760.4951">dbt Docs</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="98" x="546" y="1776.792">(Data Catalog)</text><!--MD5=[bd60b14fd49d69b6463de33d00c5ec34]
+entity realtime_viz--><rect fill="#FEFECE" filter="url(#fqppvanfh5z0j)" height="62.5938" style="stroke:#A80036;stroke-width:1.5;" width="169" x="326.5" y="1727.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="475.5" y="1732.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="473.5" y="1734.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="473.5" y="1738.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="129" x="341.5" y="1760.4951">Real-time Analytics</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="113" x="341.5" y="1776.792">(Live Monitoring)</text><!--MD5=[8fc3522a43f8c7199df5e09e5bb0188e]
+entity user--><ellipse cx="78" cy="1557" fill="#EAD1DC" filter="url(#fqppvanfh5z0j)" rx="8" ry="8" style="stroke:#8E44AD;stroke-width:1.5;"/><path d="M78,1565 L78,1592 M65,1573 L91,1573 M78,1592 L65,1607 M78,1592 L91,1607 " fill="none" filter="url(#fqppvanfh5z0j)" style="stroke:#8E44AD;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="144" x="6" y="1625.4951">Analyst / Policymaker</text><!--MD5=[19b7653be709cca07593f49008701d35]
+link minio to GMN23--><path d="M988.9746,911.5 C988.9293,911.5 988.884,911.5 988.8387,911.5 C988.4763,911.5 988.1139,911.5 987.7516,911.5 C984.8525,911.5 981.9538,911.5 979.055,911.5 C973.2575,911.5 967.46,911.5 961.66,911.5 " fill="none" id="minio-GMN23" style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><!--MD5=[39621ca93a311a21a47fc796708c4710]
+link source_acra to producers--><path d="M285.02,104.12 C299.57,112.04 315.31,120.46 330,128 C425.61,177.08 536.87,230.23 612.22,265.65 " fill="none" id="source_acra-to-producers" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="617.13,267.96,610.6955,260.5036,612.6075,265.8276,607.2836,267.7396,617.13,267.96" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="370" y="149.0669">ACRA Companies</text><!--MD5=[966cad1101d12af8edeab89405bf17b0]
+link source_gov to producers--><path d="M492.74,104.44 C534.81,145.46 609.24,218.02 656.52,264.11 " fill="none" id="source_gov-to-producers" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="660.16,267.66,656.5131,258.5112,656.5818,264.1677,650.9254,264.2364,660.16,267.66" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="105" x="539" y="149.0669">Gov Expenditure</text><!--MD5=[e4b1934d1c785ff3bcbff1b4a3fe5893]
+link source_singstat to producers--><path d="M700,104.44 C700,144.97 700,216.28 700,262.44 " fill="none" id="source_singstat-to-producers" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="700,267.66,704,258.66,700,262.66,696,258.66,700,267.66" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="97" x="701" y="149.0669">Economic Data</text><!--MD5=[96bcedcfa9e61d334ed99fd7378d9c6c]
+link source_ura to producers--><path d="M872.57,104.44 C837.61,145.38 775.82,217.73 736.44,263.84 " fill="none" id="source_ura-to-producers" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="733.17,267.66,742.0641,263.4299,736.424,263.8637,735.9901,258.2235,733.17,267.66" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="102" x="841" y="149.0669">Property Market</text><!--MD5=[71e0d50f5023c1e0cc21536c60b05d0f]
+link source_rental to producers--><path d="M1048.16,104.2 C977.06,145.52 850.35,219.14 770.98,265.25 " fill="none" id="source_rental-to-producers" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="766.3,267.98,776.0915,266.9184,770.6235,265.4686,772.0733,260.0007,766.3,267.98" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="121" x="983" y="149.0669">Commercial Rental</text><!--MD5=[1cb57a4f0af9e7ff12f2ba19abd9db97]
+link producers to topic_acra--><path d="M599.22,319.47 C533.29,329.78 446.91,349.35 378,386 C349.53,401.14 323.28,428.34 308.21,445.76 " fill="none" id="producers-to-topic_acra" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="304.63,449.97,313.5149,445.7206,307.8757,446.1667,307.4296,440.5274,304.63,449.97" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[381198e097577fa4b03a9f4c14725480]
+link producers to topic_gov--><path d="M647.53,347.04 C603.56,379.33 543.08,423.75 511.73,446.78 " fill="none" id="producers-to-topic_gov" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="507.69,449.75,517.3121,447.6489,511.7207,446.7913,512.5782,441.1999,507.69,449.75" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[5556e7ca389a4b6efc1b51f88027fdef]
+link producers to topic_singstat--><path d="M700,347.23 C700,378.48 700,420.97 700,444.5 " fill="none" id="producers-to-topic_singstat" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="700,449.78,704,440.78,700,444.78,696,440.78,700,449.78" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[c5fe519ce6c1d6440ad53c1e3fbf6218]
+link producers to topic_ura--><path d="M751,347.37 C765.89,359.33 781.93,372.82 796,386 C816.88,405.56 838.91,430.25 852.56,446.08 " fill="none" id="producers-to-topic_ura" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="855.84,449.9,853.0199,440.4635,852.586,446.1037,846.9459,445.6699,855.84,449.9" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[938a47cb6f638a1c7a3005dbb32448e1]
+link producers to topic_rental--><path d="M800.62,332.18 C843.91,344.7 894.08,362.44 936,386 C965.15,402.38 993.6,429.1 1010.2,446.11 " fill="none" id="producers-to-topic_rental" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1013.76,449.79,1010.3738,440.5416,1010.2822,446.1977,1004.6261,446.1061,1013.76,449.79" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d6b3bdfa195e6c2dbdc8ec8b662d39ae]
+link topic_acra to spark_streaming--><path d="M307.21,476.22 C322.35,490.51 349.64,513.53 378,524 C421.72,540.13 546.8,517.43 587,541 C623.83,562.59 649.2,605.02 664.22,637.53 " fill="none" id="topic_acra-to-spark_streaming" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="666.36,642.25,666.2772,632.4015,664.291,637.6982,658.9943,635.7119,666.36,642.25" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[8037d73d4e6967bc41c415fde7f7481f]
+link topic_gov to spark_streaming--><path d="M509.36,476.17 C529.76,490.26 563.01,514.88 587,541 C614.26,570.67 639.38,608.91 656.78,637.92 " fill="none" id="topic_gov-to-spark_streaming" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="659.51,642.49,658.3239,632.7128,656.9438,638.1988,651.4579,636.8187,659.51,642.49" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[7731a1299192c29458b48b637ffc9cbd]
+link topic_singstat to spark_streaming--><path d="M698.92,476.29 C696.26,506.71 689.25,586.73 684.83,637.24 " fill="none" id="topic_singstat-to-spark_streaming" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="684.39,642.34,689.1482,633.7168,684.8194,637.3585,681.1778,633.0297,684.39,642.34" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[a5f55b2c59925bee9fa03b174524c8f3]
+link topic_ura to spark_streaming--><path d="M855.52,476.29 C829.38,506.96 760.26,588.03 717.27,638.46 " fill="none" id="topic_ura-to-spark_streaming" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="713.96,642.34,722.8449,638.0906,717.2057,638.5367,716.7596,632.8974,713.96,642.34" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[13efdd00c30dc30735ccf2f3a8b94938]
+link topic_rental to spark_streaming--><path d="M1007.41,476.17 C989.56,488.45 961.06,507.85 936,524 C873.52,564.27 801.29,608.53 749.69,639.77 " fill="none" id="topic_rental-to-spark_streaming" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="745.38,642.37,755.1525,641.1456,749.6612,639.787,751.0197,634.2957,745.38,642.37" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[dc97bd97b9fb90b23dfa85b9ded85ee8]
+link spark_streaming to bronze--><path d="M757.73,689.14 C883.24,700.46 1125.44,727.99 1195,776.5 C1230.43,801.21 1252.42,847.35 1263.94,878.5 " fill="none" id="spark_streaming-to-bronze" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1265.7,883.36,1266.4003,873.5361,1263.9993,878.6581,1258.8773,876.2572,1265.7,883.36" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="123" x="1175" y="764.5669">Real-time Ingestion</text><!--MD5=[96cd3037eff707b5635f9e66f82dc483]
+link spark_etl to silver--><path d="M569.24,715.85 C575.21,717.9 581.17,719.81 587,721.5 C694.3,752.7 722.98,755.73 834,768.5 C855.54,770.98 1010.49,765.2 1029,776.5 C1065.84,798.98 1086.43,846.36 1096.62,878.32 " fill="none" id="spark_etl-to-silver" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1098.17,883.31,1099.3402,873.5309,1096.6966,878.532,1091.6954,875.8884,1098.17,883.31" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="179" x="835" y="764.5669">Data Cleansing &amp; Validation</text><!--MD5=[c6e53483d25933b8ed53de8414ef9469]
+link bronze to spark_etl--><path d="M1265.97,883.38 C1255.21,852.15 1232.93,801.88 1195,776.5 C1194.49,776.16 1019.61,751.56 1019,751.5 C827.6,731.29 774.67,764.17 587,721.5 C582.65,720.51 578.25,719.36 573.83,718.08 " fill="none" id="bronze-to-spark_etl" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="569.04,716.64,576.5251,723.0411,573.8323,718.0663,578.8071,715.3735,569.04,716.64" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[c23c9bcc1cb642022427f9b5b068abb1]
+link dbt_staging to dbt_marts--><path d="M303.49,705.23 C304.41,747.11 306.4,837.57 307.4,883.12 " fill="none" id="dbt_staging-to-dbt_marts" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="307.51,888.18,311.3033,879.0909,307.3957,883.1813,303.3054,879.2738,307.51,888.18" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[5242e68974536dfbf97b71645b86ded2]
+link silver to dbt_staging--><path d="M1098.32,883.48 C1088.84,851.59 1068.12,799.93 1029,776.5 C1013.36,767.13 719.16,770.05 701,768.5 C557.33,756.28 517.55,764.73 380,721.5 C368.52,717.89 356.65,712.75 345.76,707.39 " fill="none" id="silver-to-dbt_staging" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="341.16,705.08,347.4113,712.6906,345.6293,707.3218,350.9981,705.5398,341.16,705.08" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[5e4bb5ea371c78917a851fbae35463a0]
+link dbt_marts to gold--><path d="M361.11,888.42 C452.05,850.3 644.34,775.73 815.5,749 C872.59,740.08 1284.27,722.29 1335.5,749 C1387.69,776.21 1420.81,839.6 1437.04,878.68 " fill="none" id="dbt_marts-to-gold" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1438.94,883.32,1439.2227,873.4752,1437.0413,878.6945,1431.8219,876.5132,1438.94,883.32" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[fa764806bbc2770cab337fb529a0d4e8]
+link silver to data_connector--><path d="M1090.6,939.63 C1077.61,961.07 1056.35,989.63 1029,1003.5 C1004.18,1016.09 931.08,1005.06 904,1011.5 C843.64,1025.84 779.32,1053.56 731.04,1077.12 " fill="none" id="silver-to-data_connector" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="726.42,1079.38,736.2618,1079.0083,730.9092,1077.1783,732.7391,1071.8256,726.42,1079.38" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="80" x="905" y="1024.5669">Data Access</text><!--MD5=[b286b7172cb653d3536f5e5c65cbcf8b]
+link data_connector to llm_engine--><path d="M559.19,1145.24 C530.67,1155.68 500.49,1169.83 476,1188.5 C460.99,1199.95 447.91,1215.91 437.62,1230.95 " fill="none" id="data_connector-to-llm_engine" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="434.79,1235.16,443.123,1229.9101,437.5734,1231.0063,436.4772,1225.4567,434.79,1235.16" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="97" x="477" y="1201.5669">Economic Data</text><!--MD5=[d27d99a9ee8b547b4b1b8f01f532ec2e]
+link data_connector to enhanced_intel--><path d="M631.62,1158.67 C620.3,1180.46 607.77,1208.62 602,1235.5 C591.05,1286.48 600.44,1346.31 609.71,1386.01 " fill="none" id="data_connector-to-enhanced_intel" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="610.95,1391.23,612.7554,1381.548,609.7913,1386.3661,604.9732,1383.402,610.95,1391.23" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="113" x="603" y="1279.5669">Multi-source Data</text><!--MD5=[c01d0a1d3b00ff077819b706f459bec4]
+link data_connector to anomaly_detection--><path d="M698.66,1158.86 C724.34,1181.2 756.59,1209.26 782.83,1232.09 " fill="none" id="data_connector-to-anomaly_detection" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="786.66,1235.42,782.4824,1226.5011,782.883,1232.1437,777.2403,1232.5443,786.66,1235.42" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="102" x="748" y="1201.5669">Monitoring Data</text><!--MD5=[b2bf8439f02d83c52614e0cfd122dd0b]
+link llm_engine to enhanced_intel--><path d="M433.09,1314.87 C442.85,1330.89 455.78,1348.67 471,1361.5 C483.37,1371.92 497.58,1381.07 512.23,1389 " fill="none" id="llm_engine-to-enhanced_intel" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="516.79,1391.42,510.7155,1383.6675,512.3735,1389.076,506.9651,1390.7339,516.79,1391.42" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="102" x="472" y="1357.5669">Analysis Results</text><!--MD5=[3df5b8175ce52dfcf83f419141abe4fa]
+link enhanced_intel to visual_intel--><path d="M622,1470.71 C622,1492.72 622,1520.35 622,1543.16 " fill="none" id="enhanced_intel-to-visual_intel" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="622,1548.24,626,1539.24,622,1543.24,618,1539.24,622,1548.24" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="107" x="623" y="1513.5669">Intelligence Data</text><!--MD5=[a3f83f654e087b09a04ffe4ec0275c20]
+link anomaly_detection to enhanced_intel--><path d="M778.53,1314.66 C748.1,1337.09 709.76,1365.34 678.64,1388.27 " fill="none" id="anomaly_detection-to-enhanced_intel" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="674.49,1391.32,684.1086,1389.2026,678.5156,1388.3545,679.3637,1382.7616,674.49,1391.32" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="65" x="733" y="1357.5669">Alert Data</text><!--MD5=[807e7fbdf4aaa77dffe21e3e8987ab2e]
+link gold to dashboard--><path d="M1422.42,939.6 C1373.47,990.07 1274,1095.39 1274,1118 C1274,1118 1274,1118 1274,1589 C1274,1751.1 1071.24,1621.22 922,1684.5 C897.11,1695.06 871.4,1710.45 850.36,1724.42 " fill="none" id="gold-to-dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="845.95,1727.38,855.6533,1725.6928,850.1037,1724.5966,851.1999,1719.047,845.95,1727.38" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="133" x="1275" y="1357.5669">Business Intelligence</text><!--MD5=[5b9036b1fb4be6b51eaeef35e7f83f32]
+link gold to rest_api--><path d="M1449,939.76 C1449,979.11 1449,1054.14 1449,1118 C1449,1118 1449,1118 1449,1589 C1449,1666.99 1205.87,1722.26 1080.25,1745.61 " fill="none" id="gold-to-rest_api" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="1075.09,1746.56,1084.6698,1748.8463,1080.0057,1745.6455,1083.2065,1740.9813,1075.09,1746.56" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="80" x="1450" y="1357.5669">Data Access</text><!--MD5=[da86fa7aecab8a8e3f964b469dbc3d34]
+link gold to dbt_docs--><path d="M1425.66,939.83 C1407.51,959.69 1380.81,986.04 1353,1003.5 C1350.81,1004.87 1267.88,1034.72 1266,1036.5 C1157.41,1139.46 1188.64,1206.83 1130,1344.5 C1072.21,1480.19 1117.95,1557.86 1004,1651.5 C959.55,1688.02 934.13,1669.71 877,1676.5 C856.02,1678.99 706.69,1676.82 687,1684.5 C665.6,1692.84 645.71,1708.75 630.36,1723.63 " fill="none" id="gold-to-dbt_docs" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="626.56,1727.39,635.7736,1723.9102,630.1169,1723.876,630.1512,1718.2192,626.56,1727.39" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="99" x="1131" y="1357.5669">Documentation</text><!--MD5=[3a755fea59f0161e7edd4e19c3cffdf6]
+link silver to realtime_viz--><path d="M1079.21,939.61 C1046.7,976.76 995,1046.98 995,1118 C995,1118 995,1118 995,1589 C995,1624.85 974.92,1633.35 944,1651.5 C869.72,1695.11 550.08,1672.39 514,1684.5 C489.6,1692.69 465.97,1708.77 447.5,1723.81 " fill="none" id="silver-to-realtime_viz" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="443.41,1727.2,452.8964,1724.5528,447.2651,1724.016,447.802,1718.3846,443.41,1727.2" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="96" x="996" y="1357.5669">Live Monitoring</text><!--MD5=[9b73140fd57d16ce2ffdab5fd79e575f]
+link enhanced_intel to dashboard--><path d="M704.62,1470.57 C717.3,1479.11 729.36,1489.08 739,1500.5 C793.16,1564.67 803.16,1667.86 804.42,1722.08 " fill="none" id="enhanced_intel-to-dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="804.51,1727.17,808.3551,1718.1028,804.4243,1722.1707,800.3563,1718.2399,804.51,1727.17" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="78" x="799" y="1592.5669">LLM Insights</text><!--MD5=[e8a0f10dafd7bc2f07d84d48b8c20104]
+link visual_intel to dashboard--><path d="M642.95,1627.67 C652.86,1643.88 665.67,1662.22 680,1676.5 C698.4,1694.83 721.54,1711.37 742.84,1724.67 " fill="none" id="visual_intel-to-dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="747.35,1727.46,741.8059,1719.3198,743.0996,1724.8267,737.5927,1726.1205,747.35,1727.46" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="113" x="681" y="1672.5669">Interactive Charts</text><!--MD5=[2748db9b9b320123978d1ea617940813]
+link anomaly_detection to dashboard--><path d="M848.24,1314.65 C876.63,1383.95 926.28,1533.15 886,1651.5 C876.77,1678.63 857.52,1704.24 839.99,1723.54 " fill="none" id="anomaly_detection-to-dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="836.51,1727.32,845.5443,1723.398,839.8925,1723.6378,839.6527,1717.986,836.51,1727.32" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="102" x="900" y="1513.5669">Real-time Alerts</text><!--MD5=[2288421ecba2ff0bd84773682977ba0a]
+link user to dashboard--><path d="M150.21,1614.18 C192.22,1627.69 246.49,1643.23 296,1651.5 C363.6,1662.79 381.81,1652.66 450,1659.5 C500.97,1664.61 513.06,1671.06 564,1676.5 C591.24,1679.41 660.94,1676.07 687,1684.5 C713.85,1693.19 740.74,1709.42 761.95,1724.42 " fill="none" id="user-to-dashboard" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="766.12,1727.4,761.1439,1718.9007,762.0591,1724.483,756.4767,1725.3981,766.12,1727.4" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[b68093cedc5b31cb2527e37c97933eca]
+link user to rest_api--><path d="M150.16,1614.52 C192.15,1628.14 246.41,1643.68 296,1651.5 C400.11,1667.92 427.98,1650.61 533,1659.5 C588.87,1664.23 602.13,1671.86 658,1676.5 C687.14,1678.92 893.73,1673.96 921,1684.5 C942.28,1692.72 961.95,1708.62 977.1,1723.53 " fill="none" id="user-to-rest_api" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="980.85,1727.29,977.333,1718.0905,977.3216,1723.7473,971.6648,1723.7359,980.85,1727.29" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[a39b44c9b61aabf355b7f01d35b4e5be]
+link user to dbt_docs--><path d="M150.07,1612.18 C192.26,1625.12 246.76,1640.75 296,1651.5 C391.31,1672.32 424.17,1644.17 513,1684.5 C533.41,1693.77 552.81,1709.25 568.09,1723.61 " fill="none" id="user-to-dbt_docs" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="571.88,1727.24,568.1411,1718.1284,568.2668,1723.7839,562.6113,1723.9096,571.88,1727.24" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d30097a1c8a782e98a74a2d94f8c701f]
+link user to realtime_viz--><path d="M150.26,1625.67 C208.58,1655.27 289.92,1696.55 346.17,1725.1 " fill="none" id="user-to-realtime_viz" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="350.85,1727.48,344.6474,1719.8296,346.3951,1725.2097,341.015,1726.9574,350.85,1727.48" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[1811d7394fe10ba26f8d2f0283d5847a]
+@startuml
+
+skinparam componentStyle uml2
+skinparam rectangle<<K8s>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #3367d6
+  BorderColor #3367d6
+}
+skinparam node<<Streaming>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #000000
+  BorderColor #000000
+}
+skinparam component<<ELT>> {
+  StereotypeFontColor #000000
+  BackgroundColor #CFE2F3
+  BorderColor #6098D1
+}
+skinparam component<<Engine>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #E67E22
+  BorderColor #E67E22
+}
+skinparam component<<AnalyticsEng>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #16928D
+  BorderColor #16928D
+}
+skinparam node<<Lakehouse>> {
+  StereotypeFontColor #000000
+  BackgroundColor #FCE5CD
+  BorderColor #E67E22
+}
+skinparam actor {
+  BackgroundColor #EAD1DC
+  BorderColor #8E44AD
+}
+
+actor "Analyst / Policymaker" as user
+
+package "External Data Sources" {
+  cloud "ACRA API\n(Business Registry)" as source_acra
+  cloud "Government Expenditure API\n(data.gov.sg)" as source_gov
+  cloud "SingStat API\n(Economic Indicators)" as source_singstat
+  cloud "URA API\n(Property Market)" as source_ura
+  cloud "Commercial Rental API\n(data.gov.sg)" as source_rental
+}
+
+node "Kubernetes Cluster (Podman Desktop)" <<K8s>> {
+  package "A. Ingestion" {
+    component "Multi-Source Producers\n(K8s CronJobs)" as producers <<ELT>>
+    node "Apache Kafka" as kafka <<Streaming>> {
+      queue "acra-companies" as topic_acra
+      queue "government-expenditure" as topic_gov
+      queue "singstat-economics" as topic_singstat
+      queue "ura-property" as topic_ura
+      queue "commercial-rental" as topic_rental
+    }
+  }
+
+  package "B. Storage (Data Lakehouse)" {
+    node "MinIO (S3 Object Store)" as minio {
+      folder "Bronze (Raw)" as bronze
+      folder "Silver (Cleansed)" as silver
+      folder "Gold (Aggregated)" as gold
+    }
+    note right of minio
+      Data is stored in
+      **Delta Lake** format
+    end note
+  }
+
+  package "C. Processing & Transformation" {
+    component "Spark Streaming\n(Real-time ETL)" as spark_streaming <<Engine>>
+    component "Spark ETL\n(Bronze to Silver)" as spark_etl <<Engine>>
+    component "dbt Analytics\n(Silver to Gold)" as dbt <<AnalyticsEng>> {
+      component "Staging Models" as dbt_staging
+      component "Marts Models" as dbt_marts
+    }
+  }
+
+  package "D. Analytics & Intelligence" {
+    component "LLM Analysis Engine\n(Economic Intelligence)" as llm_engine <<AnalyticsEng>>
+    component "Enhanced Economic Intelligence\n(Multi-source Analysis)" as enhanced_intel <<AnalyticsEng>>
+    component "Visual Intelligence Platform\n(Chart Generation)" as visual_intel <<AnalyticsEng>>
+    component "Anomaly Detection\n(LLM-Enhanced Alerts)" as anomaly_detection <<AnalyticsEng>>
+    component "Silver Data Connector\n(Data Access Layer)" as data_connector <<ELT>>
+  }
+
+  package "E. Visualization & Serving" {
+    component "Interactive Dashboards\n(Streamlit)" as dashboard
+    component "REST APIs\n(Data Access)" as rest_api
+    component "dbt Docs\n(Data Catalog)" as dbt_docs
+    component "Real-time Analytics\n(Live Monitoring)" as realtime_viz
+  }
+}
+
+' - - - Data Flows - - -
+source_acra - -> producers : "ACRA Companies"
+source_gov - -> producers : "Gov Expenditure"
+source_singstat - -> producers : "Economic Data"
+source_ura - -> producers : "Property Market"
+source_rental - -> producers : "Commercial Rental"
+
+producers - -> topic_acra
+producers - -> topic_gov
+producers - -> topic_singstat
+producers - -> topic_ura
+producers - -> topic_rental
+
+topic_acra - -> spark_streaming
+topic_gov - -> spark_streaming
+topic_singstat - -> spark_streaming
+topic_ura - -> spark_streaming
+topic_rental - -> spark_streaming
+
+spark_streaming - -> bronze : "Real-time Ingestion"
+spark_etl - -> silver : "Data Cleansing & Validation"
+bronze - -> spark_etl
+
+dbt_staging - -> dbt_marts
+silver - -> dbt_staging
+dbt_marts - -> gold
+
+silver - -> data_connector : "Data Access"
+data_connector - -> llm_engine : "Economic Data"
+data_connector - -> enhanced_intel : "Multi-source Data"
+data_connector - -> anomaly_detection : "Monitoring Data"
+
+llm_engine - -> enhanced_intel : "Analysis Results"
+enhanced_intel - -> visual_intel : "Intelligence Data"
+anomaly_detection - -> enhanced_intel : "Alert Data"
+
+gold - -> dashboard : "Business Intelligence"
+gold - -> rest_api : "Data Access"
+gold - -> dbt_docs : "Documentation"
+silver - -> realtime_viz : "Live Monitoring"
+
+enhanced_intel - -> dashboard : "LLM Insights"
+visual_intel - -> dashboard : "Interactive Charts"
+anomaly_detection - -> dashboard : "Real-time Alerts"
+
+user - -> dashboard
+user - -> rest_api
+user - -> dbt_docs
+user - -> realtime_viz
+@enduml
+
+@startuml
+
+skinparam componentStyle uml2
+skinparam rectangle<<K8s>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #3367d6
+  BorderColor #3367d6
+}
+skinparam node<<Streaming>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #000000
+  BorderColor #000000
+}
+skinparam component<<ELT>> {
+  StereotypeFontColor #000000
+  BackgroundColor #CFE2F3
+  BorderColor #6098D1
+}
+skinparam component<<Engine>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #E67E22
+  BorderColor #E67E22
+}
+skinparam component<<AnalyticsEng>> {
+  StereotypeFontColor #FFFFFF
+  FontColor #FFFFFF
+  BackgroundColor #16928D
+  BorderColor #16928D
+}
+skinparam node<<Lakehouse>> {
+  StereotypeFontColor #000000
+  BackgroundColor #FCE5CD
+  BorderColor #E67E22
+}
+skinparam actor {
+  BackgroundColor #EAD1DC
+  BorderColor #8E44AD
+}
+
+actor "Analyst / Policymaker" as user
+
+package "External Data Sources" {
+  cloud "ACRA API\n(Business Registry)" as source_acra
+  cloud "Government Expenditure API\n(data.gov.sg)" as source_gov
+  cloud "SingStat API\n(Economic Indicators)" as source_singstat
+  cloud "URA API\n(Property Market)" as source_ura
+  cloud "Commercial Rental API\n(data.gov.sg)" as source_rental
+}
+
+node "Kubernetes Cluster (Podman Desktop)" <<K8s>> {
+  package "A. Ingestion" {
+    component "Multi-Source Producers\n(K8s CronJobs)" as producers <<ELT>>
+    node "Apache Kafka" as kafka <<Streaming>> {
+      queue "acra-companies" as topic_acra
+      queue "government-expenditure" as topic_gov
+      queue "singstat-economics" as topic_singstat
+      queue "ura-property" as topic_ura
+      queue "commercial-rental" as topic_rental
+    }
+  }
+
+  package "B. Storage (Data Lakehouse)" {
+    node "MinIO (S3 Object Store)" as minio {
+      folder "Bronze (Raw)" as bronze
+      folder "Silver (Cleansed)" as silver
+      folder "Gold (Aggregated)" as gold
+    }
+    note right of minio
+      Data is stored in
+      **Delta Lake** format
+    end note
+  }
+
+  package "C. Processing & Transformation" {
+    component "Spark Streaming\n(Real-time ETL)" as spark_streaming <<Engine>>
+    component "Spark ETL\n(Bronze to Silver)" as spark_etl <<Engine>>
+    component "dbt Analytics\n(Silver to Gold)" as dbt <<AnalyticsEng>> {
+      component "Staging Models" as dbt_staging
+      component "Marts Models" as dbt_marts
+    }
+  }
+
+  package "D. Analytics & Intelligence" {
+    component "LLM Analysis Engine\n(Economic Intelligence)" as llm_engine <<AnalyticsEng>>
+    component "Enhanced Economic Intelligence\n(Multi-source Analysis)" as enhanced_intel <<AnalyticsEng>>
+    component "Visual Intelligence Platform\n(Chart Generation)" as visual_intel <<AnalyticsEng>>
+    component "Anomaly Detection\n(LLM-Enhanced Alerts)" as anomaly_detection <<AnalyticsEng>>
+    component "Silver Data Connector\n(Data Access Layer)" as data_connector <<ELT>>
+  }
+
+  package "E. Visualization & Serving" {
+    component "Interactive Dashboards\n(Streamlit)" as dashboard
+    component "REST APIs\n(Data Access)" as rest_api
+    component "dbt Docs\n(Data Catalog)" as dbt_docs
+    component "Real-time Analytics\n(Live Monitoring)" as realtime_viz
+  }
+}
+
+source_acra - -> producers : "ACRA Companies"
+source_gov - -> producers : "Gov Expenditure"
+source_singstat - -> producers : "Economic Data"
+source_ura - -> producers : "Property Market"
+source_rental - -> producers : "Commercial Rental"
+
+producers - -> topic_acra
+producers - -> topic_gov
+producers - -> topic_singstat
+producers - -> topic_ura
+producers - -> topic_rental
+
+topic_acra - -> spark_streaming
+topic_gov - -> spark_streaming
+topic_singstat - -> spark_streaming
+topic_ura - -> spark_streaming
+topic_rental - -> spark_streaming
+
+spark_streaming - -> bronze : "Real-time Ingestion"
+spark_etl - -> silver : "Data Cleansing & Validation"
+bronze - -> spark_etl
+
+dbt_staging - -> dbt_marts
+silver - -> dbt_staging
+dbt_marts - -> gold
+
+silver - -> data_connector : "Data Access"
+data_connector - -> llm_engine : "Economic Data"
+data_connector - -> enhanced_intel : "Multi-source Data"
+data_connector - -> anomaly_detection : "Monitoring Data"
+
+llm_engine - -> enhanced_intel : "Analysis Results"
+enhanced_intel - -> visual_intel : "Intelligence Data"
+anomaly_detection - -> enhanced_intel : "Alert Data"
+
+gold - -> dashboard : "Business Intelligence"
+gold - -> rest_api : "Data Access"
+gold - -> dbt_docs : "Documentation"
+silver - -> realtime_viz : "Live Monitoring"
+
+enhanced_intel - -> dashboard : "LLM Insights"
+visual_intel - -> dashboard : "Interactive Charts"
+anomaly_detection - -> dashboard : "Real-time Alerts"
+
+user - -> dashboard
+user - -> rest_api
+user - -> dbt_docs
+user - -> realtime_viz
+@enduml
+
+PlantUML version 1.2021.00(Sun Jan 10 18:25:05 SGT 2021)
+(MIT source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
