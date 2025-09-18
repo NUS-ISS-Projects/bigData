@@ -3463,7 +3463,6 @@ class EnhancedDashboard:
                             height=480,
                             title_font_size=18,
                             title_font_color='#2c3e50',
-                            title_font_weight=600,
                             plot_bgcolor='rgba(0,0,0,0)',
                             paper_bgcolor='rgba(0,0,0,0)',
                             font=dict(family="Inter, sans-serif", size=13),
@@ -3473,15 +3472,13 @@ class EnhancedDashboard:
                                 showgrid=True,
                                 gridwidth=1,
                                 gridcolor='rgba(102, 126, 234, 0.1)',
-                                title_font_size=14,
-                                title_font_weight=600
+                                title_font_size=14
                             ),
                             yaxis=dict(
                                 showgrid=True,
                                 gridwidth=1,
                                 gridcolor='rgba(102, 126, 234, 0.1)',
-                                title_font_size=14,
-                                title_font_weight=600
+                                title_font_size=14
                             )
                         )
                         fig.update_traces(
@@ -3523,7 +3520,6 @@ class EnhancedDashboard:
                             height=480,
                             title_font_size=18,
                             title_font_color='#2c3e50',
-                            title_font_weight=600,
                             plot_bgcolor='rgba(0,0,0,0)',
                             paper_bgcolor='rgba(0,0,0,0)',
                             font=dict(family="Inter, sans-serif", size=13),
@@ -3533,15 +3529,13 @@ class EnhancedDashboard:
                                 gridwidth=1,
                                 gridcolor='rgba(102, 126, 234, 0.1)',
                                 title_font_size=14,
-                                title_font_weight=600,
                                 tickangle=-45
                             ),
                             yaxis=dict(
                                 showgrid=True,
                                 gridwidth=1,
                                 gridcolor='rgba(102, 126, 234, 0.1)',
-                                title_font_size=14,
-                                title_font_weight=600
+                                title_font_size=14
                             )
                         )
                         st.plotly_chart(fig, use_container_width=True)
@@ -3583,17 +3577,14 @@ class EnhancedDashboard:
                                 height=500,
                                 title_font_size=18,
                                 title_font_color='#2c3e50',
-                                title_font_weight=600,
                                 font=dict(family="Inter, sans-serif", size=13),
                                 margin=dict(t=80, b=60, l=100, r=60),
                                 xaxis=dict(
                                     title_font_size=14,
-                                    title_font_weight=600,
                                     tickangle=-45
                                 ),
                                 yaxis=dict(
-                                    title_font_size=14,
-                                    title_font_weight=600
+                                    title_font_size=14
                                 )
                             )
                             fig.update_traces(
@@ -3627,7 +3618,6 @@ class EnhancedDashboard:
                             height=350,
                             title_font_size=14,
                             title_font_color='#2c3e50',
-                            title_font_weight=600,
                             plot_bgcolor='rgba(0,0,0,0)',
                             paper_bgcolor='rgba(0,0,0,0)',
                             font=dict(family="Inter, sans-serif", size=11),
