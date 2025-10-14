@@ -358,13 +358,13 @@ def run_etl_parallel(self):
 - **S3 Compatibility**: Full S3 API compatibility with path-style access
 
 **Apache Spark** (`/k8s/spark-streaming.yaml:1-258`)
-- **Version**: 3.5.0 with Delta Lake 3.0.0
+- **Version**: 3.5.6 with Delta Lake 3.0.0
 - **Deployment**: Kubernetes native with Bitnami Spark image
 - **Resources**: 
   - Streaming Consumer: 2-4Gi memory, 1-2 CPU cores
   - ETL Jobs: 3-6Gi memory, 1-2 CPU cores
 - **Packages**: 
-  - `org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0`
+  - `org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.6`
   - `io.delta:delta-spark_2.12:3.0.0`
   - `org.apache.hadoop:hadoop-aws:3.3.4`
   - `com.amazonaws:aws-java-sdk-bundle:1.12.262`
@@ -589,12 +589,12 @@ spec:
       containers:
       - name: spark-streaming
         image: economic-observatory/spark-streaming:latest
-        command: ["/opt/bitnami/spark/bin/spark-submit"]
+        command: ["/opt/spark/bin/spark-submit"]
         args:
         - --master
         - local[*]
         - --packages
-        - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,io.delta:delta-spark_2.12:3.0.0
+        - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.6,io.delta:delta-spark_2.12:3.0.0
         - /app/spark_streaming_consumer.py
         resources:
           requests:
@@ -621,7 +621,7 @@ spec:
           containers:
           - name: spark-etl
             image: economic-observatory/spark-streaming:latest
-            command: ["/opt/bitnami/spark/bin/spark-submit"]
+            command: ["/opt/spark/bin/spark-submit"]
             args:
             - /app/etl_bronze_to_silver.py
             resources:
@@ -1474,7 +1474,7 @@ silver_df = silver_df.join(latest_records, "uen_clean") \
 ```python
 builder = SparkSession.builder \
     .appName("EconomicIntelligence-StreamingConsumer") \
-    .config("spark.jars.packages", "io.delta:delta-spark_2.12:3.0.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0") \
+    .config("spark.jars.packages", "io.delta:delta-spark_2.12:3.0.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.6") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \

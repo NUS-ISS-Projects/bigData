@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Intelligence Platform - Prerequisites & Deployment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .slide-container {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .slide-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .slide-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .slide-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .part-divider {
+            display: flex;
+            align-items: center;
+            margin: 40px 0 30px 0;
+            text-align: center;
+        }
+        
+        .part-divider::before,
+        .part-divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+        
+        .part-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 0 30px;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .content-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .content-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checklist {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        
+        .checklist-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .check-icon {
+            color: #2ecc71;
+            font-size: 1.2rem;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+        
+        .command-block {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #FFD700;
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .command-block::before {
+            content: "$ ";
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .deployment-flow {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .architecture-preview {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #FFD700;
+            text-align: center;
+        }
+        
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .tech-item {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #333;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: #333;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        .time-estimate {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide-title {
+                font-size: 2.2rem;
+            }
+            
+            .part-title {
+                font-size: 1.8rem;
+            }
+            
+            .slide-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide-header">
+            <h1 class="slide-title">🛠️ Prerequisites & Deployment</h1>
+            <p class="slide-subtitle">Parts 2 & 3: Environment Setup → One-Command Infrastructure</p>
+            <div class="time-estimate">⏱️ Estimated Time: 5-7 minutes</div>
+        </div>
+
+        <!-- PART 2: PREREQUISITES -->
+        <div class="part-divider">
+            <div class="part-title">📋 Part 2: Prerequisites & Environment Setup</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-section">
+                <h3 class="section-title"><span class="emoji">🔧</span>System Requirements</h3>
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Docker Engine</strong><br>
+                            <small>Version 20.10+ with BuildKit support</small>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Kubernetes Cluster</strong><br>
+                            <small>minikube, kind, or cloud cluster (4+ CPU, 8GB+ RAM)</small>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>kubectl CLI</strong><br>
+                            <small>Configured and connected to cluster</small>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Python 3.8+</strong><br>
+                            <small>With pip and virtual environment support</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3 class="section-title"><span class="emoji">🌐</span>Network & Connectivity</h3>
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Internet Access</strong><br>
+                            <small>For pulling container images and data APIs</small>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Port Availability</strong><br>
+                            <small>8080, 9000, 9001, 8501, 3000 (or configure alternatives)</small>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Singapore Gov APIs</strong><br>
+                            <small>Access to data.gov.sg endpoints</small>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>
+                            <strong>Container Registry</strong><br>
+                            <small>Docker Hub or private registry access</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section full-width">
+            <h3 class="section-title"><span class="emoji">🔍</span>Quick Verification Commands</h3>
+            <div class="content-grid">
+                <div>
+                    <h4>Docker & Kubernetes Check:</h4>
+                    <div class="command-block">docker --version && docker info</div>
+                    <div class="command-block">kubectl version --client</div>
+                    <div class="command-block">kubectl cluster-info</div>
+                </div>
+                <div>
+                    <h4>Resource Verification:</h4>
+                    <div class="command-block">kubectl get nodes</div>
+                    <div class="command-block">kubectl top nodes</div>
+                    <div class="command-block">python3 --version && pip --version</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 3: DEPLOYMENT -->
+        <div class="part-divider">
+            <div class="part-title">🚀 Part 3: One-Command Deployment</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-section">
+                <h3 class="section-title"><span class="emoji">⚡</span>The Magic Command</h3>
+                <div class="command-block" style="font-size: 1.1rem; padding: 25px;">
+./setup_and_deploy_api.sh
+                </div>
+                <div class="success-box">
+                    <h4>What This Single Command Does:</h4>
+                    <ul>
+                        <li>Creates Kubernetes namespace</li>
+                        <li>Deploys MinIO S3 storage</li>
+                        <li>Sets up Apache Kafka cluster</li>
+                        <li>Launches Spark streaming</li>
+                        <li>Configures dbt analytics</li>
+                        <li>Starts data producers</li>
+                        <li>Initializes monitoring</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3 class="section-title"><span class="emoji">📊</span>Infrastructure Components</h3>
+                <div class="tech-stack-grid">
+                    <div class="tech-item">🗄️ MinIO<br><small>S3 Storage</small></div>
+                    <div class="tech-item">📨 Kafka<br><small>Message Broker</small></div>
+                    <div class="tech-item">⚡ Spark<br><small>Stream Processing</small></div>
+                    <div class="tech-item">🔄 dbt<br><small>Data Transform</small></div>
+                    <div class="tech-item">🏭 Producers<br><small>Data Ingestion</small></div>
+                    <div class="tech-item">📈 Monitoring<br><small>Health Checks</small></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="deployment-flow full-width">
+            <h3 class="section-title"><span class="emoji">🔄</span>Deployment Flow Sequence</h3>
+            <div class="flow-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Namespace Creation</div>
+                    <div class="step-description">Creates 'economic-intelligence' namespace and applies RBAC policies</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Storage Layer Deployment</div>
+                    <div class="step-description">MinIO S3-compatible storage with persistent volumes and service exposure</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Message Broker Setup</div>
+                    <div class="step-description">Apache Kafka cluster with Zookeeper, topics auto-creation, and load balancing</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">Stream Processing Engine</div>
+                    <div class="step-description">Spark streaming jobs for real-time ETL and Bronze→Silver→Gold transformations</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <div class="step-title">Data Producers Launch</div>
+                    <div class="step-description">5 data producers (ACRA, URA, SingStat, Gov Expenditure) with scheduled ingestion</div>
+                </div>
+            </div>
+            <div class="flow-step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <div class="step-title">Analytics & Monitoring</div>
+                    <div class="step-description">dbt models, Streamlit dashboard, and health monitoring services</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="architecture-preview full-width">
+            <h3 style="color: #FFD700; margin-bottom: 20px;">🏗️ Live Infrastructure Architecture</h3>
+            <pre style="font-size: 0.85rem; line-height: 1.3;">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           🧠 ANALYTICS & INTELLIGENCE LAYER                     │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────┐ │
+│  │   📊 Streamlit  │  │  🤖 LLM Engine  │  │ 📈 Monitoring   │  │ 🔍 Health   │ │
+│  │    Dashboard    │  │    Analytics    │  │   Dashboard     │  │   Checks    │ │
+│  │   Port: 8501    │  │   AI Insights   │  │  Port: 3000     │  │ Port: 8080  │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  └─────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            ⚙️ DATA PROCESSING LAYER                            │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────┐ │
+│  │  📨 Apache      │  │  ⚡ Spark       │  │  🔄 dbt         │  │ 🔗 Service  │ │
+│  │     Kafka       │  │   Streaming     │  │  Transform      │  │   Mesh      │ │
+│  │  Port: 9092     │  │  ETL Pipeline   │  │ Bronze→Silver   │  │  Discovery  │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  └─────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           📊 DATA FOUNDATION LAYER                             │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────┐ │
+│  │ 🏭 Data         │  │  🗄️ MinIO       │  │  🦆 DuckDB      │  │ 📦 Config   │ │
+│  │   Producers     │  │   S3 Storage    │  │   Analytics     │  │   Maps      │ │
+│  │  (5 Sources)    │  │ Port: 9000/9001 │  │   Database      │  │ & Secrets   │ │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  └─────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────┘
+            </pre>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-section">
+                <h3 class="section-title"><span class="emoji">⏱️</span>Deployment Timeline</h3>
+                <ul>
+                    <li><strong>0-30s:</strong> Namespace and RBAC setup</li>
+                    <li><strong>30s-1m:</strong> Storage layer (MinIO) deployment</li>
+                    <li><strong>1-2m:</strong> Kafka cluster initialization</li>
+                    <li><strong>2-3m:</strong> Spark streaming setup</li>
+                    <li><strong>3-4m:</strong> Data producers launch</li>
+                    <li><strong>4-5m:</strong> Analytics and monitoring</li>
+                    <li><strong>5m+:</strong> Health checks and validation</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h3 class="section-title"><span class="emoji">🎯</span>Success Indicators</h3>
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>All pods in 'Running' state</div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>Services accessible via port-forward</div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>Data producers sending messages</div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>MinIO buckets created and accessible</div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>Kafka topics receiving data</div>
+                    </div>
+                    <div class="checklist-item">
+                        <span class="check-icon">✅</span>
+                        <div>Health endpoints responding</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="success-box full-width">
+            <h3>🎉 What We've Accomplished</h3>
+            <p><strong>In just 5 minutes, we've deployed:</strong></p>
+            <div class="content-grid" style="margin-top: 15px;">
+                <div>
+                    <ul>
+                        <li>Complete Kubernetes infrastructure</li>
+                        <li>Scalable message streaming platform</li>
+                        <li>Real-time data processing pipeline</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>S3-compatible data lake storage</li>
+                        <li>Automated ETL transformations</li>
+                        <li>Monitoring and health checks</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 15px;"><strong>Next:</strong> Watch real Singapore economic data flow through our pipeline in real-time! 🚀</p>
+        </div>
+    </div>
+</body>
+</html>
