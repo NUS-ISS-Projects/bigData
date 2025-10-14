@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Commands Reference - Economic Intelligence Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+
+        .quick-nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .quick-nav h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-link {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .command-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .command-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .section-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .command-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+        }
+
+        .command-group h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .command-group .description {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .command-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+            position: relative;
+        }
+
+        .command-block .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s ease;
+        }
+
+        .command-block .copy-btn:hover {
+            background: #2980b9;
+        }
+
+        .command {
+            color: #68d391;
+            font-weight: bold;
+        }
+
+        .comment {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .output {
+            color: #fbb6ce;
+            margin-left: 20px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box .icon {
+            font-size: 1.5rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tip-box .icon {
+            font-size: 1.5rem;
+        }
+
+        .timing-info {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .troubleshooting {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .troubleshooting h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .troubleshooting ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .troubleshooting li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .troubleshooting li:before {
+            content: "⚠️";
+            font-size: 1.1rem;
+        }
+
+        .url-list {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .url-list h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .url-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .url-item a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .url-item a:hover {
+            color: #5dade2;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .command-block {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Demo Commands Reference</h1>
+            <p class="subtitle">Economic Intelligence Platform - Live Demonstration Guide</p>
+        </div>
+
+        <div class="quick-nav">
+            <h3>🔗 Quick Navigation</h3>
+            <div class="nav-links">
+                <a href="#prerequisites" class="nav-link">Prerequisites</a>
+                <a href="#deployment" class="nav-link">Deployment</a>
+                <a href="#data-ingestion" class="nav-link">Data Ingestion</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#validation" class="nav-link">Validation</a>
+                <a href="#monitoring" class="nav-link">Monitoring</a>
+                <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+            </div>
+        </div>
+
+        <div class="commands-grid">
+            <!-- Prerequisites & Environment Setup -->
+            <div class="command-section" id="prerequisites">
+                <h2 class="section-title">
+                    <span class="section-icon">📋</span>
+                    Part 2: Prerequisites & Environment Setup
+                </h2>
+
+                <div class="command-group">
+                    <h4>🐳 Docker Verification</h4>
+                    <p class="description">Verify Docker installation and daemon status</p>
+                    <div class="timing-info">⏱️ Expected time: 10-15 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check Docker version and info</span>
+<span class="command">docker --version</span>
+<span class="command">docker info</span>
+<span class="command">docker ps</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>☸️ Kubernetes Connectivity</h4>
+                    <p class="description">Verify kubectl configuration and cluster access</p>
+                    <div class="timing-info">⏱️ Expected time: 5-10 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Verify kubectl and cluster connectivity</span>
+<span class="command">kubectl version --client</span>
+<span class="command">kubectl cluster-info</span>
+<span class="command">kubectl get nodes</span>
+<span class="command">kubectl top nodes</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>🔧 Resource Verification</h4>
+                    <p class="description">Check available cluster resources</p>
+                    <div class="timing-info">⏱️ Expected time: 5 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check cluster resources</span>
+<span class="command">kubectl describe nodes</span>
+<span class="command">kubectl get namespaces</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deployment -->
+            <div class="command-section" id="deployment">
+                <h2 class="section-title">
+                    <span class="section-icon">🚀</span>
+                    Part 3: One-Command Deployment
+                </h2>
+
+                <div class="command-group">
+                    <h4>⚡ Magic Deployment Command</h4>
+                    <p class="description">Deploy the entire Economic Intelligence Platform</p>
+                    <div class="timing-info">⏱️ Expected time: 5-7 minutes</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># The magic command - deploy everything</span>
+<span class="command">./setup_and_deploy_api.sh</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>✅ Deployment Verification</h4>
+                    <p class="description">Verify all components are running successfully</p>
+                    <div class="timing-info">⏱️ Expected time: 30 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check deployment status</span>
+<span class="command">kubectl get pods -n economic-observatory</span>
+<span class="command">kubectl get services -n economic-observatory</span>
+<span class="command">kubectl get deployments -n economic-observatory</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>📊 Component Status Check</h4>
+                    <p class="description">Verify specific components are healthy</p>
+                    <div class="timing-info">⏱️ Expected time: 1 minute</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check specific component logs</span>
+<span class="command">kubectl logs -n economic-observatory deployment/kafka --tail=10</span>
+<span class="command">kubectl logs -n economic-observatory deployment/minio --tail=5</span>
+<span class="command">kubectl logs -n economic-observatory deployment/spark-streaming-consumer --tail=5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Ingestion & Processing -->
+            <div class="command-section" id="data-ingestion">
+                <h2 class="section-title">
+                    <span class="section-icon">🔄</span>
+                    Part 4: Data Ingestion & Processing Pipeline
+                </h2>
+
+                <div class="command-group">
+                    <h4>📥 Monitor Data Producers</h4>
+                    <p class="description">Watch real-time data ingestion from Singapore APIs</p>
+                    <div class="timing-info">⏱️ Expected time: 2-3 minutes</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Monitor data producers in real-time</span>
+<span class="command">kubectl logs -n economic-observatory deployment/data-producers -f --tail=20</span>
+<span class="comment"># Alternative: Monitor specific producer logs by filtering</span>
+<span class="command">kubectl logs -n economic-observatory deployment/data-producers -f --tail=50 | grep -i "acra\|ura\|singstat"</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>🔄 ETL Pipeline Monitoring</h4>
+                    <p class="description">Watch data transformation from Bronze to Silver to Gold</p>
+                    <div class="timing-info">⏱️ Expected time: 2 minutes</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Monitor ETL transformations</span>
+<span class="command">kubectl logs -n economic-observatory deployment/spark-streaming-consumer -f --tail=15</span>
+<span class="command">kubectl logs -n economic-observatory cronjob/dbt-marts-models-duckdb --tail=10</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>💾 Data Lake Verification</h4>
+                    <p class="description">Verify data is being stored in MinIO data lake</p>
+                    <div class="timing-info">⏱️ Expected time: 1 minute</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check data lake contents</span>
+<span class="command">python manage_buckets.py --list-buckets</span>
+<span class="command">python query_data_lake.py --show-bronze</span>
+<span class="command">python query_data_lake.py --show-silver</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics & LLM -->
+            <div class="command-section" id="analytics">
+                <h2 class="section-title">
+                    <span class="section-icon">🧠</span>
+                    Part 5: Analytics & LLM-Powered Insights
+                </h2>
+
+                <div class="command-group">
+                    <h4>📊 Access Analytics Dashboard</h4>
+                    <p class="description">Open Streamlit dashboard for interactive analytics</p>
+                    <div class="timing-info">⏱️ Expected time: 30 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Expose analytics dashboard</span>
+<span class="command">kubectl port-forward -n economic-observatory svc/streamlit-dashboard 8501:8501</span>
+                    </div>
+                    <div class="tip-box">
+                        <span class="icon">💡</span>
+                        <span>Open browser to http://localhost:8501 after running the command</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>🤖 LLM API Testing</h4>
+                    <p class="description">Test AI-powered economic analysis via API</p>
+                    <div class="timing-info">⏱️ Expected time: 10-30 seconds per query</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Test LLM analytics API</span>
+<span class="command">curl -X POST http://localhost:8501/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What are the key economic trends in Singapore?"}'</span>
+
+<span class="command">curl -X POST http://localhost:8501/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Analyze commercial real estate market trends"}'</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>📈 Generate Analytics Reports</h4>
+                    <p class="description">Create AI-powered economic intelligence reports</p>
+                    <div class="timing-info">⏱️ Expected time: 1-2 minutes</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Generate comprehensive reports</span>
+<span class="command">python analytics/enhanced_economic_intelligence.py --export-report</span>
+<span class="command">python analytics/llm_economic_intelligence.py --generate-insights</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Validation -->
+            <div class="command-section" id="validation">
+                <h2 class="section-title">
+                    <span class="section-icon">🛡️</span>
+                    Part 7: Data Validation & Quality Assurance
+                </h2>
+
+                <div class="command-group">
+                    <h4>🔍 Bronze Layer Validation</h4>
+                    <p class="description">Validate raw data from government APIs</p>
+                    <div class="timing-info">⏱️ Expected time: 1-2 minutes</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Validate raw data ingestion</span>
+<span class="command">python extract_and_validate_acra_csv.py</span>
+<span class="command">python extract_and_validate_ura_csv.py</span>
+<span class="command">python extract_and_validate_singstat_csv.py</span>
+<span class="command">python extract_and_validate_government_expenditure_csv.py</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>⚙️ Silver Layer Validation</h4>
+                    <p class="description">Validate processed and cleaned data</p>
+                    <div class="timing-info">⏱️ Expected time: 1-2 minutes</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Validate processed data</span>
+<span class="command">python extract_and_validate_acra_silver_csv.py</span>
+<span class="command">python extract_and_validate_commercial_rental_silver_csv.py</span>
+<span class="command">python extract_and_validate_ura_silver_csv.py</span>
+<span class="command">python extract_and_validate_singstat_silver_csv.py</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>🏆 Gold Layer Validation</h4>
+                    <p class="description">Validate analytics-ready data</p>
+                    <div class="timing-info">⏱️ Expected time: 30 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Validate analytics-ready data</span>
+<span class="command">python extract_and_validate_gold_layer.py</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>📊 Quality Metrics Report</h4>
+                    <p class="description">Generate comprehensive data quality report</p>
+                    <div class="timing-info">⏱️ Expected time: 1 minute</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Generate quality metrics</span>
+<span class="command">python monitoring/performance_monitor.py --generate-report</span>
+<span class="command">python verify_data_source.py --comprehensive-check</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monitoring & Health Checks -->
+            <div class="command-section" id="monitoring">
+                <h2 class="section-title">
+                    <span class="section-icon">📈</span>
+                    Part 6: Monitoring & System Health
+                </h2>
+
+                <div class="command-group">
+                    <h4>🏥 System Health Checks</h4>
+                    <p class="description">Monitor overall platform health and performance</p>
+                    <div class="timing-info">⏱️ Expected time: 30 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check system health</span>
+<span class="command">python monitoring/health_check.py --full-check</span>
+<span class="command">kubectl get pods -n economic-observatory --watch</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>📊 Resource Monitoring</h4>
+                    <p class="description">Monitor CPU, memory, and storage usage</p>
+                    <div class="timing-info">⏱️ Expected time: 1 minute</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Monitor resource usage</span>
+<span class="command">kubectl top pods -n economic-observatory</span>
+<span class="command">kubectl top nodes</span>
+<span class="command">kubectl describe nodes</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>🔍 Service Monitoring</h4>
+                    <p class="description">Check individual service health and connectivity</p>
+                    <div class="timing-info">⏱️ Expected time: 1 minute</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Check service endpoints</span>
+<span class="command">kubectl get endpoints -n economic-observatory</span>
+<span class="command">kubectl describe svc -n economic-observatory</span>
+                    </div>
+                </div>
+
+                <div class="command-group">
+                    <h4>📱 Access Monitoring Dashboards</h4>
+                    <p class="description">Open monitoring and metrics dashboards</p>
+                    <div class="timing-info">⏱️ Expected time: 30 seconds</div>
+                    <div class="command-block">
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+<span class="comment"># Access monitoring interfaces</span>
+<span class="command">./access_dashboards_api.sh</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Important URLs -->
+        <div class="url-list">
+            <h4>🔗 Important URLs During Demo</h4>
+            <div class="url-item">
+                <span>Analytics Dashboard:</span>
+                <a href="http://localhost:8501" target="_blank">http://localhost:8501</a>
+            </div>
+            <div class="url-item">
+                <span>Demo Slides Server:</span>
+                <a href="http://localhost:8080" target="_blank">http://localhost:8080</a>
+            </div>
+            <div class="url-item">
+                <span>MinIO Console:</span>
+                <a href="http://localhost:9001" target="_blank">http://localhost:9001</a>
+            </div>
+            <div class="url-item">
+                <span>Kafka UI (if exposed):</span>
+                <a href="http://localhost:8080" target="_blank">http://localhost:8080</a>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="troubleshooting" id="troubleshooting">
+            <h4>🚨 Troubleshooting Commands</h4>
+            <ul>
+                <li>Pod not starting: <code>kubectl describe pod &lt;pod-name&gt; -n economic-observatory</code></li>
+                <li>Service not accessible: <code>kubectl get svc -n economic-observatory</code></li>
+                <li>Check logs: <code>kubectl logs &lt;pod-name&gt; -n economic-observatory --tail=50</code></li>
+                <li>Restart deployment: <code>kubectl rollout restart deployment/&lt;deployment-name&gt; -n economic-observatory</code></li>
+                <li>Check resource limits: <code>kubectl describe nodes</code></li>
+                <li>Clean restart: <code>kubectl delete namespace economic-observatory && ./setup_and_deploy_api.sh</code></li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <span class="icon">⚠️</span>
+            <span><strong>Demo Tips:</strong> Always have backup screenshots ready. Test all commands before the demo. Keep this reference page open during presentation.</span>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(button) {
+            const codeBlock = button.parentElement;
+            const text = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(text).then(function() {
+                button.textContent = 'Copied!';
+                button.style.background = '#27ae60';
+                setTimeout(function() {
+                    button.textContent = 'Copy';
+                    button.style.background = '#3498db';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                button.textContent = 'Error';
+                button.style.background = '#e74c3c';
+                setTimeout(function() {
+                    button.textContent = 'Copy';
+                    button.style.background = '#3498db';
+                }, 2000);
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

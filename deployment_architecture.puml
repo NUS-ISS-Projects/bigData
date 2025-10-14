@@ -1,0 +1,337 @@
+@startuml Kubernetes_Deployment_Architecture
+
+!define RECTANGLE class
+!define COMPONENT component
+!define NODE node
+!define PACKAGE package
+
+' Enhanced visual styling
+skinparam componentStyle uml2
+skinparam backgroundColor #F8F9FA
+skinparam shadowing true
+skinparam roundCorner 15
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam arrowThickness 2
+skinparam arrowColor #2C3E50
+
+' Beautiful color scheme with gradients
+skinparam rectangle<<Namespace>> {
+  BackgroundColor #E3F2FD-#BBDEFB
+  BorderColor #1976D2
+  FontColor #0D47A1
+  FontStyle bold
+  BorderThickness 3
+}
+skinparam component<<Deployment>> {
+  BackgroundColor #E8F5E8-#C8E6C9
+  BorderColor #388E3C
+  FontColor #1B5E20
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<Service>> {
+  BackgroundColor #FFF3E0-#FFE0B2
+  BorderColor #F57C00
+  FontColor #E65100
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<ConfigMap>> {
+  BackgroundColor #F3E5F5-#E1BEE7
+  BorderColor #7B1FA2
+  FontColor #4A148C
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<CronJob>> {
+  BackgroundColor #FCE4EC-#F8BBD9
+  BorderColor #C2185B
+  FontColor #880E4F
+  FontStyle bold
+  BorderThickness 2
+}
+skinparam component<<PVC>> {
+  BackgroundColor #E0F2F1-#B2DFDB
+  BorderColor #00695C
+  FontColor #004D40
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Enhanced package styling
+skinparam package {
+  BackgroundColor #FFFFFF-#F5F5F5
+  BorderColor #37474F
+  FontColor #263238
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Enhanced note styling
+skinparam note {
+  BackgroundColor #FFFDE7-#FFF9C4
+  BorderColor #F57F17
+  FontColor #F57F17
+  FontStyle italic
+  BorderThickness 2
+}
+
+!define DIRECTION top to bottom direction
+
+' Beautiful title with enhanced styling
+title <size:20><color:#1976D2><b>🚀 Economic Intelligence Platform</b></color></size>\n<size:16><color:#37474F><i>Kubernetes Deployment Architecture</i></color></size>\n<size:12><color:#666666>Modern Data Lakehouse on Kubernetes</color></size>
+
+rectangle "Minikube Cluster" {
+  
+  rectangle "economic-observatory namespace" <<Namespace>> {
+    
+    ' Top Row - Storage and Message Broker
+    package "🏗️ Infrastructure Layer" {
+      
+      package "💾 Storage Layer" {
+        component "MinIO Deployment" <<Deployment>> {
+          component "minio-pod" {
+            component "MinIO Container\n(minio/minio:latest)" as minio_container
+            component "Data Volume\n(/data)" as minio_volume
+          }
+        }
+        
+        component "MinIO Service" <<Service>> {
+          component "API Port: 9000" as minio_api_port
+          component "Console Port: 9001" as minio_console_port
+        }
+        
+        component "MinIO NodePort Service" <<Service>> {
+          component "External API: 30900" as minio_external_api
+          component "External Console: 30901" as minio_external_console
+        }
+        
+        note bottom of MinIO
+          **Storage Configuration:**
+          - Access Key: admin
+          - Secret Key: password123
+          - Buckets: bronze, silver, gold
+          - Persistence: EmptyDir (dev)
+          - S3 Compatible API
+        end note
+      }
+      
+      package "📨 Message Broker Layer" {
+        component "Zookeeper Deployment" <<Deployment>> {
+          component "zookeeper-pod" {
+            component "Zookeeper Container\n(confluentinc/cp-zookeeper:7.4.0)" as zk_container
+          }
+        }
+        
+        component "Kafka Deployment" <<Deployment>> {
+          component "kafka-pod" {
+            component "Kafka Container\n(confluentinc/cp-kafka:7.4.0)" as kafka_container
+          }
+        }
+        
+        component "Kafka Service" <<Service>> {
+          component "Broker Port: 9092" as kafka_port
+        }
+        
+        note bottom of Kafka
+          **Kafka Configuration:**
+          - Topics: 5 (acra-companies, singstat-economics, etc.)
+          - Partitions: 3 per topic
+          - Replication Factor: 1
+          - Retention: 7 days
+        end note
+      }
+    }
+    
+    ' Middle Row - Data Processing
+    package "⚙️ Processing Layer" {
+      
+      package "📥 Data Ingestion Layer" {
+        component "Data Producers Deployment" <<Deployment>> {
+          component "producers-pod" {
+            component "Producers Container\n(economic-observatory/data-producers:latest)" as producers_container
+            component "Scheduler Process\n(scheduler.py)" as scheduler_process
+            component "ACRA Producer" as acra_prod
+            component "SingStat Producer" as singstat_prod
+            component "URA Producer" as ura_prod
+            component "Gov Expenditure Producer" as gov_prod
+            component "Commercial Rental Producer" as rental_prod
+          }
+        }
+        
+        component "Producers ConfigMap" <<ConfigMap>> {
+          component "Environment Config\n(.env)" as producers_config
+        }
+        
+        note bottom of producers_container
+          **Producer Configuration:**
+          - Batch Size: 1000 records
+          - API Timeout: 30s
+          - Retry Attempts: 3
+          - Scheduling: CronJob patterns
+        end note
+      }
+      
+      package "🌊 Stream Processing Layer" {
+        component "Spark Streaming Deployment" <<Deployment>> {
+          component "spark-streaming-pod" {
+            component "Spark Container\n(economic-observatory/spark-streaming:latest)" as spark_container
+            component "Streaming Consumer\n(spark_streaming_consumer.py)" as streaming_consumer
+          }
+        }
+        
+        component "Spark ETL CronJob" <<CronJob>> {
+          component "ETL Job\n(etl_bronze_to_silver.py)" as etl_job
+          component "Schedule: 0 */1 * * *" as etl_schedule
+        }
+        
+        component "Spark ConfigMaps" <<ConfigMap>> {
+          component "spark-app-code" as spark_app_config
+          component "spark-etl-code" as spark_etl_config
+          component "spark-streaming-code" as spark_streaming_config
+        }
+        
+        component "Spark Service" <<Service>> {
+          component "Spark UI: 4040" as spark_ui_port
+          component "Metrics: 8080" as spark_metrics_port
+        }
+        
+        note bottom of spark_container
+          **Spark Configuration:**
+          - Master: local[*]
+          - Memory: 2-4Gi
+          - CPU: 1-2 cores
+          - Packages: Delta Lake, Kafka, Hadoop AWS
+          - Checkpointing: /tmp/spark-checkpoints
+        end note
+      }
+    }
+    
+    ' Bottom Row - Analytics and Monitoring
+    package "🧠 Analytics & Monitoring Layer" {
+      
+      package "📊 Analytics Layer" {
+        component "dbt Analytics Deployment" <<Deployment>> {
+          component "dbt-pod" {
+            component "dbt Container\n(dbt with DuckDB)" as dbt_container
+            component "DuckDB Database\n(/data/economic_intelligence_prod.duckdb)" as duckdb_file
+          }
+        }
+        
+        component "dbt ConfigMaps" <<ConfigMap>> {
+          component "dbt-profiles-duckdb" as dbt_profiles
+          component "dbt-project-duckdb" as dbt_project
+          component "dbt-models" as dbt_models
+        }
+        
+        component "dbt Docs Service" <<Service>> {
+          component "Documentation: 80" as dbt_docs_port
+        }
+        
+        note bottom of dbt_container
+          **dbt Configuration:**
+          - Target: prod
+          - Threads: 8
+          - Extensions: httpfs
+          - S3 Integration: MinIO
+          - Models: Staging + Marts
+        end note
+      }
+      
+      package "📈 Monitoring Layer" {
+        component "Health Check Service" {
+          component "Kafka Health Monitor" as kafka_health
+          component "MinIO Health Monitor" as minio_health
+          component "Data Freshness Monitor" as data_freshness
+        }
+        
+        component "Performance Monitor Service" {
+          component "Resource Usage Monitor" as resource_monitor
+          component "Processing Metrics" as processing_metrics
+          component "Quality Score Tracker" as quality_tracker
+        }
+      }
+    }
+  }
+  
+  package "External Access" {
+    component "Port Forward Services" {
+      component "MinIO Console\n(localhost:9001)" as external_minio_console
+      component "MinIO API\n(localhost:9000)" as external_minio_api
+      component "Spark UI\n(localhost:4040)" as external_spark_ui
+      component "dbt Docs\n(localhost:8080)" as external_dbt_docs
+    }
+    
+    component "NodePort Services" {
+      component "MinIO External API\n(minikube-ip:30900)" as nodeport_minio_api
+      component "MinIO External Console\n(minikube-ip:30901)" as nodeport_minio_console
+    }
+  }
+}
+
+package "External Data Sources" {
+  component "ACRA API\n(data.gov.sg)" as external_acra
+  component "SingStat API\n(singstat.gov.sg)" as external_singstat
+  component "URA API\n(ura.gov.sg)" as external_ura
+  component "Government Expenditure API\n(data.gov.sg)" as external_gov
+  component "Commercial Rental API\n(data.gov.sg)" as external_rental
+}
+
+' Internal connections within Kubernetes
+minio_container --> minio_volume : mounts
+MinIO --> MinIO : internal
+zk_container --> kafka_container : coordinates
+producers_container --> kafka_container : publishes to
+streaming_consumer --> kafka_container : consumes from
+streaming_consumer --> minio_container : writes to Delta Lake
+etl_job --> minio_container : reads/writes Delta Lake
+dbt_container --> minio_container : reads Silver, writes Gold
+producers_container --> producers_config : reads config
+spark_container --> spark_app_config : mounts code
+spark_container --> spark_etl_config : mounts ETL code
+dbt_container --> dbt_profiles : reads profiles
+dbt_container --> dbt_project : reads project config
+dbt_container --> dbt_models : reads models
+
+' External connections
+external_acra --> acra_prod : HTTP API calls
+external_singstat --> singstat_prod : HTTP API calls
+external_ura --> ura_prod : HTTP API calls
+external_gov --> gov_prod : HTTP API calls
+external_rental --> rental_prod : HTTP API calls
+
+' External access
+MinIO --> external_minio_console : port-forward 9001
+MinIO --> external_minio_api : port-forward 9000
+Spark --> external_spark_ui : port-forward 4040
+dbt_container --> external_dbt_docs : port-forward 8080
+MinIO --> nodeport_minio_api : NodePort 30900
+MinIO --> nodeport_minio_console : NodePort 30901
+
+' Resource specifications
+note bottom of spark_container
+  **Resource Limits:**
+  - Requests: 2Gi memory, 1000m CPU
+  - Limits: 4Gi memory, 2000m CPU
+  - Liveness Probe: spark process check
+  - Readiness Probe: Spark UI availability
+end note
+
+note bottom of producers_container
+  **Resource Limits:**
+  - Requests: 256Mi memory, 125m CPU
+  - Limits: 512Mi memory, 250m CPU
+  - Liveness Probe: Python process check
+  - Restart Policy: Always
+end note
+
+note bottom of minio_container
+  **Resource Limits:**
+  - Requests: 512Mi memory, 250m CPU
+  - Limits: 1Gi memory, 500m CPU
+  - Volume: EmptyDir (development)
+  - Persistence: Should use PVC in production
+end note
+
+@enduml

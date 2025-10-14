@@ -83,12 +83,12 @@ node "Kubernetes Cluster (Podman Desktop)" <<K8s>> {
     }
   }
 
-  package "D. Analytics & ML" {
-    component "Economic Intelligence\n(Survival Analysis, NLP)" as ml_economic
-    component "Anomaly Detection\n(Real-time Monitoring)" as ml_anomaly
-    component "Forecasting Models\n(Time Series)" as ml_forecast
-    component "MLflow\n(Experiment Tracking)" as mlflow
-    component "Jupyter Notebooks\n(Research & Development)" as jupyter
+  package "D. Analytics & Intelligence" {
+    component "LLM Analysis Engine\n(Economic Intelligence)" as llm_engine <<AnalyticsEng>>
+    component "Enhanced Economic Intelligence\n(Multi-source Analysis)" as enhanced_intel <<AnalyticsEng>>
+    component "Visual Intelligence Platform\n(Chart Generation)" as visual_intel <<AnalyticsEng>>
+    component "Anomaly Detection\n(LLM-Enhanced Alerts)" as anomaly_detection <<AnalyticsEng>>
+    component "Silver Data Connector\n(Data Access Layer)" as data_connector <<ELT>>
   }
 
   package "E. Visualization & Serving" {
@@ -126,21 +126,23 @@ dbt_staging --> dbt_marts
 silver --> dbt_staging
 dbt_marts --> gold
 
-silver --> ml_economic : "Feature Engineering"
-silver --> ml_anomaly : "Real-time Detection"
-silver --> ml_forecast : "Time Series Data"
+silver --> data_connector : "Data Access"
+data_connector --> llm_engine : "Economic Data"
+data_connector --> enhanced_intel : "Multi-source Data"
+data_connector --> anomaly_detection : "Monitoring Data"
 
-ml_economic --> mlflow
-ml_anomaly --> mlflow
-ml_forecast --> mlflow
+llm_engine --> enhanced_intel : "Analysis Results"
+enhanced_intel --> visual_intel : "Intelligence Data"
+anomaly_detection --> enhanced_intel : "Alert Data"
 
 gold --> dashboard : "Business Intelligence"
 gold --> rest_api : "Data Access"
 gold --> dbt_docs : "Documentation"
 silver --> realtime_viz : "Live Monitoring"
 
-mlflow --> dashboard : "ML Insights"
-jupyter --> mlflow : "Research Models"
+enhanced_intel --> dashboard : "LLM Insights"
+visual_intel --> dashboard : "Interactive Charts"
+anomaly_detection --> dashboard : "Real-time Alerts"
 
 user --> dashboard
 user --> rest_api
