@@ -1927,8 +1927,7 @@ class EnhancedDashboard:
             fig = px.line(
                 x=chart_data['data']['x'],
                 y=chart_data['data']['y'],
-                title=chart_data['title'],
-                line_shape='spline'
+                title=chart_data['title']
             )
             fig.update_layout(
                 xaxis_title="Period", 
@@ -1937,7 +1936,7 @@ class EnhancedDashboard:
                 hovermode='x unified'
             )
             fig.update_traces(
-                line=dict(width=3, color='#1f77b4'),
+                line=dict(width=3, color='#1f77b4', shape='linear'),
                 hovertemplate='<b>%{x}</b><br>Registrations: %{y:,}<extra></extra>'
             )
             st.plotly_chart(fig, use_container_width=True)
